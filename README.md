@@ -1,6 +1,6 @@
 # Team Red - Time Management software
 
-Team Red: Ulla Montonen
+Team Red: Ulla Montonen, Katja Jääskeläinen
 
 
 ## Sovelluksen tarkoitus
