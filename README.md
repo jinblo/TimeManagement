@@ -12,5 +12,4 @@ Sovelluksen tarkoitus on toimia työaikakirjausjärjestelmänä, esimerkiksi yks
 
 
 ## Toteutusteknologiat
-Spring Boot / Java
-React / JavaScript
+Spring Boot + Java & React + JavaScript
