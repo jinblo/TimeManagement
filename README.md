@@ -1,6 +1,7 @@
-# Team Red - Time Management Software
+# Työaikakirjausjärjestelmä - Team Red
 
-Team Red: Ulla Montonen, Katja Jääskeläinen, Anton Rezin, Kristin Luik, Sonja Helminen
+Projekti on toteutettu Haaga-Helian Ohjelmistoprojekti2 kurssilla.
+Toteuttava tiimi: Sonja Helminen, Katja Jääskeläinen, Kristin Luik, Ulla Montonen ja Anton Rezin. 
 
 
 ## Sovelluksen tarkoitus
