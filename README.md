@@ -14,4 +14,8 @@ Sovelluksen tarkoitus on toimia työaikakirjausjärjestelmänä, esimerkiksi yks
 Sovellus vaatii rekisteröitymisen. Rekisteröitynyt käyttäjä voi luoda projekteja ja tehdä projekteille työaikakirjauksia.
 
 ## Toteutusteknologiat
-Spring Boot + Java & React + JavaScript
+* Spring Boot 3.2.1
+* Java
+* React
+* JavaScript
+* Node 20.11.0
