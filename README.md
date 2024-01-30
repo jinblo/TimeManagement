@@ -23,5 +23,5 @@ Sovellus vaatii rekisteröitymisen. Rekisteröitynyt käyttäjä voi luoda proje
 
 ## Backlogit
 
-* [Sprint backlog](https://github.com/orgs/TeamRed-Ohjelmistoprojekti2/projects/2/views/1)
+* [Sprint backlog](https://github.com/orgs/TeamRed-Ohjelmistoprojekti2/projects/3/views/2)
 * [Product backlog](https://github.com/orgs/TeamRed-Ohjelmistoprojekti2/projects/3)
