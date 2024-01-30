@@ -15,7 +15,7 @@ Sovellus vaatii rekisteröitymisen. Rekisteröitynyt käyttäjä voi luoda proje
 
 ## Toteutusteknologiat
 * Spring Boot 3.2.1
-* Java
+* Java 21.0.2
 * React
 * JavaScript
 * Node 20.11.0
@@ -23,5 +23,5 @@ Sovellus vaatii rekisteröitymisen. Rekisteröitynyt käyttäjä voi luoda proje
 
 ## Backlogit
 
-* [Sprint backlog] (https://github.com/orgs/TeamRed-Ohjelmistoprojekti2/projects/2/views/1)
-* [Product backlog] (https://github.com/orgs/TeamRed-Ohjelmistoprojekti2/projects/3)
+* [Sprint backlog](https://github.com/orgs/TeamRed-Ohjelmistoprojekti2/projects/2/views/1)
+* [Product backlog](https://github.com/orgs/TeamRed-Ohjelmistoprojekti2/projects/3)
