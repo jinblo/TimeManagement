@@ -19,3 +19,9 @@ Sovellus vaatii rekisteröitymisen. Rekisteröitynyt käyttäjä voi luoda proje
 * React
 * JavaScript
 * Node 20.11.0
+
+
+## Backlogit
+
+* [Sprint backlog] (https://github.com/orgs/TeamRed-Ohjelmistoprojekti2/projects/2/views/1)
+* [Product backlog] (https://github.com/orgs/TeamRed-Ohjelmistoprojekti2/projects/3)
