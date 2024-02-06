@@ -3,7 +3,14 @@ package TeamRed.TimeManagementBE.domain;
 import java.sql.Time;
 import java.util.Date;
 
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+
 public class Entry {
+	
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	
 	private long entry_id;
 	private String entry_title;
