@@ -1,9 +1,15 @@
 package TeamRed.TimeManagementBE.domain;
 
+import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 
 @Entity
 public class Project {
@@ -13,7 +19,9 @@ public class Project {
 	private long id;
 	private String title;
 
-	
+	@JsonIgnoreProperties({"project"})
+	@OneToMany(cascade=CascadeType.ALL, mappedBy="project")
+	private List<Entry> entries;
 	
 	public Project() {}
 	
@@ -36,6 +44,14 @@ public class Project {
 
 	public void setTitle(String title) {
 		this.title = title;
+	}
+
+	public List<Entry> getEntries() {
+		return entries;
+	}
+
+	public void setEntries(List<Entry> entries) {
+		this.entries = entries;
 	}
 
 	@Override
