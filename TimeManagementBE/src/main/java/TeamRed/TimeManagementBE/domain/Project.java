@@ -12,6 +12,8 @@ public class Project {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 	private String title;
+
+	
 	
 	public Project() {}
 	
