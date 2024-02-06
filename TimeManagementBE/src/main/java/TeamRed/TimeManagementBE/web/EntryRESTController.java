@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 
@@ -56,6 +57,27 @@ public class EntryRESTController {
 			entry.setProject(project.get());
 			Entry newEntry = repository.save(entry);
 			return new ResponseEntity<>(newEntry, HttpStatus.CREATED);
+		} catch (Exception e) {
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+	
+	//Työaikakirjauksen muokkaus
+	@PutMapping("projects/{projectId}/entries/{entryId}")
+	public ResponseEntity<?> editEntry(@RequestBody Entry updatedEntry, @PathVariable("entryId") Long id) {
+		try {
+			Optional<Entry> toBeEdited = repository.findById(id);
+			if (toBeEdited.isEmpty()) {
+				return new ResponseEntity<>("Työaikakirjausta ei löytynyt", HttpStatus.NOT_FOUND);
+			}
+			Entry entry = toBeEdited.get();			
+			entry.setEntry_title(updatedEntry.getEntry_title());
+			entry.setEntry(updatedEntry.getEntry());
+			entry.setEntry_date(updatedEntry.getEntry_date());
+			entry.setStart_time(updatedEntry.getStart_time());
+			entry.setEnd_time(updatedEntry.getEnd_time());
+			repository.save(entry);
+			return new ResponseEntity<>(entry, HttpStatus.OK);
 		} catch (Exception e) {
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
