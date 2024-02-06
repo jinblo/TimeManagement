@@ -1,13 +1,11 @@
-import { useState } from 'react';
-import { Table, Thead, Tbody, Tr, Th, Td } from 'react-super-responsive-table';
-import 'react-super-responsive-table/dist/SuperResponsiveTableStyle.css';
+import { useState, useEffect } from 'react';
 
 const EntryList = () => {
 
   const [entries, setEntries] = useState([]);
 
   const fetchData = () => {
-    fetch('http://localhost:8080/projects')
+    fetch('http://localhost:8080/entries')
       .then(response => response.json())
       .then(data => setEntries(data))
       .catch(error => console.error(error))
@@ -16,21 +14,28 @@ const EntryList = () => {
   useEffect(fetchData, []);
 
   return (
-    <Table>
-      <Thead>
-        <Tr>
-          <Th>Project</Th>
-          <Th>Date</Th>
-        </Tr>
-      </Thead>
-
-      <Tbody>
-        <Tr>
-          {entries.map(entry =>
-            <Td key={entry.id}>{entry.title}</Td>)}
-        </Tr>
-      </Tbody>
-    </Table>
+    <table>
+      <thead>
+        <tr>
+          <th>Project</th>
+          <th>Date</th>
+          <th>Start time</th>
+          <th>End time</th>
+          <th>Entry</th>
+        </tr>
+      </thead>
+      <tbody>
+        {entries.map(e =>
+          <tr key={e.id}>
+            <td>{e.project.title}</td>
+            <td>{e.entry_date}</td>
+            <td>{e.start_time}</td>
+            <td>{e.end_time}</td>
+            <td>{e.entry}</td>
+          </tr>
+        )}
+      </tbody>
+    </table>
   )
 
 };
