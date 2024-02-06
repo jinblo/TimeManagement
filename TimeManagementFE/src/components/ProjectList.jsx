@@ -1,4 +1,4 @@
 
-export default ProjectList(
+export default ProjectList = () => {
 
-);
+};
