@@ -3,7 +3,7 @@ import { Box, AppBar, Tabs, Tab, } from '@mui/material';
 import { Link, Outlet } from "react-router-dom";
 import { useParams } from 'react-router-dom';
 
-const Tab = () => {
+const TabView = () => {
   let { id } = useParams();
   const [value, setValue] = useState(0);
 
@@ -25,4 +25,4 @@ const Tab = () => {
   )
 }
 
-export default Tab;
+export default TabView;

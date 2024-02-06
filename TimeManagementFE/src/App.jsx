@@ -1,6 +1,6 @@
 import { RouterProvider, createBrowserRouter } from "react-router-dom"
 import ProjectList from "./components/ProjectList"
-import Tab from "./components/Tab"
+import TabView from "./components/TabView"
 
 const router = createBrowserRouter([
   {
