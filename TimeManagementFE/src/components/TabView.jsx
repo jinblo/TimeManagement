@@ -15,9 +15,10 @@ const TabView = () => {
     <Box>
       <AppBar position='static'>
         <Tabs value={value} onChange={handleChange}
-          variant='fullWidth' centered textColor='inherit'>
-          <Tab component={Link} to={`/`} label='start' />
-          {id ? <Tab component={Link} to={'projectlist'} label='projectlist' /> : null}
+          textColor='inherit'>
+          <Tab component={Link} to={`/`} label='Etusivu' />
+          <Tab component={Link} to={'projectlist'} label='Projektit' />
+          <Tab component={Link} to={'entrylist'} label='Tuntikirjaukset' />
         </Tabs>
       </AppBar>
       <Outlet />

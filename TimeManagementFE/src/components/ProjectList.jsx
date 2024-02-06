@@ -1,13 +1,15 @@
 import React, { useState } from 'react';
 
-export default ProjectList = () => {
+const ProjectList = () => {
 
     const [projects, setProjects] = useState([]);
 
     return (
         <div>
-            
+
         </div>
     )
-    
+
 };
+
+export default ProjectList;
