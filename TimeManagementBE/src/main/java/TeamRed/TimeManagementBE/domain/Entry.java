@@ -26,7 +26,7 @@ public class Entry {
 	private LocalTime end_time;
 	
 	@ManyToOne
-	@JoinColumn(name="id")
+	@JoinColumn(name="project_id")
 	@JsonIgnoreProperties({"entries"})
 	private Project project;
 	

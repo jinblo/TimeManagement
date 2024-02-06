@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 
 @CrossOrigin
@@ -38,9 +40,20 @@ public class ProjectRESTController {
 		}
 	}
 	
+	//Uuden projektin lisääminen
+	@PostMapping("projects")
+	public ResponseEntity<Project> addProject(@RequestBody Project project) {
+		try {
+			Project newProject = repository.save(project);
+			return new ResponseEntity<>(newProject, HttpStatus.CREATED);
+		} catch (Exception e) {
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+	
 	//Projektin poisto
-	@DeleteMapping("projects/{id}")
-	public ResponseEntity<String> removeProject(@PathVariable("id") Long id) {
+	@DeleteMapping("projects/{projectId}")
+	public ResponseEntity<String> removeProject(@PathVariable("projectId") Long id) {
 		try {
 			Optional<Project> removableProject = repository.findById(id);
 			if (removableProject.isEmpty()) {

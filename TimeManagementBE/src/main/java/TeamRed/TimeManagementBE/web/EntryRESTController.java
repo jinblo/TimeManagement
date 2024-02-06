@@ -9,13 +9,16 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
 import TeamRed.TimeManagementBE.domain.EntryRepository;
-import TeamRed.TimeManagementBE.domain.Project;
 import TeamRed.TimeManagementBE.domain.Entry;
+import TeamRed.TimeManagementBE.domain.ProjectRepository;
+import TeamRed.TimeManagementBE.domain.Project;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 
 @CrossOrigin
@@ -24,6 +27,9 @@ public class EntryRESTController {
 
     @Autowired
 	private EntryRepository repository;
+    
+    @Autowired
+    private ProjectRepository pRepository;
 
     //Kaikkien työaikakirjausten haku
 	@GetMapping("entries")
@@ -34,6 +40,22 @@ public class EntryRESTController {
 				return new ResponseEntity<>("Työaikakirjauksia ei löytynyt", HttpStatus.NO_CONTENT);
 			}
 			return new ResponseEntity<>(entries, HttpStatus.OK);
+		} catch (Exception e) {
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+	
+	//Uuden työaikakirjauksen lisääminen
+	@PostMapping("projects/{projectId}/entries")
+	public ResponseEntity<?> addEntry(@RequestBody Entry entry, @PathVariable("projectId") Long id) {
+		try {
+			Optional<Project> project = pRepository.findById(id);
+			if (project.isEmpty()) {
+				return new ResponseEntity<>("Projektia ei löytynyt", HttpStatus.NOT_FOUND);
+			}
+			entry.setProject(project.get());
+			Entry newEntry = repository.save(entry);
+			return new ResponseEntity<>(newEntry, HttpStatus.CREATED);
 		} catch (Exception e) {
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
