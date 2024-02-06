@@ -10,9 +10,11 @@ import org.springframework.web.bind.annotation.RestController;
 import TeamRed.TimeManagementBE.domain.ProjectRepository;
 import TeamRed.TimeManagementBE.domain.Project;
 
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 
 
+@CrossOrigin
 @RestController
 public class ProjectRESTController {
 
