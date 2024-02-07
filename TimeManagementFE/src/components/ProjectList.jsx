@@ -56,7 +56,7 @@ const ProjectList = () => {
 
     return (
 
-        <div className="ag-theme-quartz" style={{ height: 500, marginTop: 10 }}>
+        <div className="ag-theme-quartz" style={{ height: 400, marginTop: 10 }}>
             <AgGridReact
                 rowData={projects}
                 columnDefs={colDefs}

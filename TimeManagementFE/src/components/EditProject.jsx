@@ -55,7 +55,7 @@ export default function EditProject(props) {
     // Returning a dialog, where a user can edit project information
     return (
         <div>
-            <Button variant="outlined" color="info" size='small' onClick={() => setOpen(true)}>Muokkaa
+            <Button variant="contained" size='small' onClick={() => setOpen(true)}>Muokkaa
             </Button>
             <Dialog open={open} onClose={() => setOpen(false)}>
                 <DialogTitle>Muokkaa projektia</DialogTitle>
