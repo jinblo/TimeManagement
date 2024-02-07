@@ -1,4 +1,7 @@
 import { RouterProvider, createBrowserRouter } from "react-router-dom"
+import { LocalizationProvider } from '@mui/x-date-pickers';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
+import 'dayjs/locale/fi';
 import ProjectList from "./components/ProjectList"
 import TabView from "./components/TabView"
 import EntryList from "./components/EntryList"
@@ -30,7 +33,9 @@ const router = createBrowserRouter([
 function App() {
 
   return (
-    <RouterProvider router={router} />
+    <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="fi">
+      <RouterProvider router={router} />
+    </LocalizationProvider>
   )
 }
 

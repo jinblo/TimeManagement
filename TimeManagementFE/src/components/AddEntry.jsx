@@ -1,4 +1,6 @@
 import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, FormControl, InputLabel, MenuItem, OutlinedInput, Select, TextField } from "@mui/material";
+import { DatePicker, TimePicker } from "@mui/x-date-pickers";
+import dayjs from "dayjs";
 import { useEffect, useState } from "react";
 
 const AddEntry = () => {
@@ -13,9 +15,9 @@ const AddEntry = () => {
 
   const [entry, setEntry] = useState({
     project: '',
-    entry_date: '',
-    start_time: '',
-    end_time: '',
+    entry_date: dayjs().format('YYYY-MM-DD'),
+    start_time: dayjs().format('HH:mm:ss'),
+    end_time: dayjs().format('HH:mm:ss'),
     entry: ''
   })
 
@@ -35,21 +37,43 @@ const AddEntry = () => {
             <FormControl sx={{ m: 1, minWidth: 120 }}>
               <InputLabel htmlFor="project">Projekti</InputLabel>
               <Select
-                id="project"
+                name="project"
                 value={entry.project}
                 onChange={handleChange}
                 input={<OutlinedInput label="Projekti" />}
               >
                 {projects ? projects.map(project => {
-                  <MenuItem key={project.id} value={project.title} >{project.title}</MenuItem>
-                }) : null}
+                  return <MenuItem key={project.id}>{project.title}</MenuItem>
+                })
+                  : null}
               </Select>
             </FormControl>
           </Box>
+          <DatePicker
+            sx={{ width: 550, marginTop: 1, marginBottom: 1 }}
+            label="Päivämäärä"
+            name="entry_date"
+            value={dayjs(entry.entry_date)}
+            onChange={value => setEntry({ ...entry, entry_date: value.format('YYYY-MM-DD') })}
+          />
+          <TimePicker
+            sx={{ marginRight: '5px', width: 270 }}
+            label="Aloitusaika"
+            name="start_time"
+            value={dayjs(`2024-01-01 ${entry.start_time}`)}
+            onChange={value => setEntry({ ...entry, start_time: value.format('HH:mm:ss') })}
+          />
+          <TimePicker
+            sx={{ marginLeft: '5px', width: 270 }}
+            label="Lopetusaika"
+            name="end_time"
+            value={dayjs(`2024-01-01 ${entry.end_time}`).add(1, 'h')}
+            onChange={value => setEntry({ ...entry, end_time: value.format('HH:mm:ss') })}
+          />
           <TextField
+            fullWidth
             autoFocus
             margin='dense'
-            fullWidth
             name="entry"
             label="Muistiinpanot"
             type="text"

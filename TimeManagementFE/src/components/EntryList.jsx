@@ -3,9 +3,9 @@ import { AgGridReact } from 'ag-grid-react';
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-quartz.css";
 import AddEntry from './AddEntry';
+import DeleteEntry from './DeleteEntry';
 
 const EntryList = () => {
-
   const [entries, setEntries] = useState([]);
 
   const fetchData = () => {
@@ -16,6 +16,12 @@ const EntryList = () => {
   };
 
   useEffect(fetchData, []);
+
+  const fetchWithOptions = (href, options) => {
+    fetch(href, options)
+      .then(response => fetchData())
+      .catch(error => console.error(error))
+  }
 
   const [colDefs, setColDefs] = useState([
     {
@@ -38,6 +44,15 @@ const EntryList = () => {
       field: "entry",
       headerName: "Muistiinpanot"
     },
+    {
+      field: "entry_id",
+      headerName: "",
+      cellRenderer: params => {
+        return (
+          <DeleteEntry entry_id={params.value} deleteEntry={fetchWithOptions} />
+        )
+      }
+    },
   ])
 
   return (
@@ -59,7 +74,6 @@ const EntryList = () => {
       </div>
     </div>
   )
-
 };
 
 export default EntryList;
