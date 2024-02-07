@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { AgGridReact } from 'ag-grid-react';
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-quartz.css";
-import 'ag-grid-community/styles/ag-theme-alpine.css';
 import AddProject from './AddProject';
+import DeleteProject from './DeleteProject';
 
 
 const ProjectList = () => {
@@ -20,7 +20,13 @@ const ProjectList = () => {
 
     useEffect(fetchData, []);
 
+    const fetchWithOptions = (href, options) => {
+        fetch(href, options)
+          .then(response => fetchData())
+          .catch(error => console.error(error))
+      }
 
+    // Details showing in the table
     const [colDefs, setColDefs] = useState([
         {
             field: "title",
@@ -33,6 +39,11 @@ const ProjectList = () => {
         {
             field: "id",
             headerName: "Poista",
+            cellRenderer: params => {
+                return (
+                    <DeleteProject id={params.value} deleteProject={fetchWithOptions} />
+                )
+            }
         },
 
     ])
@@ -52,7 +63,7 @@ const ProjectList = () => {
                 paginateChildRows={true}
                 autoSizeStrategy={{ type: 'fitCellContents' }}
             />
-            <AddProject />
+            <AddProject addProject={fetchWithOptions}/>
         </div>
 
     )

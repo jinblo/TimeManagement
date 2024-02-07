@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField } from "@mui/material";
 
 
-const AddProject = () => {
+export default function AddProject(props) {
 
 
     const [project, setProject] = useState({
@@ -35,6 +35,7 @@ const AddProject = () => {
         } catch (error) {
             console.error('Error adding project:', error);
         }
+        props.addProject();
         setOpen(false)
     };
 
@@ -67,5 +68,3 @@ const AddProject = () => {
       )
     }
     
-
-export default AddProject;
