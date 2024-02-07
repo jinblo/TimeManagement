@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { AgGridReact } from 'ag-grid-react';
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-quartz.css";
+import AddEntry from './AddEntry';
 
 const EntryList = () => {
 
@@ -35,24 +36,27 @@ const EntryList = () => {
     },
     {
       field: "entry",
-      headerName: "Kommentti"
+      headerName: "Muistiinpanot"
     },
   ])
 
   return (
-    <div className="ag-theme-quartz" style={{ height: 500 }}>
-      <AgGridReact
-        rowData={entries}
-        columnDefs={colDefs}
-        defaultColDef={{
-          sortable: true,
-          filter: true,
-          floatingFilter: true
-        }}
-        paginationAutoPageSize={true}
-        paginateChildRows={true}
-        autoSizeStrategy={{ type: 'fitCellContents' }}
-      />
+    <div>
+      <AddEntry />
+      <div className="ag-theme-quartz" style={{ height: 500, marginTop: 5 }}>
+        <AgGridReact
+          rowData={entries}
+          columnDefs={colDefs}
+          defaultColDef={{
+            sortable: true,
+            filter: true,
+            floatingFilter: true
+          }}
+          paginationAutoPageSize={true}
+          paginateChildRows={true}
+          autoSizeStrategy={{ type: 'fitCellContents' }}
+        />
+      </div>
     </div>
   )
 
