@@ -3,9 +3,21 @@ import { DatePicker, TimePicker } from "@mui/x-date-pickers";
 import dayjs from "dayjs";
 import { useEffect, useState } from "react";
 
-const AddEntry = () => {
-  const [projects, setProjects] = useState()
+// Lisätään uusi työaikakirjaus
 
+const AddEntry = ({ saveEntry }) => {
+  const [entry, setEntry] = useState({
+    entry_title: '',
+    entry_date: dayjs().format('YYYY-MM-DD'),
+    start_time: dayjs().format('HH:mm:ss'),
+    end_time: dayjs().format('HH:mm:ss'),
+    entry: ''
+  })
+  const [projects, setProjects] = useState()
+  const [project_id, setProject_id] = useState('')
+  const [open, setOpen] = useState(false);
+
+  // Fetching projects for select
   useEffect(() => {
     fetch('http://localhost:8080/projects')
       .then(response => response.json())
@@ -13,19 +25,23 @@ const AddEntry = () => {
       .catch(error => console.error(error))
   }, [])
 
-  const [entry, setEntry] = useState({
-    project: '',
-    entry_date: dayjs().format('YYYY-MM-DD'),
-    start_time: dayjs().format('HH:mm:ss'),
-    end_time: dayjs().format('HH:mm:ss'),
-    entry: ''
-  })
-
   const handleChange = event => {
     setEntry({ ...entry, [event.target.name]: event.target.value })
   }
 
-  const [open, setOpen] = useState(false);
+  // Saving new entry
+  const handleSave = () => {
+    const href = `http://localhost:8080/projects/${project_id}/entries`
+    const options = {
+      method: 'post',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(entry)
+    }
+    saveEntry(href, options);
+    setOpen(false);
+  };
 
   return (
     <div style={{ float: 'right', margin: 20 }}>
@@ -33,17 +49,26 @@ const AddEntry = () => {
       <Dialog open={open} onClose={() => setOpen(false)}>
         <DialogTitle>Uusi työaikakirjaus</DialogTitle>
         <DialogContent>
+          <TextField
+            fullWidth
+            autoFocus
+            margin='dense'
+            name="entry_title"
+            label="Otsikko"
+            type="text"
+            onChange={event => handleChange(event)}
+          />
           <Box component="form" sx={{ display: 'flex', flexWrap: 'wrap' }}>
-            <FormControl sx={{ m: 1, minWidth: 120 }}>
+            <FormControl sx={{ width: 550, marginTop: '3px' }}>
               <InputLabel htmlFor="project">Projekti</InputLabel>
               <Select
                 name="project"
-                value={entry.project}
-                onChange={handleChange}
+                defaultValue={project_id}
+                onChange={event => setProject_id(event.target.value)}
                 input={<OutlinedInput label="Projekti" />}
               >
                 {projects ? projects.map(project => {
-                  return <MenuItem key={project.id}>{project.title}</MenuItem>
+                  return <MenuItem key={project.id} value={project.id}>{project.title}</MenuItem>
                 })
                   : null}
               </Select>
@@ -82,7 +107,7 @@ const AddEntry = () => {
         </DialogContent>
         <DialogActions>
           <Button onClick={() => setOpen(false)}>Peruuta</Button>
-          <Button onClick={() => console.log(entry)}>Tallenna</Button>
+          <Button onClick={handleSave}>Tallenna</Button>
         </DialogActions>
       </Dialog>
     </div >

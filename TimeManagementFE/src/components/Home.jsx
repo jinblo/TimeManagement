@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 
+// Aloitussivu. Tänne lisätään sisältöä myöhemmin.
+
 const Home = () => {
 
   return (

@@ -6,6 +6,8 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 
+// Poistetaan työaikakirjaus ja pyydetään varmentamaan kirjauksen poisto
+
 export default function DeleteEntry(props) {
   const [open, setOpen] = useState(false);
 
@@ -35,11 +37,11 @@ export default function DeleteEntry(props) {
         open={open}
         onClose={handleClose}
       >
-        <DialogTitle id="alert-dialog-title">
+        <DialogTitle>
           {"Delete"}
         </DialogTitle>
         <DialogContent>
-          <DialogContentText id="alert-dialog-description">
+          <DialogContentText>
             Please confirm that you want to delete entry.
           </DialogContentText>
         </DialogContent>

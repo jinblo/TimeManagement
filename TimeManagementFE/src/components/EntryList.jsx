@@ -5,9 +5,13 @@ import "ag-grid-community/styles/ag-theme-quartz.css";
 import AddEntry from './AddEntry';
 import DeleteEntry from './DeleteEntry';
 
+// Listataan työaikakirjausten tiedot, sekä jokaiselle kirjaukselle poista nappi
+// Lisää uusi työaikakirjaus -nappi myös mukana
+
 const EntryList = () => {
   const [entries, setEntries] = useState([]);
 
+  // Fetch entries from REST API
   const fetchData = () => {
     fetch('http://localhost:8080/entries')
       .then(response => response.json())
@@ -17,12 +21,14 @@ const EntryList = () => {
 
   useEffect(fetchData, []);
 
+  // Create, Update or Delete entries from REST API
   const fetchWithOptions = (href, options) => {
     fetch(href, options)
       .then(response => fetchData())
       .catch(error => console.error(error))
   }
 
+  // Defining columns for ag-grid
   const [colDefs, setColDefs] = useState([
     {
       field: "project.title",
@@ -47,6 +53,8 @@ const EntryList = () => {
     {
       field: "entry_id",
       headerName: "",
+      sortable: false,
+      filter: false,
       cellRenderer: params => {
         return (
           <DeleteEntry entry_id={params.value} deleteEntry={fetchWithOptions} />
@@ -57,7 +65,7 @@ const EntryList = () => {
 
   return (
     <div>
-      <AddEntry />
+      <AddEntry saveEntry={fetchWithOptions} />
       <div className="ag-theme-quartz" style={{ height: 500, marginTop: 5 }}>
         <AgGridReact
           rowData={entries}
@@ -65,7 +73,6 @@ const EntryList = () => {
           defaultColDef={{
             sortable: true,
             filter: true,
-            floatingFilter: true
           }}
           paginationAutoPageSize={true}
           paginateChildRows={true}
