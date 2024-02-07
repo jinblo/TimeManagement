@@ -2,7 +2,6 @@ import { RouterProvider, createBrowserRouter } from "react-router-dom"
 import ProjectList from "./components/ProjectList"
 import TabView from "./components/TabView"
 import EntryList from "./components/EntryList"
-import { useEffect, useState } from "react"
 import Error from "./components/Error"
 import Home from "./components/Home"
 
