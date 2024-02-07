@@ -1,12 +1,13 @@
 import { Paper, Box, Button, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow } from '@mui/material';
 import React, { useState, useEffect } from 'react';
+import { AgGridReact } from 'ag-grid-react';
+import "ag-grid-community/styles/ag-grid.css";
+import "ag-grid-community/styles/ag-theme-quartz.css";
+import 'ag-grid-community/styles/ag-theme-alpine.css';
+import AddProject from './AddProject';
 
 
 const ProjectList = () => {
-
-    // Käytetty tavallista MUI taulukkoa, sillä agGrid tauluun en saanut nappeja
-    // Nyt listataan projektin nimi sekä jokaisella projektilla muokkaa ja poista napit
-    // Lisää uusi projekti -nappi myös mukana
 
     const [projects, setProjects] = useState([]);
 
@@ -21,35 +22,40 @@ const ProjectList = () => {
     useEffect(fetchData, []);
 
 
+    const [colDefs, setColDefs] = useState([
+        {
+            field: "title",
+            headerName: "Projekti"
+        },
+        {
+            field: "id",
+            headerName: "Muokkaa",
+        },
+        {
+            field: "id",
+            headerName: "Poista",
+        },
+
+    ])
 
     return (
-        <Box >
-            <TableContainer component={Paper} style={{marginTop: 20, marginBottom: 20 }}>
-                <Table sx={{ maxWidth: 500 }}>
-                    <TableHead>
-                        <TableRow>
-                            <TableCell>Projektin Nimi</TableCell>
-                            <TableCell>Muokkaa</TableCell>
-                            <TableCell>Poista</TableCell>
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
-                        {projects.map((project) => (
-                            <TableRow
-                                key={project.id}
-                            >
-                                <TableCell component="th" scope="row">
-                                    {project.title}
-                                </TableCell>
-                                <TableCell>Muokkaa</TableCell>
-                                <TableCell>Poista</TableCell>
-                            </TableRow>
-                        ))}
-                    </TableBody>
-                </Table>
-            </TableContainer>
-            <Button>Lisää uusi projekti</Button>
-        </Box>
+
+        <div className="ag-theme-quartz" style={{ height: 500, marginTop: 10 }}>
+            <AgGridReact
+                rowData={projects}
+                columnDefs={colDefs}
+                defaultColDef={{
+                    sortable: true,
+                    filter: true,
+                    floatingFilter: true
+                }}
+                paginationAutoPageSize={true}
+                paginateChildRows={true}
+                autoSizeStrategy={{ type: 'fitCellContents' }}
+            />
+            <AddProject />
+        </div>
+
     )
 
 };
