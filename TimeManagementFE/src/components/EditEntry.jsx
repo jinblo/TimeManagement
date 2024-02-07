@@ -3,7 +3,7 @@ import { DatePicker, TimePicker } from "@mui/x-date-pickers";
 import dayjs from "dayjs";
 import { useEffect, useState } from "react";
 
-// Työaikakirjauksen muokkaaminen
+// Työaikakirjauksen muokkaaminen. Kirjauksen siirtäminen projektilta toiselle ei ole nyt mahdollista.
 
 const EditEntry = ({ oldEntry, saveEntry }) => {
   const [entry, setEntry] = useState({
@@ -35,7 +35,23 @@ const EditEntry = ({ oldEntry, saveEntry }) => {
   }, [])
 
   const handleChange = event => {
-    setEntry({ ...entry, [event.target.name]: event.target.value })
+    let data = { ...entry }
+    let name = event.target.name
+    let value = event.target.value
+    if (name == 'id') {
+      data = {
+        ...data,
+        project: {
+          [name]: value
+        }
+      }
+    } else {
+      data = {
+        ...data,
+        [name]: value
+      }
+    }
+    setEntry(data)
   }
 
   // Saving edited entry
@@ -72,9 +88,10 @@ const EditEntry = ({ oldEntry, saveEntry }) => {
             <FormControl sx={{ width: 550, marginTop: '3px' }}>
               <InputLabel htmlFor="project">Projekti</InputLabel>
               <Select
+                disabled // Projektin muuttaminen ei ole nyt mahdollista
                 name="id"
                 value={entry.project.id}
-                onChange={event => setEntry({ ...entry, [entry.project.id]: event.target.value })}
+                onChange={event => handleChange(event)}
                 input={<OutlinedInput label="Projekti" />}
               >
                 {projects ? projects.map(project => {

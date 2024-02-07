@@ -62,17 +62,18 @@ const EntryList = () => {
       filter: false,
       cellRenderer: params => {
         return (
-          <DeleteEntry entry_id={params.value} deleteEntry={fetchWithOptions} />
+          <EditEntry oldEntry={params.data} saveEntry={fetchWithOptions} />
         )
       }
-    }, {
+    },
+    {
       field: "entry_id",
       headerName: "",
       sortable: false,
       filter: false,
       cellRenderer: params => {
         return (
-          <EditEntry oldEntry={params.data} saveEntry={fetchWithOptions} />
+          <DeleteEntry entry_id={params.value} deleteEntry={fetchWithOptions} />
         )
       }
     },
