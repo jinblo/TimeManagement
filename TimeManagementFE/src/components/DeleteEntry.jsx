@@ -31,7 +31,7 @@ export default function DeleteEntry(props) {
   return (
     <div>
       <Button variant="outlined" color="error" size='small' onClick={handleClickOpen}>
-        Delete
+        Poista
       </Button>
       <Dialog
         open={open}
@@ -42,13 +42,13 @@ export default function DeleteEntry(props) {
         </DialogTitle>
         <DialogContent>
           <DialogContentText>
-            Please confirm that you want to delete entry.
+            Vahvista työaikakirjauksen poisto.
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose}>Cancel</Button>
+          <Button onClick={handleClose}>Peruuta</Button>
           <Button color="error" onClick={handleDelete} autoFocus>
-            Delete
+            Poista
           </Button>
         </DialogActions>
       </Dialog>

@@ -4,6 +4,7 @@ import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-quartz.css";
 import AddEntry from './AddEntry';
 import DeleteEntry from './DeleteEntry';
+import EditEntry from './EditEntry';
 
 // Listataan työaikakirjausten tiedot, sekä jokaiselle kirjaukselle poista nappi
 // Lisää uusi työaikakirjaus -nappi myös mukana
@@ -35,6 +36,10 @@ const EntryList = () => {
       headerName: "Projekti"
     },
     {
+      field: "entry_title",
+      headerName: "Otsikko",
+    },
+    {
       field: "entry_date",
       headerName: "Päivämäärä",
     },
@@ -58,6 +63,16 @@ const EntryList = () => {
       cellRenderer: params => {
         return (
           <DeleteEntry entry_id={params.value} deleteEntry={fetchWithOptions} />
+        )
+      }
+    }, {
+      field: "entry_id",
+      headerName: "",
+      sortable: false,
+      filter: false,
+      cellRenderer: params => {
+        return (
+          <EditEntry oldEntry={params.data} saveEntry={fetchWithOptions} />
         )
       }
     },
