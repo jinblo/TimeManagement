@@ -4,6 +4,7 @@ import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-quartz.css";
 import AddProject from './AddProject';
 import DeleteProject from './DeleteProject';
+import EditProject from './EditProject';
 
 
 const ProjectList = () => {
@@ -35,6 +36,11 @@ const ProjectList = () => {
         {
             field: "id",
             headerName: "Muokkaa",
+            cellRenderer: params => {
+                return (
+                    <EditProject editData={params.data} editProject={fetchWithOptions} />
+                )
+            }
         },
         {
             field: "id",
