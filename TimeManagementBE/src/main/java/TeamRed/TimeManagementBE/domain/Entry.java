@@ -30,10 +30,14 @@ public class Entry {
 	@JsonIgnoreProperties({ "entries" })
 	private Project project;
 
-	@ManyToOne
-	@JoinColumn(name = "user_id")
-	@JsonIgnoreProperties({ "userEntries" })
-	private User user;
+	/*
+	 * @ManyToOne
+	 * 
+	 * @JoinColumn(name = "user_id")
+	 * 
+	 * @JsonIgnoreProperties({ "userEntries" })
+	 * private User user;
+	 */
 
 	public Entry() {
 		super();
