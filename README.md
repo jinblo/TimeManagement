@@ -20,6 +20,11 @@ Sovellus vaatii rekisteröitymisen. Rekisteröitynyt käyttäjä voi luoda proje
 * JavaScript
 * Node 20.11.0
 
+## Tietokanta
+
+![työaikaseuranta](https://github.com/TeamRed-Ohjelmistoprojekti2/TimeManagement/assets/91193039/da0099c9-94fb-4109-b955-0dba29ac7042)
+
+
 
 ## Backlogit
 
