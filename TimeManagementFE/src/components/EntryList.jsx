@@ -10,7 +10,8 @@ import EditEntry from './EditEntry';
 // Lisää uusi työaikakirjaus -nappi myös mukana
 
 const EntryList = () => {
-  const [entries, setEntries] = useState([]);
+  const [entries, setEntries] = useState([])
+  const [projects, setProjects] = useState()
 
   // Fetch entries from REST API
   const fetchData = () => {
@@ -22,11 +23,21 @@ const EntryList = () => {
 
   useEffect(fetchData, []);
 
+  /* Fetching all projects for select
+  useEffect(() => {
+    fetch('http://localhost:8080/projects')
+      .then(response => response.json())
+      .then(data => setProjects(data))
+      .catch(error => console.error(error))
+  }, []) */
+
   // Create, Update or Delete entries from REST API
   const fetchWithOptions = (href, options) => {
     fetch(href, options)
       .then(response => fetchData())
-      .catch(error => console.error(error))
+      .catch(error => {
+        console.error(error)
+      })
   }
 
   // Defining columns for ag-grid
@@ -62,7 +73,7 @@ const EntryList = () => {
       filter: false,
       cellRenderer: params => {
         return (
-          <EditEntry oldEntry={params.data} saveEntry={fetchWithOptions} />
+          <EditEntry oldEntry={params.data} saveEntry={fetchWithOptions} projects={projects} />
         )
       }
     },
@@ -81,14 +92,15 @@ const EntryList = () => {
 
   return (
     <div>
-      <AddEntry saveEntry={fetchWithOptions} />
-      <div className="ag-theme-quartz" style={{ height: 500, marginTop: 5 }}>
+      <AddEntry saveEntry={fetchWithOptions} projects={projects} />
+      <div className="ag-theme-quartz" style={{ height: 500, marginTop: 10 }}>
         <AgGridReact
           rowData={entries}
           columnDefs={colDefs}
           defaultColDef={{
             sortable: true,
             filter: true,
+            floatingFilter: true
           }}
           paginationAutoPageSize={true}
           paginateChildRows={true}

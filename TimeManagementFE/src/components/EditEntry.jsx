@@ -1,11 +1,11 @@
 import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, FormControl, InputLabel, MenuItem, OutlinedInput, Select, TextField } from "@mui/material";
 import { DatePicker, TimePicker } from "@mui/x-date-pickers";
 import dayjs from "dayjs";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 // Työaikakirjauksen muokkaaminen. Kirjauksen siirtäminen projektilta toiselle ei ole nyt mahdollista.
 
-const EditEntry = ({ oldEntry, saveEntry }) => {
+const EditEntry = ({ oldEntry, saveEntry, projects }) => {
   const [entry, setEntry] = useState({
     entry_id: '',
     entry_title: '',
@@ -18,7 +18,7 @@ const EditEntry = ({ oldEntry, saveEntry }) => {
       title: ''
     }
   })
-  const [projects, setProjects] = useState()
+  // const [projects, setProjects] = useState()
   const [open, setOpen] = useState(false);
 
   const handleClickOpen = () => {
@@ -26,18 +26,18 @@ const EditEntry = ({ oldEntry, saveEntry }) => {
     setOpen(true)
   }
 
-  // Fetching projects for select
+  /* Fetching projects for select
   useEffect(() => {
     fetch('http://localhost:8080/projects')
       .then(response => response.json())
       .then(data => setProjects(data))
       .catch(error => console.error(error))
-  }, [])
+  }, []) */
 
-  const handleChange = event => {
+  const handleChange = e => {
     let data = { ...entry }
-    let name = event.target.name
-    let value = event.target.value
+    let name = e.target.name
+    let value = e.target.value
     if (name == 'id') {
       data = {
         ...data,
@@ -82,7 +82,7 @@ const EditEntry = ({ oldEntry, saveEntry }) => {
             label="Otsikko"
             value={entry.entry_title}
             type="text"
-            onChange={event => handleChange(event)}
+            onChange={e => handleChange(e)}
           />
           <Box component="form" sx={{ display: 'flex', flexWrap: 'wrap' }}>
             <FormControl sx={{ width: 550, marginTop: '3px' }}>
@@ -91,7 +91,7 @@ const EditEntry = ({ oldEntry, saveEntry }) => {
                 disabled // Projektin muuttaminen ei ole nyt mahdollista
                 name="id"
                 value={entry.project.id}
-                onChange={event => handleChange(event)}
+                onChange={e => handleChange(e)}
                 input={<OutlinedInput label="Projekti" />}
               >
                 {projects ? projects.map(project => {
@@ -119,7 +119,7 @@ const EditEntry = ({ oldEntry, saveEntry }) => {
             sx={{ marginLeft: '5px', width: 270 }}
             name="end_time"
             label="Lopetusaika"
-            value={dayjs(`2024-01-01 ${entry.end_time}`).add(1, 'h')}
+            value={dayjs(`2024-01-01 ${entry.end_time}`)}
             onChange={value => setEntry({ ...entry, end_time: value.format('HH:mm:ss') })}
           />
           <TextField
@@ -130,7 +130,7 @@ const EditEntry = ({ oldEntry, saveEntry }) => {
             label="Muistiinpanot"
             value={entry.entry}
             type="text"
-            onChange={event => handleChange(event)}
+            onChange={e => handleChange(e)}
           />
         </DialogContent>
         <DialogActions>

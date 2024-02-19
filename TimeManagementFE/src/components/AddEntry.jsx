@@ -1,32 +1,34 @@
 import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, FormControl, InputLabel, MenuItem, OutlinedInput, Select, TextField } from "@mui/material";
 import { DatePicker, TimePicker } from "@mui/x-date-pickers";
 import dayjs from "dayjs";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 // Lisätään uusi työaikakirjaus
 
-const AddEntry = ({ saveEntry }) => {
+const AddEntry = ({ saveEntry, projects }) => {
   const [entry, setEntry] = useState({
     entry_title: '',
     entry_date: dayjs().format('YYYY-MM-DD'),
     start_time: dayjs().format('HH:mm:ss'),
-    end_time: dayjs().format('HH:mm:ss'),
+    end_time: dayjs().add(6, 'h').format('HH:mm:ss'),
     entry: ''
   })
-  const [projects, setProjects] = useState()
+  // const [projects, setProjects] = useState()
   const [project_id, setProject_id] = useState('')
-  const [open, setOpen] = useState(false);
 
-  // Fetching projects for select
+  // error message shown to user
+  const [errorMessage, setErrorMessage] = useState('');
+
+  /* Fetching projects for select
   useEffect(() => {
     fetch('http://localhost:8080/projects')
       .then(response => response.json())
       .then(data => setProjects(data))
       .catch(error => console.error(error))
-  }, [])
+  }, []) */
 
-  const handleChange = event => {
-    setEntry({ ...entry, [event.target.name]: event.target.value })
+  const handleChange = e => {
+    setEntry({ ...entry, [e.target.name]: e.target.value })
   }
 
   // Saving new entry
@@ -43,6 +45,9 @@ const AddEntry = ({ saveEntry }) => {
     setOpen(false);
   };
 
+  // Handling dialog 
+  const [open, setOpen] = useState(false);
+
   return (
     <div style={{ float: 'right', margin: 20 }}>
       <Button variant="contained" onClick={() => setOpen(true)} >Lisää uusi kirjaus</Button>
@@ -56,7 +61,7 @@ const AddEntry = ({ saveEntry }) => {
             name="entry_title"
             label="Otsikko"
             type="text"
-            onChange={event => handleChange(event)}
+            onChange={e => handleChange(e)}
           />
           <Box component="form" sx={{ display: 'flex', flexWrap: 'wrap' }}>
             <FormControl sx={{ width: 550, marginTop: '3px' }}>
@@ -64,7 +69,7 @@ const AddEntry = ({ saveEntry }) => {
               <Select
                 name="project"
                 defaultValue={project_id}
-                onChange={event => setProject_id(event.target.value)}
+                onChange={e => setProject_id(e.target.value)}
                 input={<OutlinedInput label="Projekti" />}
               >
                 {projects ? projects.map(project => {
@@ -92,7 +97,7 @@ const AddEntry = ({ saveEntry }) => {
             sx={{ marginLeft: '5px', width: 270 }}
             label="Lopetusaika"
             name="end_time"
-            value={dayjs(`2024-01-01 ${entry.end_time}`).add(1, 'h')}
+            value={dayjs(`2024-01-01 ${entry.end_time}`)}
             onChange={value => setEntry({ ...entry, end_time: value.format('HH:mm:ss') })}
           />
           <TextField
@@ -102,7 +107,7 @@ const AddEntry = ({ saveEntry }) => {
             name="entry"
             label="Muistiinpanot"
             type="text"
-            onChange={event => handleChange(event)}
+            onChange={e => handleChange(e)}
           />
         </DialogContent>
         <DialogActions>
