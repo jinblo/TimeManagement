@@ -34,7 +34,11 @@ const EntryList = () => {
   // Create, Update or Delete entries from REST API
   const fetchWithOptions = (href, options) => {
     fetch(href, options)
-      .then(response => fetchData())
+      .then(response => {
+        console.log("Entry added successfully")
+        fetchData()
+      }
+      )
       .catch(error => {
         console.error(error)
       })
