@@ -19,8 +19,7 @@ public class Entry {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long entry_id;
 
-	private String entry_title;
-	private String entry;
+	private String comment;
 	private LocalDate entry_date;
 	private LocalTime start_time;
 	private LocalTime end_time;
@@ -31,23 +30,23 @@ public class Entry {
 	private Project project;
 
 	@ManyToOne
-	@JoinColumn(name = "user_id")
+	@JoinColumn(name = "appUser_id")
 	@JsonIgnoreProperties({ "userEntries" })
-	private User user;
+	private AppUser appUser;
 
 	public Entry() {
 		super();
 	}
 
-	public Entry(String entry_title, String entry, LocalDate entry_date, LocalTime start_time, LocalTime end_time,
-			Project project) {
+	public Entry(String comment, LocalDate entry_date, LocalTime start_time, LocalTime end_time,
+			Project project, AppUser appUser) {
 		super();
-		this.entry_title = entry_title;
-		this.entry = entry;
+		this.comment = comment;
 		this.entry_date = entry_date;
 		this.start_time = start_time;
 		this.end_time = end_time;
 		this.project = project;
+		this.appUser = appUser;
 	}
 
 	public long getEntry_id() {
@@ -58,20 +57,12 @@ public class Entry {
 		this.entry_id = entry_id;
 	}
 
-	public String getEntry_title() {
-		return entry_title;
+	public String getComment() {
+		return comment;
 	}
 
-	public void setEntry_title(String entry_title) {
-		this.entry_title = entry_title;
-	}
-
-	public String getEntry() {
-		return entry;
-	}
-
-	public void setEntry(String entry) {
-		this.entry = entry;
+	public void setComment(String comment) {
+		this.comment = comment;
 	}
 
 	public LocalDate getEntry_date() {
@@ -104,6 +95,14 @@ public class Entry {
 
 	public void setProject(Project project) {
 		this.project = project;
+	}
+
+	public AppUser getAppUser() {
+		return appUser;
+	}
+
+	public void setAppUser(AppUser appUser) {
+		this.appUser = appUser;
 	}
 
 }

@@ -10,7 +10,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 
 @Entity
-public class User {
+public class AppUser {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,19 +21,18 @@ public class User {
     private String email;
     private String password_hash;
 
-    public User() {
+    public AppUser() {
     }
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "appUser")
     private List<Entry> entries;
 
-    public User(long id, String first_name, String last_name, String email, String password_hash, List<Entry> entries) {
-        this.id = id;
+    public AppUser(String first_name, String last_name, String email, String password_hash) {
         this.first_name = first_name;
         this.last_name = last_name;
         this.email = email;
         this.password_hash = password_hash;
-        this.entries = entries;
+
     }
 
     public long getId() {
