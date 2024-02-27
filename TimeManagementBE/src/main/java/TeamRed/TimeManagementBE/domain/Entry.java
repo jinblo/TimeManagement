@@ -31,7 +31,7 @@ public class Entry {
 
 	@ManyToOne
 	@JoinColumn(name = "appUser_id")
-	@JsonIgnoreProperties({ "userEntries" })
+	@JsonIgnoreProperties({ "appUserEntries" })
 	private AppUser appUser;
 
 	public Entry() {

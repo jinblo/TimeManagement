@@ -2,6 +2,8 @@ package TeamRed.TimeManagementBE.domain;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -24,6 +26,7 @@ public class AppUser {
     public AppUser() {
     }
 
+    @JsonIgnoreProperties({ "appUser" })
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "appUser")
     private List<Entry> entries;
 
