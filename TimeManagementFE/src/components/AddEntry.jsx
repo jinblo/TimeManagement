@@ -7,11 +7,10 @@ import { useState } from "react";
 
 const AddEntry = ({ saveEntry, projects }) => {
   const [entry, setEntry] = useState({
-    entry_title: '',
     entry_date: dayjs().format('YYYY-MM-DD'),
     start_time: dayjs().format('HH:mm:ss'),
     end_time: dayjs().add(6, 'h').format('HH:mm:ss'),
-    entry: ''
+    comment: ''
   })
   // const [projects, setProjects] = useState()
   const [project_id, setProject_id] = useState('')
@@ -26,10 +25,6 @@ const AddEntry = ({ saveEntry, projects }) => {
       .then(data => setProjects(data))
       .catch(error => console.error(error))
   }, []) */
-
-  const handleChange = e => {
-    setEntry({ ...entry, [e.target.name]: e.target.value })
-  }
 
   // Saving new entry
   const handleSave = () => {
@@ -54,15 +49,6 @@ const AddEntry = ({ saveEntry, projects }) => {
       <Dialog open={open} onClose={() => setOpen(false)}>
         <DialogTitle>Uusi työaikakirjaus</DialogTitle>
         <DialogContent>
-          <TextField
-            fullWidth
-            autoFocus
-            margin='dense'
-            name="entry_title"
-            label="Otsikko"
-            type="text"
-            onChange={e => handleChange(e)}
-          />
           <Box component="form" sx={{ display: 'flex', flexWrap: 'wrap' }}>
             <FormControl sx={{ width: 550, marginTop: '3px' }}>
               <InputLabel htmlFor="project">Projekti</InputLabel>
@@ -104,10 +90,10 @@ const AddEntry = ({ saveEntry, projects }) => {
             fullWidth
             autoFocus
             margin='dense'
-            name="entry"
+            name="comment"
             label="Muistiinpanot"
             type="text"
-            onChange={e => handleChange(e)}
+            onChange={e => setEntry({ ...entry, comment: e.target.value })}
           />
         </DialogContent>
         <DialogActions>

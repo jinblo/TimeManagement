@@ -8,11 +8,10 @@ import { useState } from "react";
 const EditEntry = ({ oldEntry, saveEntry, projects }) => {
   const [entry, setEntry] = useState({
     entry_id: '',
-    entry_title: '',
     entry_date: '',
     start_time: '',
     end_time: '',
-    entry: '',
+    comment: '',
     project: {
       id: '',
       title: ''
@@ -74,16 +73,6 @@ const EditEntry = ({ oldEntry, saveEntry, projects }) => {
       <Dialog open={open} onClose={() => setOpen(false)}>
         <DialogTitle>Muokkaa työaikakirjausta</DialogTitle>
         <DialogContent>
-          <TextField
-            fullWidth
-            autoFocus
-            margin='dense'
-            name="entry_title"
-            label="Otsikko"
-            value={entry.entry_title}
-            type="text"
-            onChange={e => handleChange(e)}
-          />
           <Box component="form" sx={{ display: 'flex', flexWrap: 'wrap' }}>
             <FormControl sx={{ width: 550, marginTop: '3px' }}>
               <InputLabel htmlFor="project">Projekti</InputLabel>
@@ -128,9 +117,9 @@ const EditEntry = ({ oldEntry, saveEntry, projects }) => {
             margin='dense'
             name="entry"
             label="Muistiinpanot"
-            value={entry.entry}
+            value={entry.comment}
             type="text"
-            onChange={e => handleChange(e)}
+            onChange={e => setEntry({ ...entry, [e.target.name]: e.target.value })}
           />
         </DialogContent>
         <DialogActions>

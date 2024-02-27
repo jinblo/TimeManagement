@@ -23,13 +23,13 @@ const EntryList = () => {
 
   useEffect(fetchData, []);
 
-  /* Fetching all projects for select
+  // Fetching all projects for select
   useEffect(() => {
     fetch('http://localhost:8080/projects')
       .then(response => response.json())
       .then(data => setProjects(data))
       .catch(error => console.error(error))
-  }, []) */
+  }, [])
 
   // Create, Update or Delete entries from REST API
   const fetchWithOptions = (href, options) => {
@@ -51,10 +51,6 @@ const EntryList = () => {
       headerName: "Projekti"
     },
     {
-      field: "entry_title",
-      headerName: "Otsikko",
-    },
-    {
       field: "entry_date",
       headerName: "Päivämäärä",
     },
@@ -67,7 +63,7 @@ const EntryList = () => {
       headerName: "Lopetusaika",
     },
     {
-      field: "entry",
+      field: "comment",
       headerName: "Muistiinpanot"
     },
     {
