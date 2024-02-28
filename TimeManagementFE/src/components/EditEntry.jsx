@@ -94,10 +94,12 @@ const EditEntry = ({ oldEntry, saveEntry, projects }) => {
                 onChange={e => handleChange(e)}
                 input={<OutlinedInput label="Projekti" />}
               >
-                {projects ? projects.map(project => {
+                <MenuItem key={entry.project.id} value={entry.project.id}>{entry.project.title}</MenuItem>
+                { /* List projects for select, current backend does NOT support
+                projects ? projects.map(project => {
                   return <MenuItem key={project.id} value={project.id}>{project.title}</MenuItem>
                 })
-                  : null}
+              : null */ }
               </Select>
             </FormControl>
           </Box>
