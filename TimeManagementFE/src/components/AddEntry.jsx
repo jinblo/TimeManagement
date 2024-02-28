@@ -1,4 +1,4 @@
-import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, FormControl, InputLabel, MenuItem, OutlinedInput, Select, TextField } from "@mui/material";
+import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, FormControl, FormHelperText, InputLabel, MenuItem, OutlinedInput, Select, TextField } from "@mui/material";
 import { DatePicker, TimePicker } from "@mui/x-date-pickers";
 import dayjs from "dayjs";
 import { useState } from "react";
@@ -6,42 +6,52 @@ import { useState } from "react";
 // Lisätään uusi työaikakirjaus
 
 const AddEntry = ({ saveEntry, projects }) => {
+  // State for new entry
   const [entry, setEntry] = useState({
     entry_date: dayjs().format('YYYY-MM-DD'),
     start_time: dayjs().format('HH:mm:ss'),
     end_time: dayjs().add(6, 'h').format('HH:mm:ss'),
     comment: ''
   })
-  // const [projects, setProjects] = useState()
+
+  // State for project
   const [project_id, setProject_id] = useState('')
 
   // error message shown to user
   const [errorMessage, setErrorMessage] = useState('');
 
-  /* Fetching projects for select
-  useEffect(() => {
-    fetch('http://localhost:8080/projects')
-      .then(response => response.json())
-      .then(data => setProjects(data))
-      .catch(error => console.error(error))
-  }, []) */
-
   // Saving new entry
   const handleSave = () => {
-    const href = `http://localhost:8080/projects/${project_id}/entries`
-    const options = {
-      method: 'post',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(entry)
+    if (project_id) {
+      const href = `http://localhost:8080/projects/${project_id}/entries`
+      const options = {
+        method: 'post',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(entry)
+      }
+      saveEntry(href, options);
+      handleClose();
+    } else {
+      setErrorMessage("Valitse projekti")
     }
-    saveEntry(href, options);
-    setOpen(false);
   };
 
   // Handling dialog 
   const [open, setOpen] = useState(false);
+
+  // Clearing the form and closing dialog
+  const handleClose = () => {
+    setEntry({
+      entry_date: dayjs().format('YYYY-MM-DD'),
+      start_time: dayjs().format('HH:mm:ss'),
+      end_time: dayjs().add(6, 'h').format('HH:mm:ss'),
+      comment: ''
+    })
+    setProject_id('');
+    setOpen(false);
+  }
 
   return (
     <div style={{ float: 'right', margin: 20 }}>
@@ -50,12 +60,18 @@ const AddEntry = ({ saveEntry, projects }) => {
         <DialogTitle>Uusi työaikakirjaus</DialogTitle>
         <DialogContent>
           <Box component="form" sx={{ display: 'flex', flexWrap: 'wrap' }}>
-            <FormControl sx={{ width: 550, marginTop: '3px' }}>
+            <FormControl
+              sx={{ width: 550, marginTop: '3px' }}
+              error={errorMessage !== ''}
+            >
               <InputLabel htmlFor="project">Projekti</InputLabel>
               <Select
                 name="project"
                 defaultValue={project_id}
-                onChange={e => setProject_id(e.target.value)}
+                onChange={e => {
+                  setProject_id(e.target.value)
+                  setErrorMessage('')
+                }}
                 input={<OutlinedInput label="Projekti" />}
               >
                 {projects ? projects.map(project => {
@@ -63,6 +79,7 @@ const AddEntry = ({ saveEntry, projects }) => {
                 })
                   : null}
               </Select>
+              <FormHelperText>{errorMessage}</FormHelperText>
             </FormControl>
           </Box>
           <DatePicker
@@ -85,6 +102,7 @@ const AddEntry = ({ saveEntry, projects }) => {
             name="end_time"
             value={dayjs(`2024-01-01 ${entry.end_time}`)}
             onChange={value => setEntry({ ...entry, end_time: value.format('HH:mm:ss') })}
+            minTime={dayjs(`2024-01-01 ${entry.start_time}`)}
           />
           <TextField
             fullWidth
@@ -97,7 +115,7 @@ const AddEntry = ({ saveEntry, projects }) => {
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={() => setOpen(false)}>Peruuta</Button>
+          <Button onClick={handleClose}>Peruuta</Button>
           <Button onClick={handleSave}>Tallenna</Button>
         </DialogActions>
       </Dialog>

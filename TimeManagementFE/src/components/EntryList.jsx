@@ -35,8 +35,12 @@ const EntryList = () => {
   const fetchWithOptions = (href, options) => {
     fetch(href, options)
       .then(response => {
-        console.log("Entry added successfully")
-        fetchData()
+        if (response.ok) {
+          console.log("Entry saved successfully")
+          fetchData()
+        } else {
+          console.log("Failed to save")
+        }
       }
       )
       .catch(error => {
