@@ -17,22 +17,33 @@ const EditEntry = ({ oldEntry, saveEntry, projects }) => {
       title: ''
     }
   })
-  // const [projects, setProjects] = useState()
+
+  // State for dialog
   const [open, setOpen] = useState(false);
 
+  // Opening dialog with entry data
   const handleClickOpen = () => {
     setEntry(oldEntry)
     setOpen(true)
   }
 
-  /* Fetching projects for select
-  useEffect(() => {
-    fetch('http://localhost:8080/projects')
-      .then(response => response.json())
-      .then(data => setProjects(data))
-      .catch(error => console.error(error))
-  }, []) */
+  // Clearing the form and closing dialog
+  const handleClose = () => {
+    setEntry({
+      entry_id: '',
+      entry_date: '',
+      start_time: '',
+      end_time: '',
+      comment: '',
+      project: {
+        id: '',
+        title: ''
+      }
+    })
+    setOpen(false);
+  }
 
+  // Handling changes 
   const handleChange = e => {
     let data = { ...entry }
     let name = e.target.name
@@ -64,7 +75,7 @@ const EditEntry = ({ oldEntry, saveEntry, projects }) => {
       body: JSON.stringify(entry)
     }
     saveEntry(href, options);
-    setOpen(false);
+    handleClose();
   };
 
   return (
@@ -110,10 +121,10 @@ const EditEntry = ({ oldEntry, saveEntry, projects }) => {
             label="Lopetusaika"
             value={dayjs(`2024-01-01 ${entry.end_time}`)}
             onChange={value => setEntry({ ...entry, end_time: value.format('HH:mm:ss') })}
+            minTime={dayjs(`2024-01-01 ${entry.start_time}`)}
           />
           <TextField
             fullWidth
-            autoFocus
             margin='dense'
             name="entry"
             label="Muistiinpanot"
@@ -123,7 +134,7 @@ const EditEntry = ({ oldEntry, saveEntry, projects }) => {
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={() => setOpen(false)}>Peruuta</Button>
+          <Button onClick={handleClose}>Peruuta</Button>
           <Button onClick={handleSave}>Tallenna</Button>
         </DialogActions>
       </Dialog>
