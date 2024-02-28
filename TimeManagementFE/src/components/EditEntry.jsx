@@ -1,43 +1,53 @@
 import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, FormControl, InputLabel, MenuItem, OutlinedInput, Select, TextField } from "@mui/material";
 import { DatePicker, TimePicker } from "@mui/x-date-pickers";
 import dayjs from "dayjs";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 // Työaikakirjauksen muokkaaminen. Kirjauksen siirtäminen projektilta toiselle ei ole nyt mahdollista.
 
-const EditEntry = ({ oldEntry, saveEntry }) => {
+const EditEntry = ({ oldEntry, saveEntry, projects }) => {
   const [entry, setEntry] = useState({
     entry_id: '',
-    entry_title: '',
     entry_date: '',
     start_time: '',
     end_time: '',
-    entry: '',
+    comment: '',
     project: {
       id: '',
       title: ''
     }
   })
-  const [projects, setProjects] = useState()
+
+  // State for dialog
   const [open, setOpen] = useState(false);
 
+  // Opening dialog with entry data
   const handleClickOpen = () => {
     setEntry(oldEntry)
     setOpen(true)
   }
 
-  // Fetching projects for select
-  useEffect(() => {
-    fetch('http://localhost:8080/projects')
-      .then(response => response.json())
-      .then(data => setProjects(data))
-      .catch(error => console.error(error))
-  }, [])
+  // Clearing the form and closing dialog
+  const handleClose = () => {
+    setEntry({
+      entry_id: '',
+      entry_date: '',
+      start_time: '',
+      end_time: '',
+      comment: '',
+      project: {
+        id: '',
+        title: ''
+      }
+    })
+    setOpen(false);
+  }
 
-  const handleChange = event => {
+  // Handling changes 
+  const handleChange = e => {
     let data = { ...entry }
-    let name = event.target.name
-    let value = event.target.value
+    let name = e.target.name
+    let value = e.target.value
     if (name == 'id') {
       data = {
         ...data,
@@ -65,7 +75,7 @@ const EditEntry = ({ oldEntry, saveEntry }) => {
       body: JSON.stringify(entry)
     }
     saveEntry(href, options);
-    setOpen(false);
+    handleClose();
   };
 
   return (
@@ -74,16 +84,6 @@ const EditEntry = ({ oldEntry, saveEntry }) => {
       <Dialog open={open} onClose={() => setOpen(false)}>
         <DialogTitle>Muokkaa työaikakirjausta</DialogTitle>
         <DialogContent>
-          <TextField
-            fullWidth
-            autoFocus
-            margin='dense'
-            name="entry_title"
-            label="Otsikko"
-            value={entry.entry_title}
-            type="text"
-            onChange={event => handleChange(event)}
-          />
           <Box component="form" sx={{ display: 'flex', flexWrap: 'wrap' }}>
             <FormControl sx={{ width: 550, marginTop: '3px' }}>
               <InputLabel htmlFor="project">Projekti</InputLabel>
@@ -91,13 +91,15 @@ const EditEntry = ({ oldEntry, saveEntry }) => {
                 disabled // Projektin muuttaminen ei ole nyt mahdollista
                 name="id"
                 value={entry.project.id}
-                onChange={event => handleChange(event)}
+                onChange={e => handleChange(e)}
                 input={<OutlinedInput label="Projekti" />}
               >
-                {projects ? projects.map(project => {
+                <MenuItem key={entry.project.id} value={entry.project.id}>{entry.project.title}</MenuItem>
+                { /* List projects for select, current backend does NOT support
+                projects ? projects.map(project => {
                   return <MenuItem key={project.id} value={project.id}>{project.title}</MenuItem>
                 })
-                  : null}
+              : null */ }
               </Select>
             </FormControl>
           </Box>
@@ -119,22 +121,22 @@ const EditEntry = ({ oldEntry, saveEntry }) => {
             sx={{ marginLeft: '5px', width: 270 }}
             name="end_time"
             label="Lopetusaika"
-            value={dayjs(`2024-01-01 ${entry.end_time}`).add(1, 'h')}
+            value={dayjs(`2024-01-01 ${entry.end_time}`)}
             onChange={value => setEntry({ ...entry, end_time: value.format('HH:mm:ss') })}
+            minTime={dayjs(`2024-01-01 ${entry.start_time}`)}
           />
           <TextField
             fullWidth
-            autoFocus
             margin='dense'
             name="entry"
             label="Muistiinpanot"
-            value={entry.entry}
+            value={entry.comment}
             type="text"
-            onChange={event => handleChange(event)}
+            onChange={e => setEntry({ ...entry, [e.target.name]: e.target.value })}
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={() => setOpen(false)}>Peruuta</Button>
+          <Button onClick={handleClose}>Peruuta</Button>
           <Button onClick={handleSave}>Tallenna</Button>
         </DialogActions>
       </Dialog>
