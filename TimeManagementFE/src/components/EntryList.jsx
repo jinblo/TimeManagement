@@ -1,10 +1,12 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { AgGridReact } from 'ag-grid-react';
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-quartz.css";
 import AddEntry from './AddEntry';
 import DeleteEntry from './DeleteEntry';
 import EditEntry from './EditEntry';
+import { Alert } from '@mui/material';
+import AlertMessage from './AlertMessage';
 
 // Listataan työaikakirjausten tiedot, sekä jokaiselle kirjaukselle poista nappi
 // Lisää uusi työaikakirjaus -nappi myös mukana
@@ -12,6 +14,24 @@ import EditEntry from './EditEntry';
 const EntryList = () => {
   const [entries, setEntries] = useState([])
   const [projects, setProjects] = useState()
+  const [alert, setAlert] = useState(null)
+
+  const alertMessage = useMemo(() => {
+    switch (alert) {
+      case 'success': {
+        return <AlertMessage alert={alert} alertMessage="Kirjaus tallennettu onnistuneesti" setAlert={setAlert} />
+      }
+
+      case 'error': {
+        return <AlertMessage alert={alert} alertMessage="Kirjauksen tallennus epäonnistui" setAlert={setAlert} />
+      }
+
+      default: {
+        return <></>
+      }
+    }
+  }, [alert]);
+
 
   // Fetch entries from REST API
   const fetchData = () => {
@@ -36,10 +56,10 @@ const EntryList = () => {
     fetch(href, options)
       .then(response => {
         if (response.ok) {
-          console.log("Entry saved successfully")
           fetchData()
+          setAlert('success')
         } else {
-          console.log("Failed to save")
+          setAlert('error')
         }
       }
       )
@@ -75,6 +95,7 @@ const EntryList = () => {
       headerName: "",
       sortable: false,
       filter: false,
+      width: 110,
       cellRenderer: params => {
         return (
           <EditEntry oldEntry={params.data} saveEntry={fetchWithOptions} projects={projects} />
@@ -86,6 +107,7 @@ const EntryList = () => {
       headerName: "",
       sortable: false,
       filter: false,
+      width: 100,
       cellRenderer: params => {
         return (
           <DeleteEntry entry_id={params.value} deleteEntry={fetchWithOptions} />
@@ -96,6 +118,7 @@ const EntryList = () => {
 
   return (
     <div>
+      {alertMessage}
       <AddEntry saveEntry={fetchWithOptions} projects={projects} />
       <div className="ag-theme-quartz" style={{ height: 500, marginTop: 10 }}>
         <AgGridReact
