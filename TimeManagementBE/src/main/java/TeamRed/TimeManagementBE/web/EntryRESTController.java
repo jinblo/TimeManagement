@@ -6,6 +6,8 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.RestController;
 
 import TeamRed.TimeManagementBE.domain.EntryRepository;
@@ -35,7 +37,11 @@ public class EntryRESTController {
 	@GetMapping("entries")
 	public ResponseEntity<?> getEntries() {
 		try {
-			Iterable<Entry> entries = repository.findAll();
+			Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+			String name = auth.getName();
+			System.out.println(name);
+			Iterable<Entry> entries = repository.findByAppUser_Email(name);
+			//Iterable<Entry> entries = repository.findAll();
 			if (((List<Entry>) entries).isEmpty()) {
 				return new ResponseEntity<>("Työaikakirjauksia ei löytynyt", HttpStatus.NO_CONTENT);
 			}

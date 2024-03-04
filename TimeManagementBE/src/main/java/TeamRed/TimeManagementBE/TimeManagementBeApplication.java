@@ -26,8 +26,12 @@ public class TimeManagementBeApplication {
 	public CommandLineRunner demoData(ProjectRepository projectRepo, EntryRepository entryRepo,
 			AppUserRepository appUserRepo) {
 		return (args) -> {
-			AppUser testUser = new AppUser("first_name", "last_name", "email@email.com", "password_hash");
+			//password: AppUser1
+			AppUser testUser = new AppUser("first_name", "last_name", "email@email.com", "$2a$12$JoEvKPN77YLvGw/vqLpKeO4A.CW/1LbSweTpmwfUNfQCWC62DL/4q");
 			appUserRepo.save(testUser);
+			//password: AppUser2
+			AppUser testUser2 = new AppUser("first_name", "last_name", "newuser@email.com", "$2a$12$faaHwhorn90N15gUoeXLxeqeP7Iv3Xn1Z9BnoPnTajKy.KEA2esm.");
+			appUserRepo.save(testUser2);
 			Project testiprojekti = new Project("Testproject 1");
 			projectRepo.save(testiprojekti);
 			projectRepo.save(new Project("Testproject 2"));
