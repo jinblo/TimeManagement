@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
+
 
 import TeamRed.TimeManagementBE.domain.ProjectRepository;
 import TeamRed.TimeManagementBE.domain.Project;
@@ -40,7 +42,18 @@ public class ProjectRESTController {
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
-	
+
+	// Palauttaa projektin haetulla id:llä
+		@GetMapping("/projects/{projectId}")
+		public Optional<Project> getProject(@PathVariable("projectId") Long id) {
+			
+			Optional<Project> projectById = repository.findById(id);
+			if (projectById.isEmpty()) {
+				throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Annetulla id:llä ei löytynyt projektia");
+			}
+			return projectById;
+		}
+			
 	//Uuden projektin lisääminen
 	@PostMapping("projects")
 	public ResponseEntity<Project> addProject(@RequestBody Project project) {
