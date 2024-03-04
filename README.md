@@ -16,7 +16,7 @@ Sovellus vaatii rekisteröitymisen. Rekisteröitynyt käyttäjä voi luoda proje
 ## Toteutusteknologiat
 * Spring Boot 3.2.1
 * Java 21.0.2
-* React
+* React 18.2.0
 * JavaScript
 * Node 20.11.0
 
@@ -24,7 +24,37 @@ Sovellus vaatii rekisteröitymisen. Rekisteröitynyt käyttäjä voi luoda proje
 
 ![työaikaseuranta](https://github.com/TeamRed-Ohjelmistoprojekti2/TimeManagement/assets/91193039/da0099c9-94fb-4109-b955-0dba29ac7042)
 
+### Project / projekti
 
+| Attribute     | Type                    | Description                    |
+|:------------- |:------------------------|:-------------------------------|
+| id (PK)       | Long /Integer           | Project id                     |
+| title         | String / Varchar        | Projektin nimi                 |
+
+### Entry / työaikakirjaus
+
+| Attribute     | Type                    | Description                    |
+|:------------- |:------------------------|:-------------------------------|
+| enty_id (PK)  | Long / Integer          | Entry id                       |
+| comment       | String / Varchar        | Kirjauksen kommentti           |
+| entry_date    | LocalDate / Date        | Kirjauksen päivämäärä          |
+| start_time    | LocalTime / Time        | Aloitusajankohta               |
+| end_time      | LocalTime / Time        | Lopetusajankohta               |
+
+### AppUser / käyttäjä
+
+| Attribute     | Type                    | Description                    |
+|:------------- |:------------------------|:-------------------------------|
+| id (PK)       | Long / Integer          | AppUser id                     |
+| first_name    | String / Varchar        | Käyttäjän etunimi              |
+| last_name     | String / Varchar        | Käyttäjän sukunimi             |
+| email         | String / Varchar        | Käyttäjän sähköposti           |
+| password_hash | String / Varchar        | Salasana hash muodossa         |
+
+## Api-dokumentaatio
+
+* [Entry](api-docs/entry/)
+* [Project](api-docs/project/)
 
 ## Backlogit
 
