@@ -30,7 +30,7 @@ Sovellus vaatii rekisteröitymisen. Rekisteröitynyt käyttäjä voi luoda proje
 |:------------- |:------------------------|:-------------------------------|
 | id (PK)       | Long /Integer           | Project id                     |
 | title         | String / Varchar        | Projektin nimi                 |
-| List<Entry>   | entries / OneToMany     | Projektiin liittyvät kirjaukset|
+| List Entry    | entries / OneToMany     | Projektiin liittyvät kirjaukset|
 
 ### Entry / työaikakirjaus
 
@@ -53,7 +53,7 @@ Sovellus vaatii rekisteröitymisen. Rekisteröitynyt käyttäjä voi luoda proje
 | last_name     | String / Varchar        | Käyttäjän sukunimi             |
 | email         | String / Varchar        | Käyttäjän sähköposti           |
 | password_hash | String / Varchar        | Salasana hash muodossa         |
-| List<Entry>   | entries / OneToMany     | Projektiin liittyvät kirjaukset|
+| List Entry    | entries / OneToMany     | Projektiin liittyvät kirjaukset|
 
 ## Api-dokumentaatio
 
