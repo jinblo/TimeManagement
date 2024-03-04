@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField } from "@mui/material";
 
+// Lisätään uusi projekti
 
 export default function AddProject(props) {
-
 
     const [project, setProject] = useState({
         title: '',
@@ -36,7 +36,7 @@ export default function AddProject(props) {
                     // Project added successfully
                     console.log('Project added successfully');
                     setErrorMessage('');
-                    setProject({title: ''});
+                    setProject({ title: '' });
                     props.addProject();
                     setOpen(false)
                 } else {
