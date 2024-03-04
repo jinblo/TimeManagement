@@ -1,6 +1,6 @@
 # Hae projekti id:llä
 
-**URL**: `/projects/projectId`
+**URL**: `/projects/:pk`
 
 **Metodi**: `GET`
 
@@ -8,4 +8,4 @@
 
 ## Esimerkkipyyntö:
 
-**Polku**: `BASE_URL/projects/1`
+**Polku**: `BASE_URL/projects/:pk`
