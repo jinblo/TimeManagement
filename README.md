@@ -41,8 +41,8 @@ Sovellus vaatii rekisteröitymisen. Rekisteröitynyt käyttäjä voi luoda proje
 | entry_date      | LocalDate / Date        | Kirjauksen päivämäärä          |
 | start_time      | LocalTime / Time        | Aloitusajankohta               |
 | end_time        | LocalTime / Time        | Lopetusajankohta               |
-| project_id (FK) | JoinColumn / ManyToONe  | Viittaus proejktiin            |
-| appUser_id (FK) | JoinColumn / ManyToONe  | Viittaus käyttäjään            |
+| project_id (FK) | JoinColumn / ManyToOne  | Viittaus projektiin            |
+| appUser_id (FK) | JoinColumn / ManyToOne  | Viittaus käyttäjään            |
 
 ### AppUser / käyttäjä
 
