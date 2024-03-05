@@ -6,6 +6,7 @@ import AddEntry from './AddEntry';
 import DeleteEntry from './DeleteEntry';
 import EditEntry from './EditEntry';
 import AlertMessage from './AlertMessage';
+import dataService from '../services/fetchData';
 
 // Listataan työaikakirjausten tiedot, sekä jokaiselle kirjaukselle poista nappi
 // Lisää uusi työaikakirjaus -nappi myös mukana
@@ -31,22 +32,14 @@ const EntryList = () => {
   }, [alert]);
 
   // Kirjausten hakeminen APIsta
-  const fetchData = () => {
-    fetch('http://localhost:8080/entries')
-      .then(response => response.json())
-      .then(data => setEntries(data))
-      .catch(error => console.error(error))
-  };
-
-  useEffect(fetchData, []);
+  useEffect(() => {
+    dataService.fetchData('entries', setEntries)
+  }, []);
 
   // Projektien hakeminen APIsta
   useEffect(() => {
-    fetch('http://localhost:8080/projects')
-      .then(response => response.json())
-      .then(data => setProjects(data))
-      .catch(error => console.error(error))
-  }, [])
+    dataService.fetchData('projects', setProjects)
+  }, []);
 
   // Post, Put tai Delete pyyntöjen tekeminen APIin
   const fetchWithOptions = (href, options) => {
