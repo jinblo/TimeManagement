@@ -10,6 +10,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import TeamRed.TimeManagementBE.web.AppUserDetailsService;
 import static org.springframework.security.web.util.matcher.AntPathRequestMatcher.antMatcher;
@@ -20,6 +21,12 @@ public class WebSecurityConfig {
 	
 	@Autowired
 	private AppUserDetailsService userDetailsService;
+	
+	@Autowired
+	private AuthenticationFilter authenticationFilter;
+	
+	@Autowired
+	private AuthEntryPoint exceptionHandler;
 	
 	@Autowired
 	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
@@ -43,7 +50,9 @@ public class WebSecurityConfig {
     			.anyRequest().authenticated())
     			//.anyRequest().permitAll())
     	.sessionManagement(management -> management
-    			.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+    			.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+    	.exceptionHandling(exception -> exception.authenticationEntryPoint(exceptionHandler))
+    	.addFilterBefore(authenticationFilter, UsernamePasswordAuthenticationFilter.class);
     	
         return http.build();
     }
