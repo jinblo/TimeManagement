@@ -6,19 +6,17 @@ import { useState } from "react";
 // Lisätään uusi työaikakirjaus
 
 const AddEntry = ({ saveEntry, projects }) => {
-  // State for new entry
-  const [entry, setEntry] = useState({
+  const emptyEntry = {
     entry_date: dayjs().format('YYYY-MM-DD'),
     start_time: dayjs().format('HH:mm:ss'),
     end_time: dayjs().add(6, 'h').format('HH:mm:ss'),
     comment: ''
-  })
-
-  // State for project
+  }
+  const [entry, setEntry] = useState(emptyEntry)
   const [project_id, setProject_id] = useState('')
-
-  // error message shown to user
   const [errorMessage, setErrorMessage] = useState('');
+  // Handling dialog 
+  const [open, setOpen] = useState(false);
 
   // Saving new entry
   const handleSave = () => {
@@ -38,17 +36,9 @@ const AddEntry = ({ saveEntry, projects }) => {
     }
   };
 
-  // Handling dialog 
-  const [open, setOpen] = useState(false);
-
   // Clearing the form and closing dialog
   const handleClose = () => {
-    setEntry({
-      entry_date: dayjs().format('YYYY-MM-DD'),
-      start_time: dayjs().format('HH:mm:ss'),
-      end_time: dayjs().add(6, 'h').format('HH:mm:ss'),
-      comment: ''
-    })
+    setEntry(emptyEntry)
     setProject_id('');
     setOpen(false);
   }

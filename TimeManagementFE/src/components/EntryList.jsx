@@ -5,7 +5,6 @@ import "ag-grid-community/styles/ag-theme-quartz.css";
 import AddEntry from './AddEntry';
 import DeleteEntry from './DeleteEntry';
 import EditEntry from './EditEntry';
-import { Alert } from '@mui/material';
 import AlertMessage from './AlertMessage';
 
 // Listataan työaikakirjausten tiedot, sekä jokaiselle kirjaukselle poista nappi
@@ -15,7 +14,6 @@ const EntryList = () => {
   const [entries, setEntries] = useState([])
   const [projects, setProjects] = useState()
   const [alert, setAlert] = useState(null)
-
   const alertMessage = useMemo(() => {
     switch (alert) {
       case 'success': {
@@ -32,8 +30,7 @@ const EntryList = () => {
     }
   }, [alert]);
 
-
-  // Fetch entries from REST API
+  // Kirjausten hakeminen APIsta
   const fetchData = () => {
     fetch('http://localhost:8080/entries')
       .then(response => response.json())
@@ -43,7 +40,7 @@ const EntryList = () => {
 
   useEffect(fetchData, []);
 
-  // Fetching all projects for select
+  // Projektien hakeminen APIsta
   useEffect(() => {
     fetch('http://localhost:8080/projects')
       .then(response => response.json())
@@ -51,7 +48,7 @@ const EntryList = () => {
       .catch(error => console.error(error))
   }, [])
 
-  // Create, Update or Delete entries from REST API
+  // Post, Put tai Delete pyyntöjen tekeminen APIin
   const fetchWithOptions = (href, options) => {
     fetch(href, options)
       .then(response => {
@@ -68,7 +65,7 @@ const EntryList = () => {
       })
   }
 
-  // Defining columns for ag-grid
+  // Ag-gridin sarakkeiden määritys
   const [colDefs, setColDefs] = useState([
     {
       field: "project.title",
