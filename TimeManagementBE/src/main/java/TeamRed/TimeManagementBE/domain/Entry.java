@@ -3,6 +3,7 @@ package TeamRed.TimeManagementBE.domain;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import jakarta.persistence.Entity;
@@ -31,7 +32,7 @@ public class Entry {
 
 	@ManyToOne
 	@JoinColumn(name = "appUser_id")
-	@JsonIgnoreProperties({ "appUserEntries" })
+	@JsonIgnore
 	private AppUser appUser;
 
 	public Entry() {

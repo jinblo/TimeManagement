@@ -19,11 +19,11 @@ public class AppUserDetailsService implements UserDetailsService {
 	}
 
 	@Override
-	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException
+	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException
 
 	{   
-		AppUser curruser = repository.findByEmail(username);
-		UserDetails user = new org.springframework.security.core.userdetails.User(username, curruser.getPassword_hash(), 
+		AppUser curruser = repository.findByEmail(email);
+		UserDetails user = new org.springframework.security.core.userdetails.User(email, curruser.getPassword_hash(), 
 				AuthorityUtils.createAuthorityList(curruser.getEmail()));
 		return user;
 	} 
