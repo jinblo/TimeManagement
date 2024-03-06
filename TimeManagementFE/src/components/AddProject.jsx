@@ -9,8 +9,10 @@ export default function AddProject(props) {
         title: '',
     })
 
-    // error message shown to user
     const [errorMessage, setErrorMessage] = useState('');
+
+    // Handling dialog 
+    const [open, setOpen] = useState(false);
 
     // handling all changes
     const handleChange = (e) => {
@@ -51,8 +53,11 @@ export default function AddProject(props) {
         }
     };
 
-    // Handling dialog 
-    const [open, setOpen] = useState(false);
+    // Clearing the form and closing dialog
+    const handleClose = () => {
+        setProject({ title: '' });
+        setOpen(false);
+      }
 
     return (
         <div style={{ marginTop: 20 }}>
@@ -74,7 +79,7 @@ export default function AddProject(props) {
                     />
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={() => setOpen(false)}>Peruuta</Button>
+                    <Button onClick={handleClose}>Peruuta</Button>
                     <Button onClick={addProject}>Tallenna</Button>
                 </DialogActions>
             </Dialog>
