@@ -28,7 +28,7 @@ Sovellus vaatii rekisteröitymisen. Rekisteröitynyt käyttäjä voi luoda proje
 
 | Attribute     | Type                    | Description                     | Validation                | Requirements |
 |:------------- |:------------------------|:--------------------------------|:--------------------------|:-------------|
-| id (PK)       | Long /Integer           | Project id                      |                           |              |
+| id (PK)       | long /Integer           | Project id                      |                           |              |
 | title         | String / Varchar        | Projektin nimi                  | A-z0-9.,-_!"#%&/()=?*{}[] | length>1     |
 | List Entry    | entries / OneToMany     | Projektiin liittyvät kirjaukset |                           |              |
 
@@ -36,7 +36,7 @@ Sovellus vaatii rekisteröitymisen. Rekisteröitynyt käyttäjä voi luoda proje
 
 | Attribute       | Type                    | Description                    | Validation                | Requirements |
 |:--------------- |:------------------------|:-------------------------------|:--------------------------|:-------------|
-| enty_id (PK)    | Long / Integer          | Entry id                       |                           |              |
+| enty_id (PK)    | long / Integer          | Entry id                       |                           |              |
 | comment         | String / Varchar        | Kirjauksen kommentti           | A-z0-9.,-_!"#%&/()=?*{}[] |              |
 | entry_date      | LocalDate / Date        | Kirjauksen päivämäärä          | 0-9-                      | 'YYYY-MM-DD' |
 | start_time      | LocalTime / Time        | Aloitusajankohta               | 0-9:                      | 'HH:mm:ss'   |
@@ -48,12 +48,12 @@ Sovellus vaatii rekisteröitymisen. Rekisteröitynyt käyttäjä voi luoda proje
 
 | Attribute     | Type                    | Description                      | Validation                | Requirements |
 |:------------- |:------------------------|:---------------------------------|:--------------------------|:-------------|
-| id (PK)       | Long / Integer          | AppUser id                       |                           |              |
+| id (PK)       | long / Integer          | AppUser id                       |                           |              |
 | first_name    | String / Varchar        | Käyttäjän etunimi                | A-z-                      | length>2     |
 | last_name     | String / Varchar        | Käyttäjän sukunimi               | A-z-                      | length>2     |
 | email         | String / Varchar        | Käyttäjän sähköposti             | A-z._-@                   | length>3     |
 | password_hash | String / Varchar        | Salasana hash muodossa           | A-z0-9.,-_!"#%&/()=?*{}[] | length>7     |
-| List Entry    | entries / OneToMany     | Projektiin liittyvät kirjaukset  |                           |              |
+| List Project  | projects / OneToMany    | Projektiin liittyvät kirjaukset  |                           |              |
 
 ## Api-dokumentaatio
 
