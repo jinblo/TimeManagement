@@ -6,12 +6,15 @@ import AddEntry from './AddEntry';
 import DeleteEntry from './DeleteEntry';
 import EditEntry from './EditEntry';
 import AlertMessage from './AlertMessage';
-import dataService from '../services/fetchData';
+import { useAuth } from '../services/AuthProvider';
+
 
 // Listataan työaikakirjausten tiedot, sekä jokaiselle kirjaukselle poista nappi
 // Lisää uusi työaikakirjaus -nappi myös mukana
 
 const EntryList = () => {
+  const { token } = useAuth()
+  const baseUrl = 'http://localhost:8080'
   const [entries, setEntries] = useState([])
   const [projects, setProjects] = useState()
   const [alert, setAlert] = useState(null)
@@ -33,17 +36,37 @@ const EntryList = () => {
 
   // Kirjausten hakeminen APIsta
   useEffect(() => {
-    dataService.fetchData('entries', setEntries)
+    fetch(`${baseUrl}/entries`, {
+      headers: {
+        'Authorization': token
+      }
+    })
+      .then(response => response.json())
+      .then(data => setEntries(data))
+      .catch(error => console.error(error))
   }, []);
 
   // Projektien hakeminen APIsta
   useEffect(() => {
-    dataService.fetchData('projects', setProjects)
+    fetch(`${baseUrl}/projects`, {
+      headers: {
+        'Authorization': token
+      }
+    })
+      .then(response => response.json())
+      .then(data => setProjects(data))
+      .catch(error => console.error(error))
   }, []);
+
 
   // Post, Put tai Delete pyyntöjen tekeminen APIin
   const fetchWithOptions = (href, options) => {
-    fetch(href, options)
+    fetch(href, {
+      ...options,
+      headers: {
+        'Authorization': token
+      }
+    })
       .then(response => {
         if (response.ok) {
           fetchData()

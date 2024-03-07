@@ -6,12 +6,15 @@ import AddProject from './AddProject';
 import DeleteProject from './DeleteProject';
 import EditProject from './EditProject';
 import AlertMessage from './AlertMessage';
+import { useAuth } from '../services/AuthProvider';
+
 
 // Listataan projektin tiedot. Jokaisella projektilla poista ja muokkaa napit
 // Lisää uusi projekti -nappi myös mukana 
 
 const ProjectList = () => {
-
+    const { token } = useAuth()
+    const baseUrl = 'http://localhost:8080'
     const [projects, setProjects] = useState([]);
     const [alert, setAlert] = useState(null)
 
@@ -33,7 +36,11 @@ const ProjectList = () => {
 
     // Fetching project data from the database
     const fetchData = () => {
-        fetch('http://localhost:8080/projects')
+        fetch(`${baseUrl}/projects`, {
+            headers: {
+                'Authorization': token
+            }
+        })
             .then(response => response.json())
             .then(data => setProjects(data))
             .catch(error => console.error(error))
