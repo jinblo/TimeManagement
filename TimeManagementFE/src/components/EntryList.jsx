@@ -5,17 +5,19 @@ import "ag-grid-community/styles/ag-theme-quartz.css";
 import AddEntry from './AddEntry';
 import DeleteEntry from './DeleteEntry';
 import EditEntry from './EditEntry';
-import { Alert } from '@mui/material';
 import AlertMessage from './AlertMessage';
+import { useAuth } from '../services/AuthProvider';
+
 
 // Listataan työaikakirjausten tiedot, sekä jokaiselle kirjaukselle poista nappi
 // Lisää uusi työaikakirjaus -nappi myös mukana
 
 const EntryList = () => {
+  const { token } = useAuth()
+  const baseUrl = 'http://localhost:8080'
   const [entries, setEntries] = useState([])
   const [projects, setProjects] = useState()
   const [alert, setAlert] = useState(null)
-
   const alertMessage = useMemo(() => {
     switch (alert) {
       case 'success': {
@@ -32,28 +34,39 @@ const EntryList = () => {
     }
   }, [alert]);
 
-
-  // Fetch entries from REST API
-  const fetchData = () => {
-    fetch('http://localhost:8080/entries')
+  // Kirjausten hakeminen APIsta
+  useEffect(() => {
+    fetch(`${baseUrl}/entries`, {
+      headers: {
+        'Authorization': token
+      }
+    })
       .then(response => response.json())
       .then(data => setEntries(data))
       .catch(error => console.error(error))
-  };
+  }, []);
 
-  useEffect(fetchData, []);
-
-  // Fetching all projects for select
+  // Projektien hakeminen APIsta
   useEffect(() => {
-    fetch('http://localhost:8080/projects')
+    fetch(`${baseUrl}/projects`, {
+      headers: {
+        'Authorization': token
+      }
+    })
       .then(response => response.json())
       .then(data => setProjects(data))
       .catch(error => console.error(error))
-  }, [])
+  }, []);
 
-  // Create, Update or Delete entries from REST API
+
+  // Post, Put tai Delete pyyntöjen tekeminen APIin
   const fetchWithOptions = (href, options) => {
-    fetch(href, options)
+    fetch(href, {
+      ...options,
+      headers: {
+        'Authorization': token
+      }
+    })
       .then(response => {
         if (response.ok) {
           fetchData()
@@ -68,7 +81,7 @@ const EntryList = () => {
       })
   }
 
-  // Defining columns for ag-grid
+  // Ag-gridin sarakkeiden määritys
   const [colDefs, setColDefs] = useState([
     {
       field: "project.title",
