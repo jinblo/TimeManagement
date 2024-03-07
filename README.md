@@ -26,34 +26,34 @@ Sovellus vaatii rekisteröitymisen. Rekisteröitynyt käyttäjä voi luoda proje
 
 ### Project / projekti
 
-| Attribute     | Type                    | Description                    |
-|:------------- |:------------------------|:-------------------------------|
-| id (PK)       | Long /Integer           | Project id                     |
-| title         | String / Varchar        | Projektin nimi                 |
-| List Entry    | entries / OneToMany     | Projektiin liittyvät kirjaukset|
+| Attribute     | Type                    | Description                     | Validation                           |
+|:------------- |:------------------------|:--------------------------------|:-------------------------------------|
+| id (PK)       | Long /Integer           | Project id                      |                                      |
+| title         | String / Varchar        | Projektin nimi                  | A-z0-9.,-_!"#%&/()=?*{}[]   length>1 |
+| List Entry    | entries / OneToMany     | Projektiin liittyvät kirjaukset |                                      |
 
 ### Entry / työaikakirjaus
 
-| Attribute       | Type                    | Description                    |
-|:--------------- |:------------------------|:-------------------------------|
-| enty_id (PK)    | Long / Integer          | Entry id                       |
-| comment         | String / Varchar        | Kirjauksen kommentti           |
-| entry_date      | LocalDate / Date        | Kirjauksen päivämäärä          |
-| start_time      | LocalTime / Time        | Aloitusajankohta               |
-| end_time        | LocalTime / Time        | Lopetusajankohta               |
-| project_id (FK) | JoinColumn / ManyToOne  | Viittaus projektiin            |
-| appUser_id (FK) | JoinColumn / ManyToOne  | Viittaus käyttäjään            |
+| Attribute       | Type                    | Description                    | Validation                          |
+|:--------------- |:------------------------|:-------------------------------|:------------------------------------|
+| enty_id (PK)    | Long / Integer          | Entry id                       |                                     |
+| comment         | String / Varchar        | Kirjauksen kommentti           | A-z0-9.,-_!"#%&/()=?*{}[]           |
+| entry_date      | LocalDate / Date        | Kirjauksen päivämäärä          | 0-9-                   'YYYY-MM-DD' |
+| start_time      | LocalTime / Time        | Aloitusajankohta               | 0-9:                     'HH:mm:ss' |
+| end_time        | LocalTime / Time        | Lopetusajankohta               | 0-9:                     'HH:mm:ss' |
+| project_id (FK) | JoinColumn / ManyToOne  | Viittaus projektiin            |                                     |
+| appUser_id (FK) | JoinColumn / ManyToOne  | Viittaus käyttäjään            |                                     |
 
 ### AppUser / käyttäjä
 
-| Attribute     | Type                    | Description                    |
-|:------------- |:------------------------|:-------------------------------|
-| id (PK)       | Long / Integer          | AppUser id                     |
-| first_name    | String / Varchar        | Käyttäjän etunimi              |
-| last_name     | String / Varchar        | Käyttäjän sukunimi             |
-| email         | String / Varchar        | Käyttäjän sähköposti           |
-| password_hash | String / Varchar        | Salasana hash muodossa         |
-| List Entry    | entries / OneToMany     | Projektiin liittyvät kirjaukset|
+| Attribute     | Type                    | Description                      | Validation                          |
+|:------------- |:------------------------|:---------------------------------|:------------------------------------|
+| id (PK)       | Long / Integer          | AppUser id                       |                                     |
+| first_name    | String / Varchar        | Käyttäjän etunimi                | A-z-                       length>2 |
+| last_name     | String / Varchar        | Käyttäjän sukunimi               | A-z-                       length>2 |
+| email         | String / Varchar        | Käyttäjän sähköposti             | A-z._-@                    length>3 |
+| password_hash | String / Varchar        | Salasana hash muodossa           | A-z0-9.,-_!"#%&/()=?*{}[]  length>7 |
+| List Entry    | entries / OneToMany     | Projektiin liittyvät kirjaukset  |                                     |
 
 ## Api-dokumentaatio
 
