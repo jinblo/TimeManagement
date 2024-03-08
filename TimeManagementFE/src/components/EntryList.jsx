@@ -35,7 +35,7 @@ const EntryList = () => {
   }, [alert]);
 
   // Kirjausten hakeminen APIsta
-  useEffect(() => {
+  const fetchEntries = () => {
     fetch(`${baseUrl}/entries`, {
       headers: {
         'Authorization': token
@@ -44,10 +44,11 @@ const EntryList = () => {
       .then(response => response.json())
       .then(data => setEntries(data))
       .catch(error => console.error(error))
-  }, []);
+  }
+  useEffect(fetchEntries, []);
 
   // Projektien hakeminen APIsta
-  useEffect(() => {
+  const fetchProjects = () => {
     fetch(`${baseUrl}/projects`, {
       headers: {
         'Authorization': token
@@ -56,7 +57,8 @@ const EntryList = () => {
       .then(response => response.json())
       .then(data => setProjects(data))
       .catch(error => console.error(error))
-  }, []);
+  }
+  useEffect(fetchProjects, []);
 
 
   // Post, Put tai Delete pyyntöjen tekeminen APIin
@@ -69,7 +71,7 @@ const EntryList = () => {
     })
       .then(response => {
         if (response.ok) {
-          fetchData()
+          fetchEntries()
           setAlert('success')
         } else {
           setAlert('error')
