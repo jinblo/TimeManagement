@@ -7,6 +7,8 @@ import DeleteEntry from './DeleteEntry';
 import EditEntry from './EditEntry';
 import AlertMessage from './AlertMessage';
 import { useAuth } from '../services/AuthProvider';
+import { getEntries } from '../services/EntryService';
+import { getProjects } from '../services/ProjectService';
 
 
 // Listataan työaikakirjausten tiedot, sekä jokaiselle kirjaukselle poista nappi
@@ -14,7 +16,6 @@ import { useAuth } from '../services/AuthProvider';
 
 const EntryList = () => {
   const { token } = useAuth()
-  const baseUrl = 'http://localhost:8080'
   const [entries, setEntries] = useState([])
   const [projects, setProjects] = useState()
   const [alert, setAlert] = useState(null)
@@ -23,7 +24,9 @@ const EntryList = () => {
       case 'success': {
         return <AlertMessage alert={alert} alertMessage="Kirjaus tallennettu onnistuneesti" setAlert={setAlert} />
       }
-
+      case 'deleted': {
+        return <AlertMessage alert={alert} alertMessage="Kirjaus poistettu onnistuneesti" setAlert={setAlert} />
+      }
       case 'error': {
         return <AlertMessage alert={alert} alertMessage="Kirjauksen tallennus epäonnistui" setAlert={setAlert} />
       }
@@ -36,52 +39,18 @@ const EntryList = () => {
 
   // Kirjausten hakeminen APIsta
   const fetchEntries = () => {
-    fetch(`${baseUrl}/entries`, {
-      headers: {
-        'Authorization': token
-      }
-    })
-      .then(response => response.json())
+    getEntries(token)
       .then(data => setEntries(data))
-      .catch(error => console.error(error))
   }
   useEffect(fetchEntries, []);
 
   // Projektien hakeminen APIsta
   const fetchProjects = () => {
-    fetch(`${baseUrl}/projects`, {
-      headers: {
-        'Authorization': token
-      }
-    })
-      .then(response => response.json())
+    getProjects(token)
       .then(data => setProjects(data))
-      .catch(error => console.error(error))
   }
   useEffect(fetchProjects, []);
 
-
-  // Post, Put tai Delete pyyntöjen tekeminen APIin
-  const fetchWithOptions = (href, options) => {
-    fetch(href, {
-      ...options,
-      headers: {
-        'Authorization': token
-      }
-    })
-      .then(response => {
-        if (response.ok) {
-          fetchEntries()
-          setAlert('success')
-        } else {
-          setAlert('error')
-        }
-      }
-      )
-      .catch(error => {
-        console.error(error)
-      })
-  }
 
   // Ag-gridin sarakkeiden määritys
   const [colDefs, setColDefs] = useState([
@@ -113,7 +82,7 @@ const EntryList = () => {
       width: 110,
       cellRenderer: params => {
         return (
-          <EditEntry oldEntry={params.data} saveEntry={fetchWithOptions} projects={projects} />
+          <EditEntry oldEntry={params.data} setAlert={setAlert} fetchEntries={fetchEntries} />
         )
       }
     },
@@ -125,7 +94,7 @@ const EntryList = () => {
       width: 100,
       cellRenderer: params => {
         return (
-          <DeleteEntry entry_id={params.value} deleteEntry={fetchWithOptions} />
+          <DeleteEntry entry_id={params.value} setAlert={setAlert} fetchEntries={fetchEntries} />
         )
       }
     },
@@ -134,7 +103,7 @@ const EntryList = () => {
   return (
     <div>
       {alertMessage}
-      <AddEntry saveEntry={fetchWithOptions} projects={projects} />
+      <AddEntry projects={projects} setAlert={setAlert} fetchEntries={fetchEntries} />
       <div className="ag-theme-quartz" style={{ height: 500, marginTop: 10 }}>
         <AgGridReact
           rowData={entries}
