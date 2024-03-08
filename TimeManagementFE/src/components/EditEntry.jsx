@@ -6,7 +6,7 @@ import { useState } from "react";
 // Työaikakirjauksen muokkaaminen. Kirjauksen siirtäminen projektilta toiselle ei ole nyt mahdollista.
 
 const EditEntry = ({ oldEntry, saveEntry, projects }) => {
-  const [entry, setEntry] = useState({
+  const emptyEntry = {
     entry_id: '',
     entry_date: '',
     start_time: '',
@@ -16,34 +16,24 @@ const EditEntry = ({ oldEntry, saveEntry, projects }) => {
       id: '',
       title: ''
     }
-  })
-
-  // State for dialog
+  }
+  const [entry, setEntry] = useState(emptyEntry)
+  // Dialogin tila
   const [open, setOpen] = useState(false);
 
-  // Opening dialog with entry data
+  // Dialogin avaus muokattavan kirjauksen tiedoilla
   const handleClickOpen = () => {
     setEntry(oldEntry)
     setOpen(true)
   }
 
-  // Clearing the form and closing dialog
+  // Dialogin sulkeminen ja lomakkeen tyhjennys
   const handleClose = () => {
-    setEntry({
-      entry_id: '',
-      entry_date: '',
-      start_time: '',
-      end_time: '',
-      comment: '',
-      project: {
-        id: '',
-        title: ''
-      }
-    })
+    setEntry(emptyEntry)
     setOpen(false);
   }
 
-  // Handling changes 
+  // Muutosten hallinnointi
   const handleChange = e => {
     let data = { ...entry }
     let name = e.target.name
@@ -64,7 +54,7 @@ const EditEntry = ({ oldEntry, saveEntry, projects }) => {
     setEntry(data)
   }
 
-  // Saving edited entry
+  // Muokatun kirjauksen tallennus
   const handleSave = () => {
     const href = `http://localhost:8080/projects/${entry.project.id}/entries/${entry.entry_id}`
     const options = {

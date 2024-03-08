@@ -8,19 +8,11 @@ import DialogTitle from '@mui/material/DialogTitle';
 
 // Poistetaan työaikakirjaus ja pyydetään varmentamaan kirjauksen poisto
 
-export default function DeleteEntry(props) {
+export default function DeleteEntry({ entry_id }) {
   const [open, setOpen] = useState(false);
 
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
-
   const handleDelete = () => {
-    const href = `http://localhost:8080/entries/${props.entry_id}`
+    const href = `http://localhost:8080/entries/${entry_id}`
     const options = {
       method: 'delete'
     }
@@ -30,12 +22,12 @@ export default function DeleteEntry(props) {
 
   return (
     <div>
-      <Button variant="outlined" color="error" size='small' onClick={handleClickOpen}>
+      <Button variant="outlined" color="error" size='small' onClick={() => setOpen(true)}>
         Poista
       </Button>
       <Dialog
         open={open}
-        onClose={handleClose}
+        onClose={() => setOpen(false)}
       >
         <DialogTitle>
           {"Delete"}
@@ -46,7 +38,7 @@ export default function DeleteEntry(props) {
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose}>Peruuta</Button>
+          <Button onClick={() => setOpen(false)}>Peruuta</Button>
           <Button color="error" onClick={handleDelete} autoFocus>
             Poista
           </Button>
