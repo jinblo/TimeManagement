@@ -3,8 +3,10 @@ package TeamRed.TimeManagementBE.domain;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonView;
 
+import TeamRed.TimeManagementBE.domain.Project.DetailedProjectView;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -13,6 +15,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 
 @Entity
+@JsonView(DetailedProjectView.class)
 public class Entry {
 
 	@Id
@@ -26,7 +29,7 @@ public class Entry {
 
 	@ManyToOne
 	@JoinColumn(name = "project_id")
-	@JsonIgnoreProperties({ "entries" })
+	@JsonIgnore
 	private Project project;
 
 	public Entry() {

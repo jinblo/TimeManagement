@@ -12,7 +12,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import TeamRed.TimeManagementBE.web.AppUserDetailsService;
+import TeamRed.TimeManagementBE.service.AppUserDetailsService;
+
 import static org.springframework.security.web.util.matcher.AntPathRequestMatcher.antMatcher;
 
 @Configuration
@@ -48,7 +49,6 @@ public class WebSecurityConfig {
     	.authorizeHttpRequests(authorize -> authorize
     			.requestMatchers(antMatcher("/login")).permitAll()
     			.anyRequest().authenticated())
-    			//.anyRequest().permitAll())
     	.sessionManagement(management -> management
     			.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
     	.exceptionHandling(exception -> exception.authenticationEntryPoint(exceptionHandler))
