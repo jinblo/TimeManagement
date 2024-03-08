@@ -6,9 +6,11 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.server.ResponseStatusException;
 
+import com.fasterxml.jackson.annotation.JsonView;
 
 import TeamRed.TimeManagementBE.domain.ProjectRepository;
 import TeamRed.TimeManagementBE.domain.Project;
@@ -28,12 +30,19 @@ public class ProjectRESTController {
 
     @Autowired
 	private ProjectRepository repository;
+    
+    private String getUserDetails() {
+    	Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+    	String username = auth.getName();
+    	return username;
+    }
 
-    //Kaikkien projektien haku
+    //Kaikkien tietyn käyttäjän projektien haku
 	@GetMapping("projects")
+	@JsonView(Project.ProjectOverview.class)
 	public ResponseEntity<?> getProjects() {
 		try {
-			Iterable<Project> projects = repository.findAll();
+			Iterable<Project> projects = repository.findByAppUser_Email(getUserDetails());
 			if (((List<Project>) projects).isEmpty()) {
 				return new ResponseEntity<>("Projekteja ei löytynyt", HttpStatus.NO_CONTENT);
 			}
@@ -43,15 +52,19 @@ public class ProjectRESTController {
 		}
 	}
 
-	// Palauttaa projektin haetulla id:llä
+	// Palauttaa projektin haetulla id:llä, jos kyseessä käyttäjän oma projekti
 		@GetMapping("/projects/{projectId}")
-		public Optional<Project> getProject(@PathVariable("projectId") Long id) {
-			
-			Optional<Project> projectById = repository.findById(id);
-			if (projectById.isEmpty()) {
-				throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Annetulla id:llä ei löytynyt projektia");
+		@JsonView(Project.DetailedProjectView.class)
+		public ResponseEntity<?> getProjectById(@PathVariable("projectId") Long id) {
+			try {
+				Optional<Project> projectById = repository.findById(id);
+				if (!projectById.isEmpty() && projectById.get().getAppUser().getEmail().equals(getUserDetails())) {
+					return new ResponseEntity<>(projectById, HttpStatus.OK);
+				}
+				return new ResponseEntity<>("Annetulla id:llä ei löytynyt projektia", HttpStatus.NOT_FOUND);
+			} catch (Exception e) {
+				return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 			}
-			return projectById;
 		}
 			
 	//Uuden projektin lisääminen

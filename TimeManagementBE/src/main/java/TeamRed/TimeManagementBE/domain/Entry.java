@@ -3,7 +3,6 @@ package TeamRed.TimeManagementBE.domain;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import jakarta.persistence.Entity;
@@ -30,24 +29,18 @@ public class Entry {
 	@JsonIgnoreProperties({ "entries" })
 	private Project project;
 
-	@ManyToOne
-	@JoinColumn(name = "appUser_id")
-	@JsonIgnore
-	private AppUser appUser;
-
 	public Entry() {
 		super();
 	}
 
 	public Entry(String comment, LocalDate entry_date, LocalTime start_time, LocalTime end_time,
-			Project project, AppUser appUser) {
+			Project project) {
 		super();
 		this.comment = comment;
 		this.entry_date = entry_date;
 		this.start_time = start_time;
 		this.end_time = end_time;
 		this.project = project;
-		this.appUser = appUser;
 	}
 
 	public long getEntry_id() {
@@ -96,14 +89,6 @@ public class Entry {
 
 	public void setProject(Project project) {
 		this.project = project;
-	}
-
-	public AppUser getAppUser() {
-		return appUser;
-	}
-
-	public void setAppUser(AppUser appUser) {
-		this.appUser = appUser;
 	}
 
 }
