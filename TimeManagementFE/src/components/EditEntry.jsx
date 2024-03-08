@@ -33,27 +33,6 @@ const EditEntry = ({ oldEntry, saveEntry, projects }) => {
     setOpen(false);
   }
 
-  // Muutosten hallinnointi
-  const handleChange = e => {
-    let data = { ...entry }
-    let name = e.target.name
-    let value = e.target.value
-    if (name == 'id') {
-      data = {
-        ...data,
-        project: {
-          [name]: value
-        }
-      }
-    } else {
-      data = {
-        ...data,
-        [name]: value
-      }
-    }
-    setEntry(data)
-  }
-
   // Muokatun kirjauksen tallennus
   const handleSave = () => {
     const href = `http://localhost:8080/projects/${entry.project.id}/entries/${entry.entry_id}`
@@ -85,11 +64,6 @@ const EditEntry = ({ oldEntry, saveEntry, projects }) => {
                 input={<OutlinedInput label="Projekti" />}
               >
                 <MenuItem key={entry.project.id} value={entry.project.id}>{entry.project.title}</MenuItem>
-                { /* List projects for select, current backend does NOT support
-                projects ? projects.map(project => {
-                  return <MenuItem key={project.id} value={project.id}>{project.title}</MenuItem>
-                })
-              : null */ }
               </Select>
             </FormControl>
           </Box>
@@ -122,7 +96,7 @@ const EditEntry = ({ oldEntry, saveEntry, projects }) => {
             label="Muistiinpanot"
             value={entry.comment}
             type="text"
-            onChange={e => setEntry({ ...entry, [e.target.name]: e.target.value })}
+            onChange={e => setEntry({ ...entry, comment: e.target.value })}
           />
         </DialogContent>
         <DialogActions>
