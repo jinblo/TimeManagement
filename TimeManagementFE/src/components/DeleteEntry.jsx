@@ -6,12 +6,10 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import { deleteEntry } from '../services/EntryService';
-import { useAuth } from '../services/AuthProvider';
 
 // Poistetaan työaikakirjaus ja pyydetään varmentamaan kirjauksen poisto
 
-export default function DeleteEntry({ entry_id, setAlert, fetchEntries }) {
-  const { token } = useAuth()
+export default function DeleteEntry({ token, entry_id, setAlert, fetchEntries }) {
   const [open, setOpen] = useState(false);
 
   const handleDelete = () => {
@@ -19,7 +17,7 @@ export default function DeleteEntry({ entry_id, setAlert, fetchEntries }) {
       .then(response => {
         if (response.ok) {
           fetchEntries()
-          setAlert('deleted')
+          setAlert('info')
         } else {
           setAlert('error')
         }

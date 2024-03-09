@@ -24,7 +24,7 @@ const EntryList = () => {
       case 'success': {
         return <AlertMessage alert={alert} alertMessage="Kirjaus tallennettu onnistuneesti" setAlert={setAlert} />
       }
-      case 'deleted': {
+      case 'info': {
         return <AlertMessage alert={alert} alertMessage="Kirjaus poistettu onnistuneesti" setAlert={setAlert} />
       }
       case 'error': {
@@ -82,7 +82,7 @@ const EntryList = () => {
       width: 110,
       cellRenderer: params => {
         return (
-          <EditEntry oldEntry={params.data} setAlert={setAlert} fetchEntries={fetchEntries} />
+          <EditEntry token={token} oldEntry={params.data} setAlert={setAlert} fetchEntries={fetchEntries} />
         )
       }
     },
@@ -94,7 +94,7 @@ const EntryList = () => {
       width: 100,
       cellRenderer: params => {
         return (
-          <DeleteEntry entry_id={params.value} setAlert={setAlert} fetchEntries={fetchEntries} />
+          <DeleteEntry token={token} entry_id={params.value} setAlert={setAlert} fetchEntries={fetchEntries} />
         )
       }
     },
@@ -103,7 +103,7 @@ const EntryList = () => {
   return (
     <div>
       {alertMessage}
-      <AddEntry projects={projects} setAlert={setAlert} fetchEntries={fetchEntries} />
+      <AddEntry token={token} projects={projects} setAlert={setAlert} fetchEntries={fetchEntries} />
       <div className="ag-theme-quartz" style={{ height: 500, marginTop: 10 }}>
         <AgGridReact
           rowData={entries}

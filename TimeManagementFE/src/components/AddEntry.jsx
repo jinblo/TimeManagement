@@ -3,12 +3,10 @@ import { DatePicker, TimePicker } from "@mui/x-date-pickers";
 import dayjs from "dayjs";
 import { useState } from "react";
 import { postEntry } from "../services/EntryService";
-import { useAuth } from "../services/AuthProvider";
 
 // Lisätään uusi työaikakirjaus
 
-const AddEntry = ({ projects, setAlert, fetchEntries }) => {
-  const { token } = useAuth()
+const AddEntry = ({ token, projects, setAlert, fetchEntries }) => {
   const emptyEntry = {
     entry_date: dayjs().format('YYYY-MM-DD'),
     start_time: dayjs().format('HH:mm:ss'),

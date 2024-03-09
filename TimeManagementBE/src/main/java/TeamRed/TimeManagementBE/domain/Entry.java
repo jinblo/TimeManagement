@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonView;
 
 import TeamRed.TimeManagementBE.domain.Project.DetailedProjectView;
@@ -29,7 +30,8 @@ public class Entry {
 
 	@ManyToOne
 	@JoinColumn(name = "project_id")
-	@JsonIgnore
+	// @JsonIgnore
+	@JsonIgnoreProperties({ "entries" })
 	private Project project;
 
 	public Entry() {

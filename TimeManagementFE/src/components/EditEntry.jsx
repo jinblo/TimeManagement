@@ -2,13 +2,11 @@ import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, FormCon
 import { DatePicker, TimePicker } from "@mui/x-date-pickers";
 import dayjs from "dayjs";
 import { useState } from "react";
-import { useAuth } from "../services/AuthProvider";
 import { putEntry } from "../services/EntryService";
 
 // Työaikakirjauksen muokkaaminen. Kirjauksen siirtäminen projektilta toiselle ei ole nyt mahdollista.
 
-const EditEntry = ({ oldEntry, setAlert, fetchEntries }) => {
-  const { token } = useAuth()
+const EditEntry = ({ token, oldEntry, setAlert, fetchEntries }) => {
   const emptyEntry = {
     entry_id: '',
     entry_date: '',

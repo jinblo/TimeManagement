@@ -7,6 +7,7 @@ import DeleteProject from './DeleteProject';
 import EditProject from './EditProject';
 import AlertMessage from './AlertMessage';
 import { useAuth } from '../services/AuthProvider';
+import { getProjects } from '../services/ProjectService';
 
 
 // Listataan projektin tiedot. Jokaisella projektilla poista ja muokkaa napit
@@ -14,7 +15,6 @@ import { useAuth } from '../services/AuthProvider';
 
 const ProjectList = () => {
     const { token } = useAuth()
-    const baseUrl = 'http://localhost:8080'
     const [projects, setProjects] = useState([]);
     const [alert, setAlert] = useState(null)
 
@@ -35,18 +35,11 @@ const ProjectList = () => {
     }, [alert]);
 
     // Fetching project data from the database
-    const fetchData = () => {
-        fetch(`${baseUrl}/projects`, {
-            headers: {
-                'Authorization': token
-            }
-        })
-            .then(response => response.json())
+    const fetchProjects = () => {
+        getProjects(token)
             .then(data => setProjects(data))
-            .catch(error => console.error(error))
-    };
-
-    useEffect(fetchData, []);
+    }
+    useEffect(fetchProjects, []);
 
     const fetchWithOptions = (href, options) => {
         fetch(href, options)
@@ -74,7 +67,7 @@ const ProjectList = () => {
             headerName: "Muokkaa",
             cellRenderer: params => {
                 return (
-                    <EditProject editData={params.data} editProject={fetchWithOptions} />
+                    <EditProject token={token} editData={params.data} fetchProjects={fetchProjects} />
                 )
             }
         },
@@ -83,7 +76,7 @@ const ProjectList = () => {
             headerName: "Poista",
             cellRenderer: params => {
                 return (
-                    <DeleteProject id={params.value} deleteProject={fetchWithOptions} />
+                    <DeleteProject token={token} id={params.value} fetchProjects={fetchProjects} />
                 )
             }
         },
@@ -104,7 +97,7 @@ const ProjectList = () => {
                 paginateChildRows={true}
                 autoSizeStrategy={{ type: 'fitCellContents' }}
             />
-            <AddProject addProject={fetchWithOptions} />
+            <AddProject token={token} fetchProjects={fetchProjects} />
         </div>
     )
 };
