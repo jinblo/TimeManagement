@@ -1,4 +1,4 @@
-package TeamRed.TimeManagementBE.web;
+package TeamRed.TimeManagementBE.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.stereotype.Service;
@@ -11,22 +11,19 @@ import TeamRed.TimeManagementBE.domain.AppUser;
 
 @Service
 public class AppUserDetailsService implements UserDetailsService {
-	private final AppUserRepository repository;
-
+	
 	@Autowired
-	public AppUserDetailsService(AppUserRepository appuserRepository) {
-		this.repository = appuserRepository;
-	}
-
+	private AppUserRepository repository;
+	
 	@Override
-	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException
-
-	{   
+	public UserDetails loadUserByUsername(String email) {
 		AppUser curruser = repository.findByEmail(email);
-		UserDetails user = new org.springframework.security.core.userdetails.User(email, curruser.getPassword_hash(), 
+		if (curruser == null) {
+			throw new UsernameNotFoundException("User not found");
+		}
+		UserDetails user = new org.springframework.security.core.userdetails.User(email, curruser.getPassword_hash(),
 				AuthorityUtils.createAuthorityList(curruser.getEmail()));
 		return user;
-	} 
+	}
 	
-
 }

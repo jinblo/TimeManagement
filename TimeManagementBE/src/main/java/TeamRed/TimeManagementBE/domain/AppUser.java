@@ -22,13 +22,13 @@ public class AppUser {
     private String last_name;
     private String email;
     private String password_hash;
+    
+    @JsonIgnoreProperties({ "appUser" })
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "appUser")
+    private List<Project> projects;
 
     public AppUser() {
     }
-
-    @JsonIgnoreProperties({ "appUser" })
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "appUser")
-    private List<Entry> entries;
 
     public AppUser(String first_name, String last_name, String email, String password_hash) {
         this.first_name = first_name;
@@ -78,12 +78,13 @@ public class AppUser {
         this.password_hash = password_hash;
     }
 
-    public List<Entry> getEntries() {
-        return entries;
-    }
+	public List<Project> getProjects() {
+		return projects;
+	}
 
-    public void setEntries(List<Entry> entries) {
-        this.entries = entries;
-    }
+	public void setProjects(List<Project> projects) {
+		this.projects = projects;
+	}
+
 
 }

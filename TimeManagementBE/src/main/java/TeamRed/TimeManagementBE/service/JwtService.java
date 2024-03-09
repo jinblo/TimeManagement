@@ -4,6 +4,7 @@ import java.security.Key;
 import java.util.Date;
 
 import org.springframework.http.HttpHeaders;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.stereotype.Component;
 
 import io.jsonwebtoken.Jwts;
@@ -30,18 +31,21 @@ public class JwtService {
 	//Gets a token from request Authorization header, verifies a token, gets username
 	public String getAuthUser(HttpServletRequest request) {
 		String token = request.getHeader(HttpHeaders.AUTHORIZATION);
-		
-		if (token != null) {
-			String user = Jwts.parserBuilder()
-					.setSigningKey(key)
-					.build()
-					.parseClaimsJws(token.replace(PREFIX, ""))
-					.getBody()
-					.getSubject();
-			if (user != null) {
-				return user;
+		try {
+			if (token != null) {
+				String user = Jwts.parserBuilder()
+						.setSigningKey(key)
+						.build()
+						.parseClaimsJws(token.replace(PREFIX, ""))
+						.getBody()
+						.getSubject();
+				if (user != null) {
+					return user;
+				}
 			}
+			return null;
+		} catch (Exception e) {
+			throw new BadCredentialsException("Invalid token");
 		}
-		return null;
 	}
 }
