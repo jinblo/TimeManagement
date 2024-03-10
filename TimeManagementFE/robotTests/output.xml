@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot generator="Robot 6.1.1 (Python 3.11.5 on darwin)" generated="20240310 14:09:25.345" rpa="false" schemaversion="4">
+<suite id="s1" name="Test" source="/Users/ullamontonen/Documents/Ohjelmistoprojekti2/TimeManagement/TimeManagementFE/robotTests/test.robot">
+<test id="s1-t1" name="Login to the TimeManagement service" line="28">
+<kw name="Open Browser" library="SeleniumLibrary">
+<arg>${URL}</arg>
+<arg>${Browser}</arg>
+<doc>Opens a new browser instance to the optional ``url``.</doc>
+<msg timestamp="20240310 14:09:25.726" level="INFO">Opening browser 'Chrome' to base url 'http://localhost:5173/login'.</msg>
+<status status="PASS" starttime="20240310 14:09:25.724" endtime="20240310 14:09:31.454"/>
+</kw>
+<kw name="Input Text" library="SeleniumLibrary">
+<arg>username</arg>
+<arg>${Username}</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<msg timestamp="20240310 14:09:31.459" level="INFO">Typing text 'email@email.com' into text field 'username'.</msg>
+<status status="PASS" starttime="20240310 14:09:31.458" endtime="20240310 14:09:31.904"/>
+</kw>
+<kw name="Input Text" library="SeleniumLibrary">
+<arg>password</arg>
+<arg>${Password}</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<msg timestamp="20240310 14:09:31.905" level="INFO">Typing text 'AppUser1' into text field 'password'.</msg>
+<status status="PASS" starttime="20240310 14:09:31.904" endtime="20240310 14:09:32.139"/>
+</kw>
+<kw name="Click Button" library="SeleniumLibrary">
+<arg>Login</arg>
+<doc>Clicks the button identified by ``locator``.</doc>
+<msg timestamp="20240310 14:09:32.141" level="INFO">Clicking button 'Login'.</msg>
+<status status="PASS" starttime="20240310 14:09:32.140" endtime="20240310 14:09:37.452"/>
+</kw>
+<kw name="Page Should Contain" library="SeleniumLibrary">
+<arg>Tämä on etusivu</arg>
+<doc>Verifies that current page contains ``text``.</doc>
+<msg timestamp="20240310 14:09:37.809" level="INFO">Current page contains text 'Tämä on etusivu'.</msg>
+<status status="PASS" starttime="20240310 14:09:37.453" endtime="20240310 14:09:37.809"/>
+</kw>
+<status status="PASS" starttime="20240310 14:09:25.723" endtime="20240310 14:09:37.809"/>
+</test>
+<test id="s1-t2" name="Adding a new project after logged in" line="36">
+<kw name="Click Link" library="SeleniumLibrary">
+<arg>Projektit</arg>
+<doc>Clicks a link identified by ``locator``.</doc>
+<msg timestamp="20240310 14:09:37.811" level="INFO">Clicking link 'Projektit'.</msg>
+<status status="PASS" starttime="20240310 14:09:37.810" endtime="20240310 14:09:38.109"/>
+</kw>
+<kw name="Click Button" library="SeleniumLibrary">
+<arg>Lisää uusi projekti</arg>
+<doc>Clicks the button identified by ``locator``.</doc>
+<msg timestamp="20240310 14:09:38.111" level="INFO">Clicking button 'Lisää uusi projekti'.</msg>
+<status status="PASS" starttime="20240310 14:09:38.110" endtime="20240310 14:09:43.434"/>
+</kw>
+<kw name="Input Text" library="SeleniumLibrary">
+<arg>name=title</arg>
+<arg>RobotTest</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<msg timestamp="20240310 14:09:43.436" level="INFO">Typing text 'RobotTest' into text field 'name=title'.</msg>
+<status status="PASS" starttime="20240310 14:09:43.435" endtime="20240310 14:09:43.853"/>
+</kw>
+<kw name="Click Button" library="SeleniumLibrary">
+<arg>Tallenna</arg>
+<doc>Clicks the button identified by ``locator``.</doc>
+<msg timestamp="20240310 14:09:43.854" level="INFO">Clicking button 'Tallenna'.</msg>
+<status status="PASS" starttime="20240310 14:09:43.853" endtime="20240310 14:09:48.960"/>
+</kw>
+<kw name="Page Should Contain" library="SeleniumLibrary">
+<arg>RobotTest</arg>
+<doc>Verifies that current page contains ``text``.</doc>
+<msg timestamp="20240310 14:09:49.136" level="INFO">Current page contains text 'RobotTest'.</msg>
+<status status="PASS" starttime="20240310 14:09:48.961" endtime="20240310 14:09:49.136"/>
+</kw>
+<status status="PASS" starttime="20240310 14:09:37.810" endtime="20240310 14:09:49.137"/>
+</test>
+<test id="s1-t3" name="Editing a project" line="45">
+<kw name="Click Button" library="SeleniumLibrary">
+<arg>Muokkaa</arg>
+<doc>Clicks the button identified by ``locator``.</doc>
+<msg timestamp="20240310 14:09:49.143" level="INFO">Clicking button 'Muokkaa'.</msg>
+<status status="PASS" starttime="20240310 14:09:49.142" endtime="20240310 14:09:54.303"/>
+</kw>
+<kw name="Input Text" library="SeleniumLibrary">
+<arg>name=title</arg>
+<arg>Edited</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<msg timestamp="20240310 14:09:54.304" level="INFO">Typing text 'Edited' into text field 'name=title'.</msg>
+<status status="PASS" starttime="20240310 14:09:54.304" endtime="20240310 14:09:54.578"/>
+</kw>
+<kw name="Click Button" library="SeleniumLibrary">
+<arg>Tallenna</arg>
+<doc>Clicks the button identified by ``locator``.</doc>
+<msg timestamp="20240310 14:09:54.579" level="INFO">Clicking button 'Tallenna'.</msg>
+<status status="PASS" starttime="20240310 14:09:54.578" endtime="20240310 14:09:59.680"/>
+</kw>
+<kw name="Page Should Contain" library="SeleniumLibrary">
+<arg>Edited</arg>
+<doc>Verifies that current page contains ``text``.</doc>
+<msg timestamp="20240310 14:09:59.782" level="INFO">Current page contains text 'Edited'.</msg>
+<status status="PASS" starttime="20240310 14:09:59.680" endtime="20240310 14:09:59.783"/>
+</kw>
+<status status="PASS" starttime="20240310 14:09:49.137" endtime="20240310 14:09:59.783"/>
+</test>
+<test id="s1-t4" name="Editing a entry" line="64">
+<kw name="Click Link" library="SeleniumLibrary">
+<arg>Tuntikirjaukset</arg>
+<doc>Clicks a link identified by ``locator``.</doc>
+<msg timestamp="20240310 14:09:59.787" level="INFO">Clicking link 'Tuntikirjaukset'.</msg>
+<status status="PASS" starttime="20240310 14:09:59.786" endtime="20240310 14:10:00.263"/>
+</kw>
+<kw name="Click Button" library="SeleniumLibrary">
+<arg>Muokkaa</arg>
+<doc>Clicks the button identified by ``locator``.</doc>
+<msg timestamp="20240310 14:10:00.264" level="INFO">Clicking button 'Muokkaa'.</msg>
+<status status="PASS" starttime="20240310 14:10:00.263" endtime="20240310 14:10:05.711"/>
+</kw>
+<kw name="Input Text" library="SeleniumLibrary">
+<arg>name=entry</arg>
+<arg>RobotTestEntry</arg>
+<doc>Types the given ``text`` into the text field identified by ``locator``.</doc>
+<msg timestamp="20240310 14:10:05.712" level="INFO">Typing text 'RobotTestEntry' into text field 'name=entry'.</msg>
+<status status="PASS" starttime="20240310 14:10:05.711" endtime="20240310 14:10:06.687"/>
+</kw>
+<kw name="Click Button" library="SeleniumLibrary">
+<arg>Tallenna</arg>
+<doc>Clicks the button identified by ``locator``.</doc>
+<msg timestamp="20240310 14:10:06.689" level="INFO">Clicking button 'Tallenna'.</msg>
+<status status="PASS" starttime="20240310 14:10:06.687" endtime="20240310 14:10:11.938"/>
+</kw>
+<kw name="Page Should Contain" library="SeleniumLibrary">
+<arg>RobotTestEntry</arg>
+<doc>Verifies that current page contains ``text``.</doc>
+<msg timestamp="20240310 14:10:12.060" level="INFO">Current page contains text 'RobotTestEntry'.</msg>
+<status status="PASS" starttime="20240310 14:10:11.938" endtime="20240310 14:10:12.060"/>
+</kw>
+<status status="PASS" starttime="20240310 14:09:59.785" endtime="20240310 14:10:12.060"/>
+</test>
+<test id="s1-t5" name="Logging out" line="83">
+<kw name="Click Link" library="SeleniumLibrary">
+<arg>Logout</arg>
+<doc>Clicks a link identified by ``locator``.</doc>
+<msg timestamp="20240310 14:10:12.061" level="INFO">Clicking link 'Logout'.</msg>
+<status status="PASS" starttime="20240310 14:10:12.061" endtime="20240310 14:10:12.172"/>
+</kw>
+<kw name="Page Should Contain" library="SeleniumLibrary">
+<arg>Sinut on kirjattu ulos</arg>
+<doc>Verifies that current page contains ``text``.</doc>
+<msg timestamp="20240310 14:10:12.194" level="INFO">Current page contains text 'Sinut on kirjattu ulos'.</msg>
+<status status="PASS" starttime="20240310 14:10:12.172" endtime="20240310 14:10:12.194"/>
+</kw>
+<status status="PASS" starttime="20240310 14:10:12.061" endtime="20240310 14:10:12.195"/>
+</test>
+<test id="s1-t6" name="Closing Browser" line="88">
+<kw name="Close Browser" library="SeleniumLibrary">
+<doc>Closes the current browser.</doc>
+<status status="PASS" starttime="20240310 14:10:12.196" endtime="20240310 14:10:13.097"/>
+</kw>
+<status status="PASS" starttime="20240310 14:10:12.195" endtime="20240310 14:10:13.097"/>
+</test>
+<doc>Test to check RF environment w/ SeleniumLibrary &amp; ChromeDriver.</doc>
+<status status="PASS" starttime="20240310 14:09:25.348" endtime="20240310 14:10:13.100"/>
+</suite>
+<statistics>
+<total>
+<stat pass="6" fail="0" skip="0">All Tests</stat>
+</total>
+<tag>
+</tag>
+<suite>
+<stat pass="6" fail="0" skip="0" id="s1" name="Test">Test</stat>
+</suite>
+</statistics>
+<errors>
+</errors>
+</robot>
