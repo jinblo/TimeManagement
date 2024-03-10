@@ -2,10 +2,11 @@ import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, FormCon
 import { DatePicker, TimePicker } from "@mui/x-date-pickers";
 import dayjs from "dayjs";
 import { useState } from "react";
+import { putEntry } from "../services/EntryService";
 
 // Työaikakirjauksen muokkaaminen. Kirjauksen siirtäminen projektilta toiselle ei ole nyt mahdollista.
 
-const EditEntry = ({ oldEntry, saveEntry, projects }) => {
+const EditEntry = ({ token, oldEntry, setAlert, fetchEntries }) => {
   const emptyEntry = {
     entry_id: '',
     entry_date: '',
@@ -35,16 +36,16 @@ const EditEntry = ({ oldEntry, saveEntry, projects }) => {
 
   // Muokatun kirjauksen tallennus
   const handleSave = () => {
-    const href = `http://localhost:8080/projects/${entry.project.id}/entries/${entry.entry_id}`
-    const options = {
-      method: 'put',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(entry)
-    }
-    saveEntry(href, options);
-    handleClose();
+    putEntry(token, entry)
+      .then(response => {
+        if (response.ok) {
+          fetchEntries()
+          setAlert('success')
+        } else {
+          setAlert('error')
+        }
+      })
+    handleClose()
   };
 
   return (

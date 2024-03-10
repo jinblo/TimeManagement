@@ -2,10 +2,11 @@ import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, FormCon
 import { DatePicker, TimePicker } from "@mui/x-date-pickers";
 import dayjs from "dayjs";
 import { useState } from "react";
+import { postEntry } from "../services/EntryService";
 
 // Lisätään uusi työaikakirjaus
 
-const AddEntry = ({ saveEntry, projects }) => {
+const AddEntry = ({ token, projects, setAlert, fetchEntries }) => {
   const emptyEntry = {
     entry_date: dayjs().format('YYYY-MM-DD'),
     start_time: dayjs().format('HH:mm:ss'),
@@ -21,15 +22,15 @@ const AddEntry = ({ saveEntry, projects }) => {
   // Saving new entry
   const handleSave = () => {
     if (project_id) {
-      const href = `http://localhost:8080/projects/${project_id}/entries`
-      const options = {
-        method: 'post',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(entry)
-      }
-      saveEntry(href, options);
+      postEntry(token, entry, project_id)
+        .then(response => {
+          if (response.ok) {
+            fetchEntries()
+            setAlert('success')
+          } else {
+            setAlert('error')
+          }
+        })
       handleClose();
     } else {
       setErrorMessage("Valitse projekti")
@@ -57,7 +58,7 @@ const AddEntry = ({ saveEntry, projects }) => {
               <InputLabel htmlFor="project">Projekti</InputLabel>
               <Select
                 name="project"
-                defaultValue={project_id}
+                value={project_id}
                 onChange={e => {
                   setProject_id(e.target.value)
                   setErrorMessage('')

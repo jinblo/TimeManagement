@@ -5,18 +5,23 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
+import { deleteEntry } from '../services/EntryService';
 
 // Poistetaan työaikakirjaus ja pyydetään varmentamaan kirjauksen poisto
 
-export default function DeleteEntry({ entry_id }) {
+export default function DeleteEntry({ token, entry_id, setAlert, fetchEntries }) {
   const [open, setOpen] = useState(false);
 
   const handleDelete = () => {
-    const href = `http://localhost:8080/entries/${entry_id}`
-    const options = {
-      method: 'delete'
-    }
-    props.deleteEntry(href, options);
+    deleteEntry(token, entry_id)
+      .then(response => {
+        if (response.ok) {
+          fetchEntries()
+          setAlert('info')
+        } else {
+          setAlert('error')
+        }
+      })
     setOpen(false);
   };
 

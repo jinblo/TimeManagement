@@ -14,6 +14,10 @@ function Routes() {
   const publicRoutes = [
     {
       index: true,
+      path: '/',
+      element: <Login />,
+    }, {
+      index: true,
       path: '/login',
       element: <Login />,
     },
