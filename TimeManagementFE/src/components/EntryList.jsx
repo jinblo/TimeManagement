@@ -1,43 +1,62 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { AgGridReact } from 'ag-grid-react';
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-quartz.css";
 import AddEntry from './AddEntry';
 import DeleteEntry from './DeleteEntry';
 import EditEntry from './EditEntry';
+import AlertMessage from './AlertMessage';
+import { useAuth } from '../services/AuthProvider';
+import { getEntries } from '../services/EntryService';
+import { getProjects } from '../services/ProjectService';
+
 
 // Listataan työaikakirjausten tiedot, sekä jokaiselle kirjaukselle poista nappi
 // Lisää uusi työaikakirjaus -nappi myös mukana
 
 const EntryList = () => {
-  const [entries, setEntries] = useState([]);
+  const { token } = useAuth()
+  const [entries, setEntries] = useState([])
+  const [projects, setProjects] = useState()
+  const [alert, setAlert] = useState(null)
+  const alertMessage = useMemo(() => {
+    switch (alert) {
+      case 'success': {
+        return <AlertMessage alert={alert} alertMessage="Kirjaus tallennettu onnistuneesti" setAlert={setAlert} />
+      }
+      case 'info': {
+        return <AlertMessage alert={alert} alertMessage="Kirjaus poistettu onnistuneesti" setAlert={setAlert} />
+      }
+      case 'error': {
+        return <AlertMessage alert={alert} alertMessage="Kirjauksen tallennus epäonnistui" setAlert={setAlert} />
+      }
 
-  // Fetch entries from REST API
-  const fetchData = () => {
-    fetch('http://localhost:8080/entries')
-      .then(response => response.json())
+      default: {
+        return <></>
+      }
+    }
+  }, [alert]);
+
+  // Kirjausten hakeminen APIsta
+  const fetchEntries = () => {
+    getEntries(token)
       .then(data => setEntries(data))
-      .catch(error => console.error(error))
-  };
-
-  useEffect(fetchData, []);
-
-  // Create, Update or Delete entries from REST API
-  const fetchWithOptions = (href, options) => {
-    fetch(href, options)
-      .then(response => fetchData())
-      .catch(error => console.error(error))
   }
+  useEffect(fetchEntries, []);
 
-  // Defining columns for ag-grid
+  // Projektien hakeminen APIsta
+  const fetchProjects = () => {
+    getProjects(token)
+      .then(data => setProjects(data))
+  }
+  useEffect(fetchProjects, []);
+
+
+  // Ag-gridin sarakkeiden määritys
   const [colDefs, setColDefs] = useState([
     {
       field: "project.title",
       headerName: "Projekti"
-    },
-    {
-      field: "entry_title",
-      headerName: "Otsikko",
     },
     {
       field: "entry_date",
@@ -52,7 +71,7 @@ const EntryList = () => {
       headerName: "Lopetusaika",
     },
     {
-      field: "entry",
+      field: "comment",
       headerName: "Muistiinpanot"
     },
     {
@@ -60,9 +79,10 @@ const EntryList = () => {
       headerName: "",
       sortable: false,
       filter: false,
+      width: 110,
       cellRenderer: params => {
         return (
-          <EditEntry oldEntry={params.data} saveEntry={fetchWithOptions} />
+          <EditEntry token={token} oldEntry={params.data} setAlert={setAlert} fetchEntries={fetchEntries} />
         )
       }
     },
@@ -71,9 +91,10 @@ const EntryList = () => {
       headerName: "",
       sortable: false,
       filter: false,
+      width: 100,
       cellRenderer: params => {
         return (
-          <DeleteEntry entry_id={params.value} deleteEntry={fetchWithOptions} />
+          <DeleteEntry token={token} entry_id={params.value} setAlert={setAlert} fetchEntries={fetchEntries} />
         )
       }
     },
@@ -81,14 +102,16 @@ const EntryList = () => {
 
   return (
     <div>
-      <AddEntry saveEntry={fetchWithOptions} />
-      <div className="ag-theme-quartz" style={{ height: 500, marginTop: 5 }}>
+      {alertMessage}
+      <AddEntry token={token} projects={projects} setAlert={setAlert} fetchEntries={fetchEntries} />
+      <div className="ag-theme-quartz" style={{ height: 500, marginTop: 10 }}>
         <AgGridReact
           rowData={entries}
           columnDefs={colDefs}
           defaultColDef={{
             sortable: true,
             filter: true,
+            floatingFilter: true
           }}
           paginationAutoPageSize={true}
           paginateChildRows={true}

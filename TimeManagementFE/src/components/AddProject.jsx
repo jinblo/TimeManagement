@@ -1,16 +1,19 @@
 import React, { useState } from 'react';
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField } from "@mui/material";
+import { postProject } from '../services/ProjectService';
 
+// Lisätään uusi projekti
 
-export default function AddProject(props) {
-
+export default function AddProject({ token, fetchProjects }) {
 
     const [project, setProject] = useState({
         title: '',
     })
 
-    // error message shown to user
     const [errorMessage, setErrorMessage] = useState('');
+
+    // Handling dialog 
+    const [open, setOpen] = useState(false);
 
     // handling all changes
     const handleChange = (e) => {
@@ -18,32 +21,25 @@ export default function AddProject(props) {
     }
 
     // adding new project to the database
-    const addProject = async () => {
+    const addProject = () => {
 
         if (project.title.trim() === "") {
             setErrorMessage('Nimi ei voi olla tyhjä');
         } else {
             try {
-                const response = await fetch('http://localhost:8080/projects', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(project),
-                });
-
-                if (response.ok) {
-                    // Project added successfully
-                    console.log('Project added successfully');
-                    setErrorMessage('');
-                    setProject({title: ''});
-                    props.addProject();
-                    setOpen(false)
-                } else {
-                    // Handle errors
-                    console.error('Failed to add project');
-                    setErrorMessage('Failed to add project');
-                }
+                postProject(token, project)
+                    .then(response => {
+                        if (response.ok) {
+                            // Project added successfully
+                            console.log('Project added successfully');
+                            fetchProjects();
+                            handleClose()
+                        } else {
+                            // Handle errors
+                            console.error('Failed to add project');
+                            setErrorMessage('Failed to add project');
+                        }
+                    })
             } catch (error) {
                 console.error('Error adding project:', error);
                 setErrorMessage('Error adding project');
@@ -51,8 +47,12 @@ export default function AddProject(props) {
         }
     };
 
-    // Handling dialog 
-    const [open, setOpen] = useState(false);
+    // Clearing the form and closing dialog
+    const handleClose = () => {
+        setProject({ title: '' });
+        setErrorMessage('');
+        setOpen(false);
+    }
 
     return (
         <div style={{ marginTop: 20 }}>
@@ -74,7 +74,7 @@ export default function AddProject(props) {
                     />
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={() => setOpen(false)}>Peruuta</Button>
+                    <Button onClick={handleClose}>Peruuta</Button>
                     <Button onClick={addProject}>Tallenna</Button>
                 </DialogActions>
             </Dialog>

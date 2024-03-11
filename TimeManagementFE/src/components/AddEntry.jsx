@@ -1,47 +1,48 @@
-import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, FormControl, InputLabel, MenuItem, OutlinedInput, Select, TextField } from "@mui/material";
+import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, FormControl, FormHelperText, InputLabel, MenuItem, OutlinedInput, Select, TextField } from "@mui/material";
 import { DatePicker, TimePicker } from "@mui/x-date-pickers";
 import dayjs from "dayjs";
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import { postEntry } from "../services/EntryService";
 
 // Lisätään uusi työaikakirjaus
 
-const AddEntry = ({ saveEntry }) => {
-  const [entry, setEntry] = useState({
-    entry_title: '',
+const AddEntry = ({ token, projects, setAlert, fetchEntries }) => {
+  const emptyEntry = {
     entry_date: dayjs().format('YYYY-MM-DD'),
     start_time: dayjs().format('HH:mm:ss'),
-    end_time: dayjs().format('HH:mm:ss'),
-    entry: ''
-  })
-  const [projects, setProjects] = useState()
-  const [project_id, setProject_id] = useState('')
-  const [open, setOpen] = useState(false);
-
-  // Fetching projects for select
-  useEffect(() => {
-    fetch('http://localhost:8080/projects')
-      .then(response => response.json())
-      .then(data => setProjects(data))
-      .catch(error => console.error(error))
-  }, [])
-
-  const handleChange = event => {
-    setEntry({ ...entry, [event.target.name]: event.target.value })
+    end_time: dayjs().add(6, 'h').format('HH:mm:ss'),
+    comment: ''
   }
+  const [entry, setEntry] = useState(emptyEntry)
+  const [project_id, setProject_id] = useState('')
+  const [errorMessage, setErrorMessage] = useState('');
+  // Handling dialog 
+  const [open, setOpen] = useState(false);
 
   // Saving new entry
   const handleSave = () => {
-    const href = `http://localhost:8080/projects/${project_id}/entries`
-    const options = {
-      method: 'post',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(entry)
+    if (project_id) {
+      postEntry(token, entry, project_id)
+        .then(response => {
+          if (response.ok) {
+            fetchEntries()
+            setAlert('success')
+          } else {
+            setAlert('error')
+          }
+        })
+      handleClose();
+    } else {
+      setErrorMessage("Valitse projekti")
     }
-    saveEntry(href, options);
-    setOpen(false);
   };
+
+  // Clearing the form and closing dialog
+  const handleClose = () => {
+    setEntry(emptyEntry)
+    setProject_id('');
+    setOpen(false);
+  }
 
   return (
     <div style={{ float: 'right', margin: 20 }}>
@@ -49,22 +50,19 @@ const AddEntry = ({ saveEntry }) => {
       <Dialog open={open} onClose={() => setOpen(false)}>
         <DialogTitle>Uusi työaikakirjaus</DialogTitle>
         <DialogContent>
-          <TextField
-            fullWidth
-            autoFocus
-            margin='dense'
-            name="entry_title"
-            label="Otsikko"
-            type="text"
-            onChange={event => handleChange(event)}
-          />
           <Box component="form" sx={{ display: 'flex', flexWrap: 'wrap' }}>
-            <FormControl sx={{ width: 550, marginTop: '3px' }}>
+            <FormControl
+              sx={{ width: 550, marginTop: '3px' }}
+              error={errorMessage !== ''}
+            >
               <InputLabel htmlFor="project">Projekti</InputLabel>
               <Select
                 name="project"
-                defaultValue={project_id}
-                onChange={event => setProject_id(event.target.value)}
+                value={project_id}
+                onChange={e => {
+                  setProject_id(e.target.value)
+                  setErrorMessage('')
+                }}
                 input={<OutlinedInput label="Projekti" />}
               >
                 {projects ? projects.map(project => {
@@ -72,6 +70,7 @@ const AddEntry = ({ saveEntry }) => {
                 })
                   : null}
               </Select>
+              <FormHelperText>{errorMessage}</FormHelperText>
             </FormControl>
           </Box>
           <DatePicker
@@ -92,21 +91,22 @@ const AddEntry = ({ saveEntry }) => {
             sx={{ marginLeft: '5px', width: 270 }}
             label="Lopetusaika"
             name="end_time"
-            value={dayjs(`2024-01-01 ${entry.end_time}`).add(1, 'h')}
+            value={dayjs(`2024-01-01 ${entry.end_time}`)}
             onChange={value => setEntry({ ...entry, end_time: value.format('HH:mm:ss') })}
+            minTime={dayjs(`2024-01-01 ${entry.start_time}`)}
           />
           <TextField
             fullWidth
             autoFocus
             margin='dense'
-            name="entry"
+            name="comment"
             label="Muistiinpanot"
             type="text"
-            onChange={event => handleChange(event)}
+            onChange={e => setEntry({ ...entry, comment: e.target.value })}
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={() => setOpen(false)}>Peruuta</Button>
+          <Button onClick={handleClose}>Peruuta</Button>
           <Button onClick={handleSave}>Tallenna</Button>
         </DialogActions>
       </Dialog>

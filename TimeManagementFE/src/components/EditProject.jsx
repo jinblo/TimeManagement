@@ -1,15 +1,20 @@
 import React, { useState } from 'react';
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField } from "@mui/material";
+import { putProject } from '../services/ProjectService';
 
 // function for editing project information. Opens a dialog with information from chosen project.
-export default function EditProject(props) {
+export default function EditProject({ token, editData, fetchProjects }) {
 
     const [project, setProject] = useState({
-        title: props.editData.title || "",
+        title: editData.title || "",
+        id: editData.id || ""
     });
 
     // Error message shown to user
     const [errorMessage, setErrorMessage] = useState('');
+
+    // Handling dialog 
+    const [open, setOpen] = useState(false);
 
     // Handling all changes
     const handleChange = (e) => {
@@ -23,25 +28,19 @@ export default function EditProject(props) {
             setErrorMessage('Nimi ei voi olla tyhjä');
         } else {
             try {
-                const response = await fetch(`http://localhost:8080/projects/${props.editData.id}`, {
-                    method: 'PUT',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(project),
-                });
-
-                if (response.ok) {
-                    // Project edited successfully
-                    console.log('Project edited successfully');
-                    setErrorMessage('');
-                    props.editProject();
-                    setOpen(false)
-                } else {
-                    // Handle errors
-                    console.error('Failed to edit project');
-                    setErrorMessage('Failed to edit project');
-                }
+                putProject(token, project)
+                    .then(response => {
+                        if (response.ok) {
+                            // Project edited successfully
+                            console.log('Project edited successfully');
+                            fetchProjects();
+                            handleClose();
+                        } else {
+                            // Handle errors
+                            console.error('Failed to edit project');
+                            setErrorMessage('Failed to edit project');
+                        }
+                    })
             } catch (error) {
                 console.error('Error editing project:', error);
                 setErrorMessage('Error editing project');
@@ -49,8 +48,12 @@ export default function EditProject(props) {
         }
     };
 
-    // Handling dialog 
-    const [open, setOpen] = useState(false);
+    // Clearing the form and closing dialog
+    const handleClose = () => {
+        setProject({ title: '' });
+        setErrorMessage('');
+        setOpen(false);
+    }
 
     // Returning a dialog, where a user can edit project information
     return (
@@ -75,7 +78,7 @@ export default function EditProject(props) {
                     />
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={() => setOpen(false)}>Peruuta</Button>
+                    <Button onClick={handleClose}>Peruuta</Button>
                     <Button onClick={editProject}>Tallenna</Button>
                 </DialogActions>
             </Dialog>

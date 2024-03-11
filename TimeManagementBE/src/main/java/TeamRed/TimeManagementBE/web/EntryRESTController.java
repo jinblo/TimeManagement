@@ -21,18 +21,17 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-
 @CrossOrigin
 @RestController
 public class EntryRESTController {
 
-    @Autowired
+	@Autowired
 	private EntryRepository repository;
-    
-    @Autowired
-    private ProjectRepository pRepository;
 
-    //Kaikkien työaikakirjausten haku
+	@Autowired
+	private ProjectRepository pRepository;
+
+	// Kaikkien työaikakirjausten haku
 	@GetMapping("entries")
 	public ResponseEntity<?> getEntries() {
 		try {
@@ -45,8 +44,8 @@ public class EntryRESTController {
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
-	
-	//Uuden työaikakirjauksen lisääminen
+
+	// Uuden työaikakirjauksen lisääminen
 	@PostMapping("projects/{projectId}/entries")
 	public ResponseEntity<?> addEntry(@RequestBody Entry entry, @PathVariable("projectId") Long id) {
 		try {
@@ -61,8 +60,8 @@ public class EntryRESTController {
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
-	
-	//Työaikakirjauksen muokkaus
+
+	// Työaikakirjauksen muokkaus
 	@PutMapping("projects/{projectId}/entries/{entryId}")
 	public ResponseEntity<?> editEntry(@RequestBody Entry updatedEntry, @PathVariable("entryId") Long id) {
 		try {
@@ -70,9 +69,8 @@ public class EntryRESTController {
 			if (toBeEdited.isEmpty()) {
 				return new ResponseEntity<>("Työaikakirjausta ei löytynyt", HttpStatus.NOT_FOUND);
 			}
-			Entry entry = toBeEdited.get();			
-			entry.setEntry_title(updatedEntry.getEntry_title());
-			entry.setEntry(updatedEntry.getEntry());
+			Entry entry = toBeEdited.get();
+			entry.setComment(updatedEntry.getComment());
 			entry.setEntry_date(updatedEntry.getEntry_date());
 			entry.setStart_time(updatedEntry.getStart_time());
 			entry.setEnd_time(updatedEntry.getEnd_time());
@@ -82,8 +80,8 @@ public class EntryRESTController {
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
-	
-	//Työaikakirjauksen poisto
+
+	// Työaikakirjauksen poisto
 	@DeleteMapping("entries/{id}")
 	public ResponseEntity<String> removeEntry(@PathVariable("id") Long id) {
 		try {

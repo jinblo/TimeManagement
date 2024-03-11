@@ -1,71 +1,51 @@
 import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, FormControl, InputLabel, MenuItem, OutlinedInput, Select, TextField } from "@mui/material";
 import { DatePicker, TimePicker } from "@mui/x-date-pickers";
 import dayjs from "dayjs";
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import { putEntry } from "../services/EntryService";
 
 // Työaikakirjauksen muokkaaminen. Kirjauksen siirtäminen projektilta toiselle ei ole nyt mahdollista.
 
-const EditEntry = ({ oldEntry, saveEntry }) => {
-  const [entry, setEntry] = useState({
+const EditEntry = ({ token, oldEntry, setAlert, fetchEntries }) => {
+  const emptyEntry = {
     entry_id: '',
-    entry_title: '',
     entry_date: '',
     start_time: '',
     end_time: '',
-    entry: '',
+    comment: '',
     project: {
       id: '',
       title: ''
     }
-  })
-  const [projects, setProjects] = useState()
+  }
+  const [entry, setEntry] = useState(emptyEntry)
+  // Dialogin tila
   const [open, setOpen] = useState(false);
 
+  // Dialogin avaus muokattavan kirjauksen tiedoilla
   const handleClickOpen = () => {
     setEntry(oldEntry)
     setOpen(true)
   }
 
-  // Fetching projects for select
-  useEffect(() => {
-    fetch('http://localhost:8080/projects')
-      .then(response => response.json())
-      .then(data => setProjects(data))
-      .catch(error => console.error(error))
-  }, [])
-
-  const handleChange = event => {
-    let data = { ...entry }
-    let name = event.target.name
-    let value = event.target.value
-    if (name == 'id') {
-      data = {
-        ...data,
-        project: {
-          [name]: value
-        }
-      }
-    } else {
-      data = {
-        ...data,
-        [name]: value
-      }
-    }
-    setEntry(data)
+  // Dialogin sulkeminen ja lomakkeen tyhjennys
+  const handleClose = () => {
+    setEntry(emptyEntry)
+    setOpen(false);
   }
 
-  // Saving edited entry
+  // Muokatun kirjauksen tallennus
   const handleSave = () => {
-    const href = `http://localhost:8080/projects/${entry.project.id}/entries/${entry.entry_id}`
-    const options = {
-      method: 'put',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(entry)
-    }
-    saveEntry(href, options);
-    setOpen(false);
+    putEntry(token, entry)
+      .then(response => {
+        if (response.ok) {
+          fetchEntries()
+          setAlert('success')
+        } else {
+          setAlert('error')
+        }
+      })
+    handleClose()
   };
 
   return (
@@ -74,16 +54,6 @@ const EditEntry = ({ oldEntry, saveEntry }) => {
       <Dialog open={open} onClose={() => setOpen(false)}>
         <DialogTitle>Muokkaa työaikakirjausta</DialogTitle>
         <DialogContent>
-          <TextField
-            fullWidth
-            autoFocus
-            margin='dense'
-            name="entry_title"
-            label="Otsikko"
-            value={entry.entry_title}
-            type="text"
-            onChange={event => handleChange(event)}
-          />
           <Box component="form" sx={{ display: 'flex', flexWrap: 'wrap' }}>
             <FormControl sx={{ width: 550, marginTop: '3px' }}>
               <InputLabel htmlFor="project">Projekti</InputLabel>
@@ -91,13 +61,10 @@ const EditEntry = ({ oldEntry, saveEntry }) => {
                 disabled // Projektin muuttaminen ei ole nyt mahdollista
                 name="id"
                 value={entry.project.id}
-                onChange={event => handleChange(event)}
+                onChange={e => handleChange(e)}
                 input={<OutlinedInput label="Projekti" />}
               >
-                {projects ? projects.map(project => {
-                  return <MenuItem key={project.id} value={project.id}>{project.title}</MenuItem>
-                })
-                  : null}
+                <MenuItem key={entry.project.id} value={entry.project.id}>{entry.project.title}</MenuItem>
               </Select>
             </FormControl>
           </Box>
@@ -119,22 +86,22 @@ const EditEntry = ({ oldEntry, saveEntry }) => {
             sx={{ marginLeft: '5px', width: 270 }}
             name="end_time"
             label="Lopetusaika"
-            value={dayjs(`2024-01-01 ${entry.end_time}`).add(1, 'h')}
+            value={dayjs(`2024-01-01 ${entry.end_time}`)}
             onChange={value => setEntry({ ...entry, end_time: value.format('HH:mm:ss') })}
+            minTime={dayjs(`2024-01-01 ${entry.start_time}`)}
           />
           <TextField
             fullWidth
-            autoFocus
             margin='dense'
             name="entry"
             label="Muistiinpanot"
-            value={entry.entry}
+            value={entry.comment}
             type="text"
-            onChange={event => handleChange(event)}
+            onChange={e => setEntry({ ...entry, comment: e.target.value })}
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={() => setOpen(false)}>Peruuta</Button>
+          <Button onClick={handleClose}>Peruuta</Button>
           <Button onClick={handleSave}>Tallenna</Button>
         </DialogActions>
       </Dialog>

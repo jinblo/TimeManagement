@@ -3,8 +3,11 @@ package TeamRed.TimeManagementBE.domain;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonView;
 
+import TeamRed.TimeManagementBE.domain.Project.DetailedProjectView;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -13,41 +16,32 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 
 @Entity
+@JsonView(DetailedProjectView.class)
 public class Entry {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long entry_id;
 
-	private String entry_title;
-	private String entry;
+	private String comment;
 	private LocalDate entry_date;
 	private LocalTime start_time;
 	private LocalTime end_time;
 
 	@ManyToOne
 	@JoinColumn(name = "project_id")
+	// @JsonIgnore
 	@JsonIgnoreProperties({ "entries" })
 	private Project project;
-
-	/*
-	 * @ManyToOne
-	 * 
-	 * @JoinColumn(name = "user_id")
-	 * 
-	 * @JsonIgnoreProperties({ "userEntries" })
-	 * private User user;
-	 */
 
 	public Entry() {
 		super();
 	}
 
-	public Entry(String entry_title, String entry, LocalDate entry_date, LocalTime start_time, LocalTime end_time,
+	public Entry(String comment, LocalDate entry_date, LocalTime start_time, LocalTime end_time,
 			Project project) {
 		super();
-		this.entry_title = entry_title;
-		this.entry = entry;
+		this.comment = comment;
 		this.entry_date = entry_date;
 		this.start_time = start_time;
 		this.end_time = end_time;
@@ -62,20 +56,12 @@ public class Entry {
 		this.entry_id = entry_id;
 	}
 
-	public String getEntry_title() {
-		return entry_title;
+	public String getComment() {
+		return comment;
 	}
 
-	public void setEntry_title(String entry_title) {
-		this.entry_title = entry_title;
-	}
-
-	public String getEntry() {
-		return entry;
-	}
-
-	public void setEntry(String entry) {
-		this.entry = entry;
+	public void setComment(String comment) {
+		this.comment = comment;
 	}
 
 	public LocalDate getEntry_date() {
