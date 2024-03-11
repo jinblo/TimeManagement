@@ -1,10 +1,10 @@
-# Näytä kaikki projektit
+# Näytä käyttäjän omat projektit
 
 **URL**: `projects/`
 
 **Metodi**: `GET`
 
-**Vaadittu rooli**: -
+**Vaadittu rooli**: User
 
 ## Esimerkkivastaus:
 
