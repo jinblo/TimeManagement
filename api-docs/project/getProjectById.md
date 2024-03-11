@@ -1,10 +1,10 @@
-# Hae projekti id:llä
+# Käyttäjän oman projektin haku id:llä
 
 **URL**: `/projects/:pk`
 
 **Metodi**: `GET`
 
-**Vaadittu rooli**: 
+**Vaadittu rooli**: User
 
 ## Esimerkkipyyntö:
 
