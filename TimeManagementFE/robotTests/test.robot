@@ -6,7 +6,7 @@
 # Asenna SeleniumLibrary kirjasto: pip install robotframework-seleniumlibrary
 
 # ** Ennen kuin projekti on julkaistu: käynnistä sekä BE että FE ennen testejä **
-# Tee testit komennolla: robot test.robot
+# Tee testit komennolla: robot test.robot TAI python -m robot test.robot
 
 # Nyt toimivat testit ovat kirjautuminen, projektin lisäys, projektin muokkaus ja entryn muokkaus
 # Mitä vielä uupuu: projektin poisto, entryn muokkaus ja poisto
@@ -18,11 +18,11 @@ Documentation           Test to check RF environment w/ SeleniumLibrary & Chrome
 Library                 SeleniumLibrary   15.0   5.0
 
 *** Variables ***
-${Browser}          Chrome
-${Sleep}	        2
-${URL}              http://localhost:5173/login
-${Username}         email@email.com
-${Password}	        AppUser1
+${Browser}              Chrome
+${Sleep}                2
+${URL}                  http://localhost:5173/login
+${Username}             email@email.com
+${Password}             AppUser1
  
 *** Test Cases ***
 # Testing login + project and entries REST features
