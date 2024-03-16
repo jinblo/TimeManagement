@@ -43,21 +43,6 @@ const ProjectList = () => {
     }
     useEffect(fetchProjects, []);
 
-    const fetchWithOptions = (href, options) => {
-        fetch(href, options)
-            .then(response => {
-                if (response.ok) {
-                    fetchData()
-                    setAlert('success')
-                } else {
-                    setAlert('error')
-                }
-            })
-            .catch(error => {
-                console.error(error)
-            })
-    }
-
     // Details showing in the table
     const [colDefs, setColDefs] = useState([
         {
