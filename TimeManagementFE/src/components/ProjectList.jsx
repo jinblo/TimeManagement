@@ -23,7 +23,9 @@ const ProjectList = () => {
             case 'success': {
                 return <AlertMessage alert={alert} alertMessage="Kirjaus tallennettu onnistuneesti" setAlert={setAlert} />
             }
-
+            case 'info': {
+                return <AlertMessage alert={alert} alertMessage="Kirjaus poistettu onnistuneesti" setAlert={setAlert} />
+              }
             case 'error': {
                 return <AlertMessage alert={alert} alertMessage="Kirjauksen tallennus epäonnistui" setAlert={setAlert} />
             }
@@ -67,7 +69,7 @@ const ProjectList = () => {
             headerName: "Muokkaa",
             cellRenderer: params => {
                 return (
-                    <EditProject token={token} editData={params.data} fetchProjects={fetchProjects} />
+                    <EditProject token={token} editData={params.data} setAlert={setAlert} fetchProjects={fetchProjects} />
                 )
             }
         },
@@ -76,7 +78,7 @@ const ProjectList = () => {
             headerName: "Poista",
             cellRenderer: params => {
                 return (
-                    <DeleteProject token={token} id={params.value} fetchProjects={fetchProjects} />
+                    <DeleteProject token={token} id={params.value} setAlert={setAlert} fetchProjects={fetchProjects} />
                 )
             }
         },
@@ -97,7 +99,7 @@ const ProjectList = () => {
                 paginateChildRows={true}
                 autoSizeStrategy={{ type: 'fitCellContents' }}
             />
-            <AddProject token={token} fetchProjects={fetchProjects} />
+            <AddProject token={token} setAlert={setAlert} fetchProjects={fetchProjects} />
         </div>
     )
 };

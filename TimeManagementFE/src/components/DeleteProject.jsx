@@ -7,7 +7,7 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import { deleteProject } from '../services/ProjectService';
 
-export default function DeleteProject({ token, id, fetchProjects }) {
+export default function DeleteProject({ token, id, setAlert, fetchProjects }) {
   const [open, setOpen] = useState(false);
 
   const handleClickOpen = () => {
@@ -23,6 +23,9 @@ export default function DeleteProject({ token, id, fetchProjects }) {
       .then(response => {
         if (response.ok) {
           fetchProjects()
+          setAlert('info')
+        } else {
+          setAlert('error')
         }
       })
     setOpen(false);
