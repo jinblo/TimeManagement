@@ -1,92 +1,95 @@
 # Robotframerowk test cases
-
+#
 # *** HUOM SISÄINEN MUISTIINPANO ***
 # Testien tekemistä varten tarvitaan omalle koneelle asennukset: Python ja pip
 # Asenna robotframework koneellesi pip:illä komennolla: pip install robotframework
 # Asenna SeleniumLibrary kirjasto: pip install robotframework-seleniumlibrary
-
+#
 # ** Ennen kuin projekti on julkaistu: käynnistä sekä BE että FE ennen testejä **
 # Tee testit komennolla: robot test.robot TAI python -m robot test.robot
-
+#
 # Nyt toimivat testit ovat kirjautuminen, projektin lisäys, projektin muokkaus ja entryn muokkaus
 # Mitä vielä uupuu: projektin poisto, entryn muokkaus ja poisto
 # Uupuva hienosaaäntö: muokkaukset ja poistot koskemaan juuri lisättyä asiaa
 
 
 *** Settings ***
-Documentation           Test to check RF environment w/ SeleniumLibrary & ChromeDriver.
+Documentation           Tests to check login and REST functions in project and entry
 Library                 SeleniumLibrary   15.0   5.0
+Resource                resources.robot
 
-*** Variables ***
-${Browser}              Chrome
-${Sleep}                2
-${URL}                  http://localhost:5173/login
-${Username}             email@email.com
-${Password}             AppUser1
- 
 *** Test Cases ***
-# Testing login + project and entries REST features
-
-# Testing Loging function 
 Login to the TimeManagement service
+        [Tags]                  loging  test
         Open Browser            ${URL}              ${Browser} 
-        Input Text              username            ${Username}
-        Input Text              password            ${Password}
+        LogInWithCredentials
         click button            Login               
         Page Should Contain     Tämä on etusivu
 
-# Testing to add a new project - POST
+
 Adding a new project after logged in
+        [Tags]                  postProject
         Click Link              Projektit
         click button            Lisää uusi projekti
-        Input Text              name=title          RobotTest
-        Click button            Tallenna
-        Page Should Contain     RobotTest
+        Input Text              name=title          ${AddedProject} 
+        SaveButton
+        Page Should Contain     ${AddedProject} 
 
 
-# Testing to edit a project - PUT - ei löydä oikeaa kohtaa/buttonia, nyt kohdistuu ensimmäiseen riviin
-Editing a project
-#        click button            xpath=//td[contains(text(),'RobotTest')]/following-sibling::td/button[contains(text(),'Muokkaa')]
-        click button            Muokkaa
-        Input Text              name=title          Edited
-        Click button            Tallenna
-#        Page Should Contain     RobotTestEdited
-        Page Should Contain     Edited
+# Muutos kohdistuu ensimmäiseen riviin
+Editing an existing project
+        [Tags]                  putProject 
+        Click Button            Muokkaa
+        Input Text              name=title          ${EditedText}
+        SaveButton
+        Page Should Contain     ${EditedText}
 
-# Testing to add a new entry - POST - Ei pääse kiinni select osioon
-# Adding a new entry to RobotTest project
+
+# Ei pääse kiinni select osioon
+#Adding a new entry to RobotTest project
+#        [Tags]                      postEntry   test
 #        Click Link                  Tuntikirjaukset
 #        click button                Lisää uusi kirjaus
-#        Select From List by Value   id=project_id           RobotTest
-#        Input Text                  name=comment            RobotTestEntry
-#        Click button                Tallenna
-#        Page Should Contain         RobotTestEntry
+#        Select From List By Index     name:project    1
+#        Click Element                //MenuItem[contains(text(), 'RobotTest')]
+#        Input Text                  name=comment            CommentTest
+#        SaveButton
+#        Page Should Contain         CommentTest
 
 
-# Testing to edit an entry - PUT - nyt ensimmäisen rivin kommentin Muokkaa
-Editing a entry
+# nyt ensimmäisen rivin kommentin Muokkaa
+Editing an existing entry
+        [Tags]                  putEntry
         Click Link              Tuntikirjaukset
         click button            Muokkaa
-        Input Text              name=entry            RobotTestEntry
-        Click button            Tallenna
-        Page Should Contain     RobotTestEntry
-
-# Testing the deleting function in entry - DELETE
+        Input Text              name=entry            ${EditedText}
+        SaveButton
+        Page Should Contain     ${EditedText}
 
 
-# Testing the deleting function in project - ei pääse käsiksi dialogiin, vielä työn alla
-#Deleting a project RobotTestEdited
+ #Deleting the edited entry caled RobotTestEntryEdited
+ #       [Tags]                  deleteEntry  
+ #       Click Link              Tuntikirjaukset
+ #       click button            Poista
+ #       Page Should Contain     Vahvista työaikakirjauksen poisto.
+       # Click Button            POISTA
+       # Wait Until Page Contains    Kirjaus poistettu onnistuneesti    
+
+# ei pääse käsiksi dialogiin, vielä työn alla
+#Deleting a project called 
+#        [Tags]                  deleteProject  test
 #        Click Link              Projektit
 #        click button            Poista
-#        Switch To Dialog
-#        click button            Poista
+#        Page Should Contain     Haluatko varmasti poistaa kyseisen projektin?
+        #Click Button            Poista
+        #Wait Until Page Contains    Kirjaus poistettu onnistuneesti
 
 
-# Testing that log out function works 
-Logging out function
+Testing logging out function
+        [Tags]                  logout
         Click Link              Logout
         Page Should Contain     Sinut on kirjattu ulos
 
-# After tests have been done thene close browser
+
 Closing Browser 
         Close Browser
