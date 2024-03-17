@@ -51,7 +51,7 @@ export default function DeleteProject({ token, id, setAlert, fetchProjects }) {
         <DialogActions>
           <Button onClick={handleClose}>Peruuta</Button>
           <Button color="error" onClick={handleDelete} autoFocus>
-            Poista
+            Poista projekti
           </Button>
         </DialogActions>
       </Dialog>

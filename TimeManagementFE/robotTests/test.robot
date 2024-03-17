@@ -8,8 +8,7 @@
 # ** Ennen kuin projekti on julkaistu: käynnistä sekä BE että FE ennen testejä **
 # Tee testit komennolla: robot test.robot TAI python -m robot test.robot
 #
-# Nyt toimivat testit ovat kirjautuminen, projektin lisäys, projektin muokkaus ja entryn muokkaus
-# Mitä vielä uupuu: projektin poisto, entryn muokkaus ja poisto
+# Mitä vielä uupuu: entryn muokkaus
 # Uupuva hienosaaäntö: muokkaukset ja poistot koskemaan juuri lisättyä asiaa
 
 
@@ -20,29 +19,29 @@ Resource                resources.robot
 
 *** Test Cases ***
 Login to the TimeManagement service
-        [Tags]                  loging  test
-        Open Browser            ${URL}              ${Browser} 
+        [Tags]                      loging  test
+        Open Browser                ${URL}              ${Browser} 
         LogInWithCredentials
-        click button            Login               
-        Page Should Contain     Tämä on etusivu
+        click button                Login               
+        Page Should Contain         Tämä on etusivu
 
 
 Adding a new project after logged in
-        [Tags]                  postProject
-        Click Link              Projektit
-        click button            Lisää uusi projekti
-        Input Text              name=title          ${AddedProject} 
+        [Tags]                      postProject
+        Click Link                  Projektit
+        click button                Lisää uusi projekti
+        Input Text                  name=title          ${AddedProject} 
         SaveButton
-        Page Should Contain     ${AddedProject} 
+        Page Should Contain         ${AddedProject} 
 
 
 # Muutos kohdistuu ensimmäiseen riviin
 Editing an existing project
-        [Tags]                  putProject 
-        Click Button            Muokkaa
-        Input Text              name=title          ${EditedText}
+        [Tags]                      putProject 
+        Click Button                Muokkaa
+        Input Text                  name=title          ${EditedText}
         SaveButton
-        Page Should Contain     ${EditedText}
+        Page Should Contain         ${EditedText}
 
 
 # Ei pääse kiinni select osioon
@@ -50,8 +49,8 @@ Editing an existing project
 #        [Tags]                      postEntry   test
 #        Click Link                  Tuntikirjaukset
 #        click button                Lisää uusi kirjaus
-#        Select From List By Index     name:project    1
-#        Click Element                //MenuItem[contains(text(), 'RobotTest')]
+#        Select From List By Index   name:project    1
+#        Click Element               //MenuItem[contains(text(), 'RobotTest')]
 #        Input Text                  name=comment            CommentTest
 #        SaveButton
 #        Page Should Contain         CommentTest
@@ -59,36 +58,37 @@ Editing an existing project
 
 # nyt ensimmäisen rivin kommentin Muokkaa
 Editing an existing entry
-        [Tags]                  putEntry
-        Click Link              Tuntikirjaukset
-        click button            Muokkaa
-        Input Text              name=entry            ${EditedText}
+        [Tags]                      putEntry
+        Click Link                  Tuntikirjaukset
+        click button                Muokkaa
+        Input Text                  name=entry            ${EditedText}
         SaveButton
-        Page Should Contain     ${EditedText}
+        Page Should Contain         ${EditedText}
 
+# poistaa ensimmäisen enrtyn
+ Deleting the first entry
+        [Tags]                      deleteEntry  
+        Click Link                  Tuntikirjaukset
+        click button                Poista
+        Page Should Contain         Vahvista työaikakirjauksen poisto.
+        Click Button                Poista kirjaus
+        Wait Until Page Contains    Kirjaus poistettu onnistuneesti    
 
- #Deleting the edited entry caled RobotTestEntryEdited
- #       [Tags]                  deleteEntry  
- #       Click Link              Tuntikirjaukset
- #       click button            Poista
- #       Page Should Contain     Vahvista työaikakirjauksen poisto.
-       # Click Button            POISTA
-       # Wait Until Page Contains    Kirjaus poistettu onnistuneesti    
-
-# ei pääse käsiksi dialogiin, vielä työn alla
-#Deleting a project called 
-#        [Tags]                  deleteProject  test
-#        Click Link              Projektit
-#        click button            Poista
-#        Page Should Contain     Haluatko varmasti poistaa kyseisen projektin?
-        #Click Button            Poista
-        #Wait Until Page Contains    Kirjaus poistettu onnistuneesti
+# poistaa ensimmäisen projektin
+Deleting a project
+        [Tags]                      deleteProject  
+        Click Link                  Projektit
+        click button                Poista
+        Page Should Contain         Haluatko varmasti poistaa kyseisen projektin?
+        Page Should Contain         Peruuta
+        Click Button                Poista projekti
+        Wait Until Page Contains    Kirjaus poistettu onnistuneesti
 
 
 Testing logging out function
-        [Tags]                  logout
-        Click Link              Logout
-        Page Should Contain     Sinut on kirjattu ulos
+        [Tags]                      logout
+        Click Link                  Logout
+        Page Should Contain         Sinut on kirjattu ulos
 
 
 Closing Browser 
