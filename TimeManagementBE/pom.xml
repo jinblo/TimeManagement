@@ -14,7 +14,7 @@
 	<name>TimeManagementBE</name>
 	<description>Time Management Spring Boot</description>
 	<properties>
-		<java.version>21.0.2</java.version>
+		<java.version>17</java.version>
 	</properties>
 	<dependencies>
 		<dependency>
