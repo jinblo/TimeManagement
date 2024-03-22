@@ -23,7 +23,9 @@ const ProjectList = () => {
             case 'success': {
                 return <AlertMessage alert={alert} alertMessage="Kirjaus tallennettu onnistuneesti" setAlert={setAlert} />
             }
-
+            case 'info': {
+                return <AlertMessage alert={alert} alertMessage="Kirjaus poistettu onnistuneesti" setAlert={setAlert} />
+              }
             case 'error': {
                 return <AlertMessage alert={alert} alertMessage="Kirjauksen tallennus epäonnistui" setAlert={setAlert} />
             }
@@ -41,21 +43,6 @@ const ProjectList = () => {
     }
     useEffect(fetchProjects, []);
 
-    const fetchWithOptions = (href, options) => {
-        fetch(href, options)
-            .then(response => {
-                if (response.ok) {
-                    fetchData()
-                    setAlert('success')
-                } else {
-                    setAlert('error')
-                }
-            })
-            .catch(error => {
-                console.error(error)
-            })
-    }
-
     // Details showing in the table
     const [colDefs, setColDefs] = useState([
         {
@@ -67,7 +54,7 @@ const ProjectList = () => {
             headerName: "Muokkaa",
             cellRenderer: params => {
                 return (
-                    <EditProject token={token} editData={params.data} fetchProjects={fetchProjects} />
+                    <EditProject token={token} editData={params.data} setAlert={setAlert} fetchProjects={fetchProjects} />
                 )
             }
         },
@@ -76,7 +63,7 @@ const ProjectList = () => {
             headerName: "Poista",
             cellRenderer: params => {
                 return (
-                    <DeleteProject token={token} id={params.value} fetchProjects={fetchProjects} />
+                    <DeleteProject token={token} id={params.value} setAlert={setAlert} fetchProjects={fetchProjects} />
                 )
             }
         },
@@ -97,7 +84,7 @@ const ProjectList = () => {
                 paginateChildRows={true}
                 autoSizeStrategy={{ type: 'fitCellContents' }}
             />
-            <AddProject token={token} fetchProjects={fetchProjects} />
+            <AddProject token={token} setAlert={setAlert} fetchProjects={fetchProjects} />
         </div>
     )
 };
