@@ -35,7 +35,7 @@ export default function DeleteEntry({ token, entry_id, setAlert, fetchEntries })
         onClose={() => setOpen(false)}
       >
         <DialogTitle>
-          {"Delete"}
+          {"Poista työaikakirjaus"}
         </DialogTitle>
         <DialogContent>
           <DialogContentText>
@@ -45,7 +45,7 @@ export default function DeleteEntry({ token, entry_id, setAlert, fetchEntries })
         <DialogActions>
           <Button onClick={() => setOpen(false)}>Peruuta</Button>
           <Button color="error" onClick={handleDelete} autoFocus>
-            Poista
+            Poista kirjaus
           </Button>
         </DialogActions>
       </Dialog>
