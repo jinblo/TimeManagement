@@ -45,7 +45,7 @@ const AddEntry = ({ token, projects, setAlert, fetchEntries }) => {
   }
 
   return (
-    <div style={{ float: 'right', margin: 20 }}>
+    <div style={{ marginTop: 20 }}>
       <Button variant="contained" onClick={() => setOpen(true)} >Lisää uusi kirjaus</Button>
       <Dialog open={open} onClose={() => setOpen(false)}>
         <DialogTitle>Uusi työaikakirjaus</DialogTitle>
