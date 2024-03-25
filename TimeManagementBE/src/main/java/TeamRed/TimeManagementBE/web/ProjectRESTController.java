@@ -1,4 +1,4 @@
-package TeamRed.TimeManagementBE.web;
+ package TeamRed.TimeManagementBE.web;
 
 import java.util.List;
 import java.util.Optional;
