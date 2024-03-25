@@ -59,7 +59,7 @@ Sovellus vaatii rekisteröitymisen. Rekisteröitynyt käyttäjä voi luoda proje
 
 * [Entry](api-docs/entry/)
 * [Project](api-docs/project/)
-* [AppUser] (api-docs/appuser/)
+* [AppUser](api-docs/appuser/)
 
 ## Backlogit
 
