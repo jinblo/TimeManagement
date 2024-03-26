@@ -1,9 +1,8 @@
-
-const baseUrl = 'http://localhost:8080/projects'
+import { baseUrl } from "./baseUrl"
 
 export async function getProjects(token) {
   const request =
-    fetch(`${baseUrl}`, {
+    fetch(`${baseUrl}/projects`, {
       headers: {
         'Authorization': token
       }
@@ -13,7 +12,7 @@ export async function getProjects(token) {
 }
 export async function postProject(token, project) {
   const request =
-    fetch(`${baseUrl}`, {
+    fetch(`${baseUrl}/projects`, {
       method: 'post',
       headers: {
         'Authorization': token,
@@ -27,7 +26,7 @@ export async function postProject(token, project) {
 
 export async function putProject(token, project) {
   const request =
-    fetch(`${baseUrl}/${project.id}`, {
+    fetch(`${baseUrl}/projects/${project.id}`, {
       method: 'put',
       headers: {
         'Authorization': token,
@@ -41,7 +40,7 @@ export async function putProject(token, project) {
 
 export async function deleteProject(token, project_id) {
   const request =
-    fetch(`${baseUrl}/${project_id}`, {
+    fetch(`${baseUrl}/projects/${project_id}`, {
       method: 'delete',
       headers: {
         'Authorization': token,

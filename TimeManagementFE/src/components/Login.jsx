@@ -2,6 +2,7 @@ import { useState } from "react"
 import { Box, TextField, Button } from '@mui/material'
 import { useNavigate } from "react-router-dom"
 import { useAuth } from "../services/AuthProvider"
+import { baseUrl } from "../services/baseUrl"
 
 const Login = () => {
   const { setToken } = useAuth()
@@ -10,7 +11,7 @@ const Login = () => {
   const [password, setPassword] = useState('')
 
   const fetchToken = () => {
-    fetch('http://localhost:8080/login', {
+    fetch(`${baseUrl}/login`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

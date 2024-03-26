@@ -1,5 +1,4 @@
-
-const baseUrl = 'http://localhost:8080'
+import { baseUrl } from "./baseUrl"
 
 export async function getEntries(token) {
   const request =
