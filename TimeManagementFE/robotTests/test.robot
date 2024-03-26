@@ -87,7 +87,7 @@ Deleting a project
 
 Testing logging out function
         [Tags]                      logout
-        Click Link                  Logout
+        Click Link                  Kirjaudu ulos
         Page Should Contain         Sinut on kirjattu ulos
 
 

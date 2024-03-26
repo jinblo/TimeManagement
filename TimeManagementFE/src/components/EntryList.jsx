@@ -76,7 +76,7 @@ const EntryList = () => {
     },
     {
       field: "entry_id",
-      headerName: "",
+      headerName: "Muokkaa",
       sortable: false,
       filter: false,
       width: 110,
@@ -88,7 +88,7 @@ const EntryList = () => {
     },
     {
       field: "entry_id",
-      headerName: "",
+      headerName: "Poista",
       sortable: false,
       filter: false,
       width: 100,
@@ -101,23 +101,21 @@ const EntryList = () => {
   ])
 
   return (
-    <div>
+    <div className="ag-theme-quartz" style={{ height: 400, marginTop: 10 }}>
       {alertMessage}
+      <AgGridReact
+        rowData={entries}
+        columnDefs={colDefs}
+        defaultColDef={{
+          sortable: true,
+          filter: true,
+          floatingFilter: true
+        }}
+        paginationAutoPageSize={true}
+        paginateChildRows={true}
+        autoSizeStrategy={{ type: 'fitCellContents' }}
+      />
       <AddEntry token={token} projects={projects} setAlert={setAlert} fetchEntries={fetchEntries} />
-      <div className="ag-theme-quartz" style={{ height: 500, marginTop: 10 }}>
-        <AgGridReact
-          rowData={entries}
-          columnDefs={colDefs}
-          defaultColDef={{
-            sortable: true,
-            filter: true,
-            floatingFilter: true
-          }}
-          paginationAutoPageSize={true}
-          paginateChildRows={true}
-          autoSizeStrategy={{ type: 'fitCellContents' }}
-        />
-      </div>
     </div>
   )
 };
