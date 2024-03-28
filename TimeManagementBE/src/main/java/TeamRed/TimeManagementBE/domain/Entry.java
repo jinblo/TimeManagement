@@ -14,6 +14,8 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 
 @Entity
 @JsonView(DetailedProjectView.class)
@@ -22,10 +24,13 @@ public class Entry {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long entry_id;
-
+	@Size(max=250)
 	private String comment;
+	@NotNull
 	private LocalDate entry_date;
+	@NotNull
 	private LocalTime start_time;
+	@NotNull
 	private LocalTime end_time;
 
 	@ManyToOne

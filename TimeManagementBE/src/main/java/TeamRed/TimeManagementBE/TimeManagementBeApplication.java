@@ -28,10 +28,10 @@ public class TimeManagementBeApplication {
 		return (args) -> {
 			//Lisätään kaksi käyttäjää:
 			//password: AppUser1
-			AppUser testUser = new AppUser("first_name", "last_name", "email@email.com", "$2a$12$JoEvKPN77YLvGw/vqLpKeO4A.CW/1LbSweTpmwfUNfQCWC62DL/4q");
+			AppUser testUser = new AppUser("first_name", "last_name", "new_user1", "$2a$12$JoEvKPN77YLvGw/vqLpKeO4A.CW/1LbSweTpmwfUNfQCWC62DL/4q");
 			appUserRepo.save(testUser);
 			//password: AppUser2
-			AppUser testUser2 = new AppUser("first_name", "last_name", "newuser@email.com", "$2a$12$faaHwhorn90N15gUoeXLxeqeP7Iv3Xn1Z9BnoPnTajKy.KEA2esm.");
+			AppUser testUser2 = new AppUser("first_name", "last_name", "new_user2", "$2a$12$faaHwhorn90N15gUoeXLxeqeP7Iv3Xn1Z9BnoPnTajKy.KEA2esm.");
 			appUserRepo.save(testUser2);
 			//Lisätään kolme projektia: toiselle käyttäjälle Testproject 1 ja Testproject 3, toiselle käyttäjälle Testproject 2
 			Project testiprojekti = new Project("Testproject 1", testUser);
