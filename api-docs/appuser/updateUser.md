@@ -2,7 +2,7 @@
 
 **URL**: `/api/users/:pk`
 
-**Metodi**: `POST`
+**Metodi**: `PUT`
 
 **Vaadittu rooli**: 
 
