@@ -14,6 +14,9 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 
 @Entity
 public class Project {
@@ -26,8 +29,11 @@ public class Project {
 	@JsonView(ProjectOverview.class)
 	private long id;
 	@JsonView(ProjectOverview.class)
+	@Size(min=2, max=50)
+	@NotBlank(message = "Pakollinen kenttä")
 	private String title;
 	@ManyToOne
+	@NotNull
 	@JoinColumn(name = "appUser_id")
 	@JsonIgnore
 	private AppUser appUser;
