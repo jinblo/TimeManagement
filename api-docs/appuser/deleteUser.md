@@ -1,6 +1,6 @@
 # Poista käyttäjä id:llä
 
-**URL**: /users/:pk`
+**URL**: `/users/:pk`
 
 **Metodi**: `DELETE`
 
