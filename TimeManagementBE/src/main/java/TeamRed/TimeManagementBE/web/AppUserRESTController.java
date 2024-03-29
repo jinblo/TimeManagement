@@ -8,7 +8,7 @@ import TeamRed.TimeManagementBE.domain.AppUser;
 import TeamRed.TimeManagementBE.domain.AppUserRepository;
 
 @RestController
-@RequestMapping("/api/users")
+@RequestMapping("/users")
 public class AppUserRESTController {
 
 	private final AppUserRepository appUserRepository;
@@ -22,7 +22,7 @@ public class AppUserRESTController {
 	public ResponseEntity<AppUser> getUserById(@PathVariable Long id) {
 		try {
 			AppUser user = appUserRepository.findById(id).orElse(null);
-
+			System.out.println(user);
 			if (user != null) {
 				return new ResponseEntity<>(user, HttpStatus.OK);
 			} else {
@@ -34,8 +34,8 @@ public class AppUserRESTController {
 	}
 
 	// Hae käyttäjä sähköpostiosoitteen perusteella
-	@GetMapping
-	public ResponseEntity<AppUser> getUserByEmail(@RequestParam String email) {
+	@GetMapping("/byemail/{email}")
+	public ResponseEntity<AppUser> getUserByEmail(@PathVariable String email) {
 		try {
 			AppUser user = appUserRepository.findByEmail(email);
 

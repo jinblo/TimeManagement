@@ -48,7 +48,8 @@ public class WebSecurityConfig {
     	.csrf(csrf -> csrf.disable())
     	.authorizeHttpRequests(authorize -> authorize
     			.requestMatchers(antMatcher("/login")).permitAll()
-    			.anyRequest().authenticated())
+    			.anyRequest().permitAll())
+    			//.anyRequest().authenticated())
     	.sessionManagement(management -> management
     			.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
     	.exceptionHandling(exception -> exception.authenticationEntryPoint(exceptionHandler))

@@ -10,6 +10,9 @@ import org.springframework.context.annotation.Bean;
 
 import TeamRed.TimeManagementBE.domain.Project;
 import TeamRed.TimeManagementBE.domain.ProjectRepository;
+import TeamRed.TimeManagementBE.domain.Role;
+import TeamRed.TimeManagementBE.domain.UserProjectRole;
+import TeamRed.TimeManagementBE.domain.UserProjectRoleRepository;
 import TeamRed.TimeManagementBE.domain.AppUser;
 import TeamRed.TimeManagementBE.domain.AppUserRepository;
 import TeamRed.TimeManagementBE.domain.Entry;
@@ -24,7 +27,7 @@ public class TimeManagementBeApplication {
 
 	@Bean
 	public CommandLineRunner demoData(ProjectRepository projectRepo, EntryRepository entryRepo,
-			AppUserRepository appUserRepo) {
+			AppUserRepository appUserRepo, UserProjectRoleRepository roleRepo) {
 		return (args) -> {
 			//Lisätään kaksi käyttäjää:
 			//password: AppUser1
@@ -34,10 +37,23 @@ public class TimeManagementBeApplication {
 			AppUser testUser2 = new AppUser("first_name", "last_name", "newuser@email.com", "$2a$12$faaHwhorn90N15gUoeXLxeqeP7Iv3Xn1Z9BnoPnTajKy.KEA2esm.");
 			appUserRepo.save(testUser2);
 			//Lisätään kolme projektia: toiselle käyttäjälle Testproject 1 ja Testproject 3, toiselle käyttäjälle Testproject 2
-			Project testiprojekti = new Project("Testproject 1", testUser);
+			Project testiprojekti = new Project("Testproject 1");
 			projectRepo.save(testiprojekti);
-			projectRepo.save(new Project("Testproject 2", testUser2));
-			projectRepo.save(new Project("Testproject 3", testUser));
+			
+			UserProjectRole role = new UserProjectRole();
+			role.setRole(Role.OWNER);
+			role.setAppUser(appUserRepo.findByEmail("email@email.com"));
+			role.setProject(testiprojekti);
+			roleRepo.save(role);
+
+			testiprojekti.getRoles().add(role);
+			testUser.getRoles().add(role);
+			
+			
+			
+			
+			//projectRepo.save(new Project("Testproject 2", testUser2));
+			//projectRepo.save(new Project("Testproject 3", testUser));
 			//Lisätään Testproject 1:een kaksi työaikakirjausta
 			entryRepo.save(new Entry("Test entry", LocalDate.parse("2022-02-02"),
 					LocalTime.parse("10:05"), LocalTime.parse("15:15"), testiprojekti));

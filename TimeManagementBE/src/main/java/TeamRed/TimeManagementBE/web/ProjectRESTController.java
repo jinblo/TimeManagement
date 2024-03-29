@@ -2,6 +2,7 @@
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,17 +14,19 @@ import org.springframework.web.bind.annotation.RestController;
 import com.fasterxml.jackson.annotation.JsonView;
 
 import TeamRed.TimeManagementBE.domain.ProjectRepository;
+import TeamRed.TimeManagementBE.domain.UserProjectRole;
+import TeamRed.TimeManagementBE.domain.UserProjectRoleRepository;
 import TeamRed.TimeManagementBE.domain.AppUser;
 import TeamRed.TimeManagementBE.domain.AppUserRepository;
 import TeamRed.TimeManagementBE.domain.Project;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
+//import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+//import org.springframework.web.bind.annotation.PathVariable;
+//import org.springframework.web.bind.annotation.PostMapping;
+//import org.springframework.web.bind.annotation.PutMapping;
+//import org.springframework.web.bind.annotation.RequestBody;
 
 
 @CrossOrigin
@@ -36,6 +39,9 @@ public class ProjectRESTController {
     @Autowired
     private AppUserRepository userRepository;
     
+    @Autowired
+    private UserProjectRoleRepository roleRepository;
+    
     private AppUser getUserDetails() {    	
     	Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String username = auth.getName();
@@ -44,11 +50,17 @@ public class ProjectRESTController {
 
     //Kaikkien tietyn käyttäjän projektien haku
 	@GetMapping("projects")
-	@JsonView(Project.ProjectOverview.class)
+	//@JsonView(Project.ProjectOverview.class)
 	public ResponseEntity<?> getProjects() {
 		try {
-			Iterable<Project> projects = repository.findByAppUser(getUserDetails());
-			if (((List<Project>) projects).isEmpty()) {
+			//Iterable<Project> projects = repository.findByAppUser(getUserDetails());
+			AppUser user = getUserDetails();
+
+			Set<UserProjectRole> projects = user.getRoles();
+			for (UserProjectRole role : projects) {
+			    System.out.println(role);
+			}
+			if (((Set<UserProjectRole>) projects).isEmpty()) {
 				return new ResponseEntity<>("Projekteja ei löytynyt", HttpStatus.NO_CONTENT);
 			}
 			return new ResponseEntity<>(projects, HttpStatus.OK);
@@ -58,7 +70,7 @@ public class ProjectRESTController {
 	}
 
 	//Palauttaa projektin haetulla id:llä, jos kyseessä käyttäjän oma projekti
-	@GetMapping("/projects/{projectId}")
+	/*@GetMapping("/projects/{projectId}")
 	@JsonView(Project.DetailedProjectView.class)
 	public ResponseEntity<?> getProjectById(@PathVariable("projectId") Long id) {
 		try {
@@ -117,5 +129,5 @@ public class ProjectRESTController {
 		} catch (Exception e) {
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
-	}
+	}*/
 }

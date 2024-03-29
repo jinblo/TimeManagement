@@ -1,7 +1,9 @@
 package TeamRed.TimeManagementBE.domain;
 
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import jakarta.persistence.CascadeType;
@@ -21,11 +23,12 @@ public class AppUser {
     private String first_name;
     private String last_name;
     private String email;
+    @JsonIgnore
     private String password_hash;
     
     @JsonIgnoreProperties({ "appUser" })
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "appUser")
-    private List<Project> projects;
+    private Set<UserProjectRole> roles = new HashSet<>();
 
     public AppUser() {
     }
@@ -78,13 +81,17 @@ public class AppUser {
         this.password_hash = password_hash;
     }
 
-	public List<Project> getProjects() {
-		return projects;
+	public Set<UserProjectRole> getRoles() {
+		return roles;
 	}
 
-	public void setProjects(List<Project> projects) {
-		this.projects = projects;
+	public void setRoles(Set<UserProjectRole> roles) {
+		this.roles = roles;
+	}	
+
+	@Override
+	public String toString() {
+		return "AppUser [id=" + id + ", email=" + email + "]";
 	}
-
-
+	
 }
