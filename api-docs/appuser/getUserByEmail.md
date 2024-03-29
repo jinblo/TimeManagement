@@ -1,6 +1,6 @@
-# Hae käyttäjä sähköpostiosoitteella
+# Hae käyttäjä käyttäjänimellä
 
-**URL**: `/api/users/{email}`
+**URL**: `/byusername/{username}`
 
 **Metodi**: `GET`
 
@@ -8,4 +8,4 @@
 
 ## Esimerkkipyyntö:
 
-**Polku**: `BASE_URL/api/users/testi@gmail.com`
+**Polku**: `BASE_URL/byusername/{test_user1}`
