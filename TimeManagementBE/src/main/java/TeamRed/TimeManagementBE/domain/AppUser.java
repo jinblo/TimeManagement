@@ -10,6 +10,9 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 
 @Entity
 public class AppUser {
@@ -17,10 +20,17 @@ public class AppUser {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-
+    @NotBlank
+    @Size(max=20)
     private String first_name;
+    @NotBlank
+    @Size(max=30)
     private String last_name;
+    @NotNull
+    @Size(max=20)
     private String username;
+    @NotNull
+    @Size(min=8, max=50)
     private String password_hash;
     
     @JsonIgnoreProperties({ "appUser" })

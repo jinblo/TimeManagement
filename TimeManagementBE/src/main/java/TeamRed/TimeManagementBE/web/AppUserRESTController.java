@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.*;
 
 import TeamRed.TimeManagementBE.domain.AppUser;
 import TeamRed.TimeManagementBE.domain.AppUserRepository;
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/users")
@@ -51,7 +52,7 @@ public class AppUserRESTController {
 
 	// Luo uusi käyttäjä
 	@PostMapping
-	public ResponseEntity<AppUser> createUser(@RequestBody AppUser newUser) {
+	public ResponseEntity<AppUser> createUser(@Valid @RequestBody AppUser newUser) {
 		try {
 			AppUser savedUser = appUserRepository.save(newUser);
 
@@ -63,7 +64,7 @@ public class AppUserRESTController {
 
 	// Päivitä käyttäjä ID:n perusteella
 	@PutMapping("/{id}")
-	public ResponseEntity<AppUser> updateUser(@PathVariable Long id, @RequestBody AppUser updatedUser) {
+	public ResponseEntity<AppUser> updateUser(@PathVariable Long id, @Valid @RequestBody AppUser updatedUser) {
 		try {
 			if (appUserRepository.existsById(id)) {
 				updatedUser.setId(id);
