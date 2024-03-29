@@ -3,6 +3,7 @@ package TeamRed.TimeManagementBE;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -48,8 +49,9 @@ public class WebSecurityConfig {
     	.csrf(csrf -> csrf.disable())
     	.authorizeHttpRequests(authorize -> authorize
     			.requestMatchers(antMatcher("/login")).permitAll()
-    			.anyRequest().permitAll())
-    			//.anyRequest().authenticated())
+    			.requestMatchers(antMatcher(HttpMethod.POST,"/users")).permitAll()
+    			//.anyRequest().permitAll())
+    			.anyRequest().authenticated())
     	.sessionManagement(management -> management
     			.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
     	.exceptionHandling(exception -> exception.authenticationEntryPoint(exceptionHandler))

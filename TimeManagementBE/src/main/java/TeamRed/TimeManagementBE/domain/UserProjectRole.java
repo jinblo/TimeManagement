@@ -22,7 +22,7 @@ public class UserProjectRole {
 	@ManyToOne
 	@MapsId("userId")
 	@JoinColumn(name = "user_id")
-	@JsonIgnoreProperties({"roles"})
+	@JsonIgnoreProperties({"password_hash", "roles"})
 	private AppUser appUser;
 	
 	private Role role;

@@ -12,6 +12,9 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 
 @Entity
 public class AppUser {
@@ -19,11 +22,18 @@ public class AppUser {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-
+    @NotBlank
+    @Size(max=20)
     private String first_name;
+    @NotBlank
+    @Size(max=30)
     private String last_name;
-    private String email;
-    @JsonIgnore
+    @NotNull
+    @Size(max=20)
+    private String username;
+    @NotNull
+    @Size(min=8, max=100)
+    //@JsonIgnore
     private String password_hash;
     
     @JsonIgnoreProperties({ "appUser" })
@@ -33,12 +43,11 @@ public class AppUser {
     public AppUser() {
     }
 
-    public AppUser(String first_name, String last_name, String email, String password_hash) {
+    public AppUser(String first_name, String last_name, String username, String password_hash) {
         this.first_name = first_name;
         this.last_name = last_name;
-        this.email = email;
+        this.username = username;
         this.password_hash = password_hash;
-
     }
 
     public long getId() {
@@ -65,12 +74,12 @@ public class AppUser {
         this.last_name = last_name;
     }
 
-    public String getEmail() {
-        return email;
-    }
+    public void setUsername(String username) {
+		this.username = username;
+	}
 
-    public void setEmail(String email) {
-        this.email = email;
+	public String getUsername() {
+        return username;
     }
 
     public String getPassword_hash() {
@@ -91,7 +100,7 @@ public class AppUser {
 
 	@Override
 	public String toString() {
-		return "AppUser [id=" + id + ", email=" + email + "]";
+		return "AppUser [id=" + id + ", username=" + username + "]";
 	}
 	
 }

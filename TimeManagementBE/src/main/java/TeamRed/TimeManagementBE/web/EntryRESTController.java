@@ -6,11 +6,13 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RestController;
 
 import TeamRed.TimeManagementBE.domain.EntryRepository;
 import TeamRed.TimeManagementBE.domain.Entry;
 import TeamRed.TimeManagementBE.domain.ProjectRepository;
+import jakarta.validation.Valid;
 import TeamRed.TimeManagementBE.domain.Project;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -47,7 +49,10 @@ public class EntryRESTController {
 
 	// Uuden työaikakirjauksen lisääminen
 	@PostMapping("projects/{projectId}/entries")
-	public ResponseEntity<?> addEntry(@RequestBody Entry entry, @PathVariable("projectId") Long id) {
+	public ResponseEntity<?> addEntry(@Valid @RequestBody Entry entry, @PathVariable("projectId") Long id, BindingResult bindingResult) {
+		if (bindingResult.hasErrors()) {
+			return new ResponseEntity<>("Invalid data", HttpStatus.UNPROCESSABLE_ENTITY);
+	    }
 		try {
 			Optional<Project> project = pRepository.findById(id);
 			if (project.isEmpty()) {
@@ -63,7 +68,10 @@ public class EntryRESTController {
 
 	// Työaikakirjauksen muokkaus
 	@PutMapping("projects/{projectId}/entries/{entryId}")
-	public ResponseEntity<?> editEntry(@RequestBody Entry updatedEntry, @PathVariable("entryId") Long id) {
+	public ResponseEntity<?> editEntry(@Valid @RequestBody Entry updatedEntry, @PathVariable("entryId") Long id, BindingResult bindingResult) {
+		if (bindingResult.hasErrors()) {
+			return new ResponseEntity<>("Invalid data", HttpStatus.UNPROCESSABLE_ENTITY);
+	    }
 		try {
 			Optional<Entry> toBeEdited = repository.findById(id);
 			if (toBeEdited.isEmpty()) {

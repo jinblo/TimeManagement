@@ -4,7 +4,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonView;
 
@@ -14,6 +13,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 
 @Entity
 public class Project {
@@ -26,6 +27,8 @@ public class Project {
 	@JsonView(ProjectOverview.class)
 	private long id;
 	@JsonView(ProjectOverview.class)
+	@Size(min=2, max=50)
+	@NotBlank(message = "Pakollinen kenttä")
 	private String title;
 	//@JsonIgnore
 	@JsonIgnoreProperties({ "project" })
