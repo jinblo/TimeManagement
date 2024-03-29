@@ -1,6 +1,6 @@
 # Hae käyttäjä id:llä
 
-**URL**: `/api/users/:pk`
+**URL**: `/users/:pk`
 
 **Metodi**: `GET`
 
@@ -8,4 +8,4 @@
 
 ## Esimerkkipyyntö:
 
-**Polku**: `BASE_URL/api/users/:pk`
+**Polku**: `BASE_URL/users/:pk`
