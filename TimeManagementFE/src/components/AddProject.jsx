@@ -42,7 +42,7 @@ export default function AddProject({ token, setAlert, fetchProjects }) {
                             setAlert('error')
                         }
                     })
-                    handleClose()
+                handleClose()
             } catch (error) {
                 console.error('Error adding project:', error);
                 setErrorMessage('Error adding project');
