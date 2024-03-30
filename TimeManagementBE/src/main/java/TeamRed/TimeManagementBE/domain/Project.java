@@ -32,7 +32,7 @@ public class Project {
 	private String title;
 	//@JsonIgnore
 	@JsonIgnoreProperties({ "project" })
-	@OneToMany(mappedBy = "project")
+	@OneToMany(mappedBy = "project", cascade = CascadeType.ALL)
 	private Set<UserProjectRole> roles = new HashSet<>();
 	@JsonIgnoreProperties({"project"})
 	@JsonView(DetailedProjectView.class)

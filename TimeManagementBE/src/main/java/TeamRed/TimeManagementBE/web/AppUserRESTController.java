@@ -25,7 +25,6 @@ public class AppUserRESTController {
 	public ResponseEntity<AppUser> getUserById(@PathVariable Long id) {
 		try {
 			AppUser user = appUserRepository.findById(id).orElse(null);
-			System.out.println(user);
 			if (user != null) {
 				return new ResponseEntity<>(user, HttpStatus.OK);
 			} else {

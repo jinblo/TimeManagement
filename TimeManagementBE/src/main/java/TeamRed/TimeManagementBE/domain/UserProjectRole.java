@@ -1,5 +1,6 @@
 package TeamRed.TimeManagementBE.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import jakarta.persistence.EmbeddedId;
@@ -11,12 +12,13 @@ import jakarta.persistence.MapsId;
 @Entity
 public class UserProjectRole {
 	@EmbeddedId
+	@JsonIgnore
 	private ProjectRoleKey id = new ProjectRoleKey();
 	
 	@ManyToOne
 	@MapsId("projectId")
 	@JoinColumn(name = "project_id")
-	@JsonIgnoreProperties({"roles"})
+	//@JsonIgnoreProperties({"roles"})
 	private Project project;
 	
 	@ManyToOne
@@ -77,8 +79,4 @@ public class UserProjectRole {
 		return "UserProjectRole [id=" + id + ", role=" + role + "]";
 	}
 
-	/*@Override
-	public String toString() {
-		return "UserProjectRole [id=" + id + ", project=" + project + ", appUser=" + appUser + ", role=" + role + "]";
-	}*/
 }
