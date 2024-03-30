@@ -1,11 +1,11 @@
 # Muokkaa käyttäjää id:llä
 
-**URL**: `/api/users/:pk`
+**URL**: `/users/:pk`
 
-**Metodi**: `POST`
+**Metodi**: `PUT`
 
 **Vaadittu rooli**: 
 
 ## Esimerkkipyyntö:
 
-**Polku**: `BASE_URL/api/users/:pk`
+**Polku**: `BASE_URL/users/:pk`

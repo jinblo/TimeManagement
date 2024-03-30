@@ -1,4 +1,4 @@
-package TeamRed.TimeManagementBE.web;
+ package TeamRed.TimeManagementBE.web;
 
 import java.util.List;
 import java.util.Optional;
@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.fasterxml.jackson.annotation.JsonView;
 
 import TeamRed.TimeManagementBE.domain.ProjectRepository;
+import jakarta.validation.Valid;
 import TeamRed.TimeManagementBE.domain.AppUser;
 import TeamRed.TimeManagementBE.domain.AppUserRepository;
 import TeamRed.TimeManagementBE.domain.Project;
@@ -74,7 +75,7 @@ public class ProjectRESTController {
 			
 	//Uuden projektin lisääminen
 	@PostMapping("projects")
-	public ResponseEntity<Project> addProject(@RequestBody Project project) {
+	public ResponseEntity<Project> addProject(@Valid @RequestBody Project project) {
 		try {
 			AppUser user = getUserDetails();
 			Project newProject = new Project();
@@ -89,7 +90,7 @@ public class ProjectRESTController {
 	
 	//Projektin muokkaus
 	@PutMapping("projects/{projectId}")
-	public ResponseEntity<?> editProject(@RequestBody Project updatedProject, @PathVariable("projectId") Long id) {
+	public ResponseEntity<?> editProject(@Valid @RequestBody Project updatedProject, @PathVariable("projectId") Long id) {
 		try {
 			Optional<Project> toBeEdited = repository.findById(id);
 			if (!toBeEdited.isEmpty() && toBeEdited.get().getAppUser().getId() == (getUserDetails().getId())) {

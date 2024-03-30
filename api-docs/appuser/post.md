@@ -1,6 +1,6 @@
 # Luo uusi käyttäjä
 
-**URL**: `/api/users`
+**URL**: `/users`
 
 **Metodi**: `POST`
 
@@ -8,12 +8,12 @@
 
 ## Esimerkkipyyntö:
 
-**Polku**: `BASE_URL/api/users`
+**Polku**: `BASE_URL/users`
 ```json
 {
 "first_name": "Testi",
 "last_name": "Testiläinen",
-  "email": "test@tester.com"
+  "username": "new_user1"
 }
 ```
 ## Esimerkkivastaus:
@@ -23,6 +23,6 @@
   "userId": 1,
   "first_name": "Testi",
   "last_name": "Testiläinen",
-  "email": "test@tester.com"
+  "username": "new_user1"
 }
 ```
