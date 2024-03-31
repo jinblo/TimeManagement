@@ -2,12 +2,14 @@ package TeamRed.TimeManagementBE.web;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import TeamRed.TimeManagementBE.domain.AppUser;
 import TeamRed.TimeManagementBE.domain.AppUserRepository;
 import jakarta.validation.Valid;
 
+@CrossOrigin
 @RestController
 @RequestMapping("/users")
 public class AppUserRESTController {
@@ -23,7 +25,6 @@ public class AppUserRESTController {
 	public ResponseEntity<AppUser> getUserById(@PathVariable Long id) {
 		try {
 			AppUser user = appUserRepository.findById(id).orElse(null);
-
 			if (user != null) {
 				return new ResponseEntity<>(user, HttpStatus.OK);
 			} else {
@@ -52,7 +53,10 @@ public class AppUserRESTController {
 
 	// Luo uusi käyttäjä
 	@PostMapping
-	public ResponseEntity<AppUser> createUser(@Valid @RequestBody AppUser newUser) {
+	public ResponseEntity<?> createUser(@Valid @RequestBody AppUser newUser, BindingResult bindingResult) {
+		if (bindingResult.hasErrors()) {
+			return new ResponseEntity<>("Invalid data", HttpStatus.UNPROCESSABLE_ENTITY);
+	    }
 		try {
 			AppUser savedUser = appUserRepository.save(newUser);
 
@@ -64,7 +68,10 @@ public class AppUserRESTController {
 
 	// Päivitä käyttäjä ID:n perusteella
 	@PutMapping("/{id}")
-	public ResponseEntity<AppUser> updateUser(@PathVariable Long id, @Valid @RequestBody AppUser updatedUser) {
+	public ResponseEntity<?> updateUser(@PathVariable Long id, @Valid @RequestBody AppUser updatedUser, BindingResult bindingResult) {
+		if (bindingResult.hasErrors()) {
+			return new ResponseEntity<>("Invalid data", HttpStatus.UNPROCESSABLE_ENTITY);
+	    }
 		try {
 			if (appUserRepository.existsById(id)) {
 				updatedUser.setId(id);

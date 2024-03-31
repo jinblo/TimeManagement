@@ -1,9 +1,10 @@
 package TeamRed.TimeManagementBE.domain;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-//import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonView;
 
 import jakarta.persistence.CascadeType;
@@ -11,11 +12,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 @Entity
@@ -32,22 +30,20 @@ public class Project {
 	@Size(min=2, max=50)
 	@NotBlank(message = "Pakollinen kenttä")
 	private String title;
-	@ManyToOne
-	@NotNull
-	@JoinColumn(name = "appUser_id")
-	@JsonIgnore
-	private AppUser appUser;
-	//@JsonIgnoreProperties({"project"})
+	//@JsonIgnore
+	@JsonIgnoreProperties({ "project" })
+	@OneToMany(mappedBy = "project", cascade = CascadeType.ALL)
+	private Set<UserProjectRole> roles = new HashSet<>();
+	@JsonIgnoreProperties({"project"})
 	@JsonView(DetailedProjectView.class)
 	@OneToMany(cascade=CascadeType.ALL, mappedBy="project")
 	private List<Entry> entries;
 	
 	public Project() {}
 	
-	public Project(String title, AppUser appUser) {
+	public Project(String title) {
 		super();
 		this.title = title;
-		this.appUser = appUser;
 	}
 
 	public long getId() {
@@ -66,20 +62,20 @@ public class Project {
 		this.title = title;
 	}
 
+	public Set<UserProjectRole> getRoles() {
+		return roles;
+	}
+
+	public void setRoles(Set<UserProjectRole> roles) {
+		this.roles = roles;
+	}
+
 	public List<Entry> getEntries() {
 		return entries;
 	}
 
 	public void setEntries(List<Entry> entries) {
 		this.entries = entries;
-	}
-
-	public AppUser getAppUser() {
-		return appUser;
-	}
-
-	public void setAppUser(AppUser appUser) {
-		this.appUser = appUser;
 	}
 
 	@Override
