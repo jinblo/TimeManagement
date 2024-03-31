@@ -62,8 +62,6 @@ const ProjectList = () => {
                         <EditProject token={token} editData={params.data.project} setAlert={setAlert} fetchProjects={fetchProjects} />
                         : null
                 )
-
-
             }
         },
         {

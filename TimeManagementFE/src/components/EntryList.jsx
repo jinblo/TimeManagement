@@ -17,7 +17,7 @@ import { getProjects } from '../services/ProjectService';
 const EntryList = () => {
   const { token } = useAuth()
   const [entries, setEntries] = useState([])
-  const [projects, setProjects] = useState()
+  const [projects, setProjects] = useState([])
   const [alert, setAlert] = useState(null)
   const alertMessage = useMemo(() => {
     switch (alert) {
