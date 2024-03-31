@@ -25,7 +25,7 @@ const ProjectList = () => {
             }
             case 'info': {
                 return <AlertMessage alert={alert} alertMessage="Kirjaus poistettu onnistuneesti" setAlert={setAlert} />
-              }
+            }
             case 'error': {
                 return <AlertMessage alert={alert} alertMessage="Kirjauksen tallennus epäonnistui" setAlert={setAlert} />
             }
@@ -46,24 +46,34 @@ const ProjectList = () => {
     // Details showing in the table
     const [colDefs, setColDefs] = useState([
         {
-            field: "title",
+            field: "project.title",
             headerName: "Projekti"
         },
         {
-            field: "id",
+            field: "role",
+            headerName: "Rooli"
+        },
+        {
+            field: "project.id",
             headerName: "Muokkaa",
             cellRenderer: params => {
                 return (
-                    <EditProject token={token} editData={params.data} setAlert={setAlert} fetchProjects={fetchProjects} />
+                    params.data.role === "OWNER" ?
+                        <EditProject token={token} editData={params.data.project} setAlert={setAlert} fetchProjects={fetchProjects} />
+                        : null
                 )
+
+
             }
         },
         {
-            field: "id",
+            field: "project.id",
             headerName: "Poista",
             cellRenderer: params => {
                 return (
-                    <DeleteProject token={token} id={params.value} setAlert={setAlert} fetchProjects={fetchProjects} />
+                    params.data.role === "OWNER" ?
+                        <DeleteProject token={token} id={params.value} setAlert={setAlert} fetchProjects={fetchProjects} />
+                        : null
                 )
             }
         },
