@@ -17,4 +17,4 @@ ${EditedText}           Edited
 ${EditedProject}        RobotTestEdited
 ${AddedEntry}           RobotTestEntry
 ${EditedEntry}          RobotTestEntryEdited
-&{TESTUSER}             username=email@email.com   password=AppUser1
+&{TESTUSER}             username=new_user1   password=AppUser1
