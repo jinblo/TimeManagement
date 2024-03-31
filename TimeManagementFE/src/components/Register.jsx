@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField } from "@mui/material";
-import { postUser } from '../services/AppUserService';
+import { register } from '../services/AppUserService';
 
 // Uuden käyttäjän rekisteröitymine palveluun
 
@@ -28,7 +28,7 @@ const Register = ({ setAlert }) => {
       setError(true)
     } else {
       try {
-        postUser(user)
+        register(user)
           .then(response => {
             if (response.ok) {
               // User added successfully

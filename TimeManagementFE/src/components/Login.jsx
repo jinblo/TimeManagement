@@ -2,15 +2,14 @@ import { useState, useMemo } from "react"
 import { Box, TextField, Button, Typography } from '@mui/material'
 import { useNavigate } from "react-router-dom"
 import { useAuth } from "../services/AuthProvider"
-import { baseUrl } from "../services/baseUrl"
 import AlertMessage from './AlertMessage';
 import Register from "./Register"
+import { login } from "../services/AppUserService"
 
 const Login = () => {
   const { setToken } = useAuth()
   const navigate = useNavigate()
-  const [username, setUsername] = useState('')
-  const [password, setPassword] = useState('')
+  const [user, setUser] = useState({ username: '', password: '' })
   const [alert, setAlert] = useState(null)
   const alertMessage = useMemo(() => {
     switch (alert) {
@@ -27,15 +26,12 @@ const Login = () => {
     }
   }, [alert]);
 
+  const handleChange = (e) => {
+    setUser({ ...user, [e.target.name]: e.target.value })
+  }
+
   const fetchToken = () => {
-    fetch(`${baseUrl}/login`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': '*'
-      },
-      body: JSON.stringify({ username: username, password: password })
-    })
+    login(user)
       .then(response => {
         if (response.ok) {
           setToken(response.headers.get('Authorization'))
@@ -64,8 +60,8 @@ const Login = () => {
           label="Username"
           id="username"
           autoComplete="username"
-          value={username}
-          onChange={e => setUsername(e.target.value)}
+          value={user.username}
+          onChange={e => handleChange(e)}
         />
         <TextField
           required
@@ -74,8 +70,8 @@ const Login = () => {
           id="password"
           type="password"
           autoComplete="current-password"
-          value={password}
-          onChange={e => setPassword(e.target.value)}
+          value={user.password}
+          onChange={e => handleChange(e)}
         />
         <Button type="submit">
           Login

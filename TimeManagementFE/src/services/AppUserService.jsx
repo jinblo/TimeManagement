@@ -1,7 +1,19 @@
 import { baseUrl } from "./baseUrl"
 
+export async function login(user) {
+  const request =
+    fetch(`${baseUrl}/login`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*'
+      },
+      body: JSON.stringify(user)
+    })
+  return request
+};
 
-export async function postUser(user) {
+export async function register(user) {
   const request =
     fetch(`${baseUrl}/users`, {
       method: 'post',
