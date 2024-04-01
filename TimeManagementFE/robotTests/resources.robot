@@ -18,3 +18,4 @@ ${EditedProject}        RobotTestEdited
 ${AddedEntry}           RobotTestEntry
 ${EditedEntry}          RobotTestEntryEdited
 &{TESTUSER}             username=new_user1   password=AppUser1
+${KirjausOnnistui}      Kirjaus tallennettu onnistuneesti

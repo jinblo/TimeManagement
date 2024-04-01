@@ -51,3 +51,14 @@ export async function deleteUser(token, user_id) {
       .catch(error => console.error(error))
   return request
 }
+
+export async function getUser(token, username) {
+  const request =
+    fetch(`${baseUrl}/users/byusername/${username}`, {
+      headers: {
+        'Authorization': token
+      }
+    })
+      .catch(error => console.error(error))
+  return request.then(response => response.json())
+}

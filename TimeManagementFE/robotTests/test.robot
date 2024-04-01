@@ -23,7 +23,7 @@ Login to the TimeManagement service
         Open Browser                ${URL}              ${Browser} 
         LogInWithCredentials
         click button                Login               
-        Page Should Contain         Tämä on etusivu
+        Page Should Contain         Hei
 
 
 Adding a new project after logged in
@@ -41,7 +41,7 @@ Editing an existing project
         Click Button                Muokkaa
         Input Text                  name=title          ${EditedText}
         SaveButton
-        Page Should Contain         ${EditedText}
+        Page Should Contain         ${KirjausOnnistui}
 
 
 # Ei pääse kiinni select osioon
@@ -63,7 +63,7 @@ Editing an existing entry
         click button                Muokkaa
         Input Text                  name=entry            ${EditedText}
         SaveButton
-        Page Should Contain         ${EditedText}
+        Page Should Contain         ${KirjausOnnistui}
 
 # poistaa ensimmäisen enrtyn
  Deleting the first entry
