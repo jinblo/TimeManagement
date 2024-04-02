@@ -21,6 +21,8 @@ import TeamRed.TimeManagementBE.service.AppUserDetailsService;
 
 import static org.springframework.security.web.util.matcher.AntPathRequestMatcher.antMatcher;
 
+import java.util.Arrays;
+
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig {
@@ -48,9 +50,22 @@ public class WebSecurityConfig {
 	}
 
 	@Bean
+	CorsConfigurationSource corsConfigurationSource() {
+		CorsConfiguration configuration = new CorsConfiguration();
+		configuration.setAllowedOrigins(Arrays.asList("*"));
+		configuration.setAllowedMethods(Arrays.asList("*"));
+		configuration.setAllowedHeaders(Arrays.asList("*"));
+		configuration.setAllowCredentials(true);
+		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+		source.registerCorsConfiguration("/**", configuration);
+		return source;
+	}
+
+	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 		http
 				.csrf(csrf -> csrf.disable())
+				.cors(httpSecurityCorsConfigurer -> httpSecurityCorsConfigurer.configurationSource(corsConfigurationSource()))
 				.authorizeHttpRequests(authorize -> authorize
 						.requestMatchers(antMatcher("/h2-console*")).permitAll()
 						// .requestMatchers(new AntPathRequestMatcher("/h2-console/**")).permitAll()
@@ -63,12 +78,5 @@ public class WebSecurityConfig {
 				.addFilterBefore(authenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
 		return http.build();
-	}
-
-	@Bean
-	CorsConfigurationSource corsConfigurationSource() {
-		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-		source.registerCorsConfiguration("/**", new CorsConfiguration().applyPermitDefaultValues());
-		return source;
 	}
 }
