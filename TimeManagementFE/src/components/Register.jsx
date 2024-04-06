@@ -68,7 +68,7 @@ const Register = ({ setAlert }) => {
           }
         }}
       >
-        <DialogTitle>Reksiteröidy</DialogTitle>
+        <DialogTitle>Rekisteröidy</DialogTitle>
         <DialogContent>
           <TextField
             autoFocus

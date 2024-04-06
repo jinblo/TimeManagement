@@ -26,16 +26,16 @@ import java.util.Arrays;
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig {
-	
+
 	@Autowired
 	private AppUserDetailsService userDetailsService;
-	
+
 	@Autowired
 	private AuthenticationFilter authenticationFilter;
-	
+
 	@Autowired
 	private AuthEntryPoint exceptionHandler;
-	
+
 	@Autowired
 	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
 		auth.userDetailsService(userDetailsService).passwordEncoder(new BCryptPasswordEncoder());
@@ -60,7 +60,6 @@ public class WebSecurityConfig {
     	return source; 	
     }
     
-	
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
     	http
@@ -79,4 +78,5 @@ public class WebSecurityConfig {
     	
         return http.build();
     }
+
 }

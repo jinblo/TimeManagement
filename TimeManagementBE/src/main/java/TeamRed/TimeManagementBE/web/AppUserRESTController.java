@@ -2,6 +2,7 @@ package TeamRed.TimeManagementBE.web;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
@@ -58,6 +59,8 @@ public class AppUserRESTController {
 			return new ResponseEntity<>("Invalid data", HttpStatus.UNPROCESSABLE_ENTITY);
 	    }
 		try {
+			BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+			newUser.setPassword_hash(encoder.encode(newUser.getPassword_hash()));
 			AppUser savedUser = appUserRepository.save(newUser);
 
 			return new ResponseEntity<>(savedUser, HttpStatus.CREATED);

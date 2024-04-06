@@ -4,6 +4,7 @@ export async function login(user) {
   const request =
     fetch(`${baseUrl}/login`, {
       method: 'POST',
+      mode: 'cors',
       headers: {
         'Content-Type': 'application/json',
         'Access-Control-Allow-Origin': '*'
