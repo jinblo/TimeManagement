@@ -21,7 +21,7 @@ import TeamRed.TimeManagementBE.service.AppUserDetailsService;
 
 import static org.springframework.security.web.util.matcher.AntPathRequestMatcher.antMatcher;
 
-@Configuration
+@Configuration	
 @EnableWebSecurity
 public class WebSecurityConfig {
 

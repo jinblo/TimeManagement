@@ -1,7 +1,7 @@
 package TeamRed.TimeManagementBE.web;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,14 +12,15 @@ import jakarta.validation.Valid;
 @CrossOrigin
 @RestController
 @RequestMapping("/users")
+
 public class AppUserRESTController {
 
 	private final AppUserRepository appUserRepository;
+	
 
 	public AppUserRESTController(AppUserRepository appUserRepository) {
 		this.appUserRepository = appUserRepository;
 	}
-
 	// Hae käyttäjä ID:n perusteella
 	@GetMapping("/{id}")
 	public ResponseEntity<AppUser> getUserById(@PathVariable Long id) {
@@ -56,8 +57,10 @@ public class AppUserRESTController {
 	public ResponseEntity<?> createUser(@Valid @RequestBody AppUser newUser, BindingResult bindingResult) {
 		if (bindingResult.hasErrors()) {
 			return new ResponseEntity<>("Invalid data", HttpStatus.UNPROCESSABLE_ENTITY);
-	    }
+		}
 		try {
+			BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+			newUser.setPassword_hash(encoder.encode(newUser.getPassword_hash()));
 			AppUser savedUser = appUserRepository.save(newUser);
 
 			return new ResponseEntity<>(savedUser, HttpStatus.CREATED);
