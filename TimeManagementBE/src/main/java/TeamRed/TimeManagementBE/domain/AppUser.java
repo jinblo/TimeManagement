@@ -27,6 +27,9 @@ public class AppUser {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "appUser")
     private List<Project> projects;
 
+    @OneToMany(mappedBy = "appUser", cascade = CascadeType.ALL)
+    private List<Entry> entries;
+
     public AppUser() {
     }
 
@@ -84,6 +87,14 @@ public class AppUser {
 
     public void setProjects(List<Project> projects) {
         this.projects = projects;
+    }
+
+    public List<Entry> getEntries() {
+        return entries;
+    }
+
+    public void setEntries(List<Entry> entries) {
+        this.entries = entries;
     }
 
     public String getRole() {

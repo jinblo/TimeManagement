@@ -32,6 +32,10 @@ public class Entry {
 	@JsonIgnore
 	private Project project;
 
+	@ManyToOne
+	@JoinColumn(name = "app_user_id")
+	private AppUser appUser;
+
 	public Entry() {
 		super();
 	}
