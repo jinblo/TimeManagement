@@ -60,7 +60,7 @@ const Login = () => {
           autoFocus
           required
           name="username"
-          label="Username"
+          label="Käyttäjänimi"
           id="username"
           autoComplete="username"
           value={user.username}
@@ -69,7 +69,7 @@ const Login = () => {
         <TextField
           required
           name="password"
-          label="Password"
+          label="Salasana"
           id="password"
           type="password"
           autoComplete="current-password"
@@ -77,7 +77,7 @@ const Login = () => {
           onChange={e => handleChange(e)}
         />
         <Button style={{ marginLeft:6 }} variant="contained" type="submit">
-          Login
+          Kirjaudu
         </Button>
       </Box>
       <Box sx={{ margin: 2, marginTop: 6 }}>
