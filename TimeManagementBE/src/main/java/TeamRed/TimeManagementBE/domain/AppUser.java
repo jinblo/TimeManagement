@@ -13,7 +13,6 @@ import jakarta.persistence.OneToMany;
 
 @Entity
 public class AppUser {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
