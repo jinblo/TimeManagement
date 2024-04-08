@@ -52,6 +52,16 @@ public class ProjectRESTController {
         String username = auth.getName();
         return userRepository.findByUsername(username);
     }
+    
+    private Role getUserRole(Long id) {
+		ProjectRoleKey key = new ProjectRoleKey(id, getUserDetails().getId());
+		UserProjectRole userProjectRole = roleRepository.findById(key);
+		if (userProjectRole != null) {
+			return userProjectRole.getRole();
+		} else {
+			return null;
+		}
+    }
 
     //Kaikkien tietyn käyttäjän projektien haku
 	@GetMapping
@@ -74,10 +84,8 @@ public class ProjectRESTController {
 	//@JsonView(Project.DetailedProjectView.class)
 	public ResponseEntity<?> getProjectById(@PathVariable("projectId") Long id) {
 		try {
-			ProjectRoleKey key = new ProjectRoleKey(id, getUserDetails().getId());
-			UserProjectRole project = roleRepository.findById(key);
-			if (project != null) {
-				return new ResponseEntity<>(project, HttpStatus.OK);
+			if (getUserRole(id) != null) {
+				return new ResponseEntity<>(repository.findById(id), HttpStatus.OK);
 			}
 			return new ResponseEntity<>("Annetulla id:llä ei löytynyt projektia", HttpStatus.NOT_FOUND);
 		} catch (Exception e) {
@@ -99,9 +107,7 @@ public class ProjectRESTController {
 			role.setRole(Role.OWNER);
 			role.setAppUser(user);
 			role.setProject(newProject);
-			roleRepository.save(role);
-			newProject.getRoles().add(role);
-			user.getRoles().add(role);		
+			roleRepository.save(role);		
 			return new ResponseEntity<>(newProject, HttpStatus.CREATED);
 		} catch (Exception e) {
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -116,29 +122,28 @@ public class ProjectRESTController {
 	    }
 		try {
 			Optional<Project> toBeEdited = repository.findById(id);
-			if (!toBeEdited.isEmpty()) {
+			if (!toBeEdited.isEmpty() && getUserRole(id).equals(Role.OWNER)) {
 				Project project = toBeEdited.get();
 				project.setTitle(updatedProject.getTitle());
 				repository.save(project);
 				Set<UserProjectRole> roles = updatedProject.getRoles();
 				for (UserProjectRole role : roles) {
-					Optional<AppUser> user = userRepository.findById(role.getAppUser().getId());
-					ProjectRoleKey key = new ProjectRoleKey(project.getId(), user.get().getId());
-					if (roleRepository.findById(key) == null) {
-						UserProjectRole projectRole = new UserProjectRole();
-						projectRole.setRole(role.getRole());
-						projectRole.setAppUser(user.get());
-						projectRole.setProject(project);
-						roleRepository.save(projectRole);
-						project.getRoles().add(projectRole);
-						user.get().getRoles().add(projectRole);	
+					AppUser user = role.getAppUser();
+					ProjectRoleKey key = new ProjectRoleKey(id, user.getId());
+					UserProjectRole userProjectRole = roleRepository.findById(key);
+					if (userProjectRole == null) {
+						UserProjectRole newProjectRole = new UserProjectRole();
+						newProjectRole.setRole(role.getRole());
+						newProjectRole.setAppUser(user);
+						newProjectRole.setProject(project);
+						roleRepository.save(newProjectRole);
+					} else if (role.getRole() == null) {
+						roleRepository.delete(userProjectRole);
 					} else {
-						UserProjectRole projectRole = roleRepository.findById(key);
-						projectRole.setRole(role.getRole());
-						roleRepository.save(projectRole);
+						userProjectRole.setRole(role.getRole());
+						roleRepository.save(userProjectRole);
 					}
 				}
-				System.out.println();
 				return new ResponseEntity<>(project, HttpStatus.OK);
 			}
 			return new ResponseEntity<>("Annetulla id:llä ei löytynyt projektia", HttpStatus.NOT_FOUND);
@@ -151,9 +156,7 @@ public class ProjectRESTController {
 	@DeleteMapping("/{projectId}")
 	public ResponseEntity<String> removeProject(@PathVariable("projectId") Long id) {
 		try {
-			ProjectRoleKey key = new ProjectRoleKey(id, getUserDetails().getId());
-			UserProjectRole project = roleRepository.findById(key);
-			if (project != null && project.getRole().equals(Role.OWNER)) {
+			if (getUserRole(id).equals(Role.OWNER)) {
 				repository.deleteById(id);
 				return new ResponseEntity<>("Projekti poistettu onnistuneesti", HttpStatus.OK);
 			}
