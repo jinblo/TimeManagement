@@ -133,7 +133,6 @@ public class ProjectRESTController {
 					AppUser user = role.getAppUser();
 					ProjectRoleKey key = new ProjectRoleKey(id, user.getId());
 					UserProjectRole userProjectRole = roleRepository.findById(key);
-					System.out.println("ROOLI: " + role.getRole()); //POISTA
 					if (userProjectRole == null) {
 						UserProjectRole newProjectRole = new UserProjectRole();
 						newProjectRole.setRole(role.getRole());
@@ -143,10 +142,7 @@ public class ProjectRESTController {
 						project.getRoles().add(newProjectRole);
 						user.getRoles().add(newProjectRole);
 					} else if (role.getRole() == null) {
-						System.out.println("TÄNNE TULTIIN"); //POISTA
 						roleRepository.delete(userProjectRole);
-						//user.getRoles().remove(userProjectRole);
-						//project.getRoles().remove(userProjectRole);
 					} else {
 						userProjectRole.setRole(role.getRole());
 						roleRepository.save(userProjectRole);
