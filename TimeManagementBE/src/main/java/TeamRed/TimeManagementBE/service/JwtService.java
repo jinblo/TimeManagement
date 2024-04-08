@@ -2,6 +2,7 @@ package TeamRed.TimeManagementBE.service;
 
 import java.security.Key;
 import java.util.Date;
+import java.util.Map;
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -19,9 +20,10 @@ public class JwtService {
 	static final Key key = Keys.secretKeyFor(SignatureAlgorithm.HS256); //Key must be changed in production environment
 	
 	//Generates a signed JWT token
-	public String getToken(String username) {
+	public String getToken(String username, Map<String, Object> userDetails) {
 		String token = Jwts.builder()
 				.setSubject(username)
+				.addClaims(userDetails)
 				.setExpiration(new Date(System.currentTimeMillis() + EXPIRATIONTIME))
 				.signWith(key)
 				.compact();
