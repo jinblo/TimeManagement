@@ -8,37 +8,23 @@ import { Link } from 'react-router-dom';
 import Grid from '@mui/material/Grid';
 import { useAuth } from '../services/AuthProvider';
 import { getUser } from '../services/AppUserService';
+import { jwtDecode } from "jwt-decode";
 
 // Aloitussivu. Päivitetään vielä lopussa.
-// Uupuu linkit omiin tietoihin ja käyttäjien hallintaan (sivuja ei vielä ole)
-// Etunimen haku uupuu vielä
+// Uupuu linkiki omiin tietoihin (sivua ei vielä ole)
 
 
 const Home = () => {
   const { token } = useAuth();
-  const [appuser, setAppuser] = useState(null);
+  const decodedToken = jwtDecode(token);
+  const { id, first_name, last_name } = decodedToken;
 
-
-  // Käyttäjän username pitää hakea tokenin kautta, nyt ei onnistu
-  // manuaalisesti haettuna onnistuu
-  // const username = "new_user1";
-  
-  // Fetching user data for showing user's first name
-//  useEffect(() => {
-//    const fetchUser = () => {
-//      getUser(token, username)
-//          .then(data => setAppuser(data))
-//    }
-//  fetchUser();
-//}, []);
-
-  console.log(token);
-  console.log(appuser);
+  console.log(decodedToken);
 
   return (
     <Box style={{ paddingLeft: 40, paddingRight: 40 }}>
-        {appuser ? (
-          <Typography variant="h6" style={{ marginTop: 30, marginBottom: 40 }}>Hei {appuser.first_name}!</Typography>
+        {first_name && last_name ? (
+          <Typography variant="h6" style={{ marginTop: 30, marginBottom: 40 }}>Hei {first_name + " " + last_name}!</Typography>
         ) : (
           <Typography variant="h6" style={{ marginTop: 30, marginBottom: 40 }}>Hei!</Typography>
         )}
@@ -87,13 +73,13 @@ const Home = () => {
         </Grid>
         <Grid item>
           <Card sx={{ maxWidth: 300 }}> {/* Käyttäjien hallinta card */}
-            <CardActionArea>
+          <CardActionArea component={Link} to='/projectlist'>
               <CardContent>
                 <Typography gutterBottom variant="h5" component="div">
                   Käyttäjien hallinta
                 </Typography>
                 <Typography variant="body2" color="text.secondary">
-                  (LINKKI UUPUU) Lisää uusia käyttäjiä projekteillesi sekä hallitse käyttäjätietoja.
+                  Hallitse projektien käyttäjiä kyseisen projektin muokkausnäkymästä.
                 </Typography>
               </CardContent>
             </CardActionArea>
