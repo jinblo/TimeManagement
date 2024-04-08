@@ -52,8 +52,11 @@ const Login = () => {
   return (
     <Box>
       {alertMessage}
+      <Typography variant="h5" style={{ margin:20 }}>Työaikakirjausjärjestelmä</Typography>
+      <Typography style={{ marginLeft:20, marginBottom:20 }}>Kirjaudu sovellukseen tai rekisteröidy uudeksi käyttäjäksi</Typography>
       <Box component='form' onSubmit={handleSubmit} sx={{ margin: 2 }}>
         <TextField
+          style={{ marginRight:6, marginBottom:6}}
           autoFocus
           required
           name="username"
@@ -73,11 +76,11 @@ const Login = () => {
           value={user.password}
           onChange={e => handleChange(e)}
         />
-        <Button type="submit">
+        <Button style={{ marginLeft:6 }} variant="contained" type="submit">
           Login
         </Button>
       </Box>
-      <Box sx={{ margin: 2, marginTop: 8 }}>
+      <Box sx={{ margin: 2, marginTop: 6 }}>
         <Register setAlert={setAlert} />
       </Box>
     </Box>
