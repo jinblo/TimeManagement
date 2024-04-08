@@ -52,12 +52,15 @@ const Login = () => {
   return (
     <Box>
       {alertMessage}
+      <Typography variant="h5" style={{ margin:20 }}>Työaikakirjausjärjestelmä</Typography>
+      <Typography style={{ marginLeft:20, marginBottom:20 }}>Kirjaudu sovellukseen tai rekisteröidy uudeksi käyttäjäksi</Typography>
       <Box component='form' onSubmit={handleSubmit} sx={{ margin: 2 }}>
         <TextField
+          style={{ marginRight:6, marginBottom:6}}
           autoFocus
           required
           name="username"
-          label="Username"
+          label="Käyttäjänimi"
           id="username"
           autoComplete="username"
           value={user.username}
@@ -66,18 +69,18 @@ const Login = () => {
         <TextField
           required
           name="password"
-          label="Password"
+          label="Salasana"
           id="password"
           type="password"
           autoComplete="current-password"
           value={user.password}
           onChange={e => handleChange(e)}
         />
-        <Button type="submit">
-          Login
+        <Button style={{ marginLeft:6 }} variant="contained" type="submit">
+          Kirjaudu
         </Button>
       </Box>
-      <Box sx={{ margin: 2, marginTop: 8 }}>
+      <Box sx={{ margin: 2, marginTop: 6 }}>
         <Register setAlert={setAlert} />
       </Box>
     </Box>
