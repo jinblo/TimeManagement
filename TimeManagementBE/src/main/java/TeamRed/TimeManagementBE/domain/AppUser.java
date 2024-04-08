@@ -22,7 +22,7 @@ public class AppUser {
     private String last_name;
     private String email;
     private String password_hash;
-    
+
     @JsonIgnoreProperties({ "appUser" })
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "appUser")
     private List<Project> projects;
@@ -78,13 +78,20 @@ public class AppUser {
         this.password_hash = password_hash;
     }
 
-	public List<Project> getProjects() {
-		return projects;
-	}
+    public List<Project> getProjects() {
+        return projects;
+    }
 
-	public void setProjects(List<Project> projects) {
-		this.projects = projects;
-	}
+    public void setProjects(List<Project> projects) {
+        this.projects = projects;
+    }
 
+    public String getRole() {
+        if (email.equals("user@example.com")) {
+            return "USER";
+        } else {
+            return "VIEWER";
+        }
+    }
 
 }

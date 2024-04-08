@@ -2,10 +2,12 @@ package TeamRed.TimeManagementBE.web;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
-
 import TeamRed.TimeManagementBE.domain.AppUser;
 import TeamRed.TimeManagementBE.domain.AppUserRepository;
+import TeamRed.TimeManagementBE.domain.Project;
 
 @RestController
 @RequestMapping("/api/users")
@@ -70,5 +72,58 @@ public class AppUserRESTController {
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+    }
+
+    // Päivitä projektin muokkausreitti rajoittamaan pääsyä käyttäjärooleihin
+    // perustuen
+    @PutMapping("/{id}/projects/{projectId}")
+    public ResponseEntity<Project> updateProject(@PathVariable Long id,
+            @PathVariable Long projectId,
+            @RequestBody Project updatedProject,
+            @AuthenticationPrincipal UserDetails userDetails) {
+        AppUser user = appUserRepository.findByEmail(userDetails.getUsername());
+        if (user == null || user.getId() != id) {
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
+
+        // Tarkista, onko käyttäjällä oikea rooli projektin muokkaamiseen
+        if (!userHasEditPermission(user)) {
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
+
+        // Logiikka projektin päivittämiseen...
+        // Esimerkkilogiikka
+        updatedProject.setId(projectId);
+        Project savedProject = updatedProject; // Tallenna päivitetty projekti tähän
+        return new ResponseEntity<>(savedProject, HttpStatus.OK);
+    }
+
+    // Päivitä projektin poistoreitti rajoittamaan pääsyä käyttäjärooleihin
+    // perustuen
+    @DeleteMapping("/{id}/projects/{projectId}")
+    public ResponseEntity<Void> deleteProject(@PathVariable Long id,
+            @PathVariable Long projectId,
+            @AuthenticationPrincipal UserDetails userDetails) {
+        AppUser user = appUserRepository.findByEmail(userDetails.getUsername());
+        if (user == null || user.getId() != id) {
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
+
+        // Tarkista, onko käyttäjällä oikea rooli projektin poistamiseen
+        if (!userHasEditPermission(user)) {
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
+
+        // Logiikka projektin poistamiseen...
+        // Esimerkkilogiikka
+        // Poista projekti projectId:n perusteella
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    // Metodi tarkistamaan, onko käyttäjällä oikeus muokata/poistaa projektia
+    private boolean userHasEditPermission(AppUser user) {
+        // Toteuta logiikka käyttäjän roolin tarkistamiseen
+        // Esimerkiksi, tarkista onko käyttäjällä rooli "USER" tai "VIEWER"
+        return !user.getRole().equals("USER") && !user.getRole().equals("VIEWER");
     }
 }
