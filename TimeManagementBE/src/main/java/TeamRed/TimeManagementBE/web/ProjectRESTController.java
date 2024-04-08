@@ -107,9 +107,7 @@ public class ProjectRESTController {
 			role.setRole(Role.OWNER);
 			role.setAppUser(user);
 			role.setProject(newProject);
-			roleRepository.save(role);
-			newProject.getRoles().add(role);
-			user.getRoles().add(role);		
+			roleRepository.save(role);		
 			return new ResponseEntity<>(newProject, HttpStatus.CREATED);
 		} catch (Exception e) {
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -139,8 +137,6 @@ public class ProjectRESTController {
 						newProjectRole.setAppUser(user);
 						newProjectRole.setProject(project);
 						roleRepository.save(newProjectRole);
-						project.getRoles().add(newProjectRole);
-						user.getRoles().add(newProjectRole);
 					} else if (role.getRole() == null) {
 						roleRepository.delete(userProjectRole);
 					} else {
