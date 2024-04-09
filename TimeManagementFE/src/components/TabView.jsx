@@ -26,7 +26,7 @@ const TabView = () => {
             {token ?
               <Tabs value={tab} onChange={handleTabChange}
                 textColor='inherit' >
-                <Tab component={Link} to={`/`} label='Etusivu' />
+                <Tab component={Link} to={`TimeManagement`} label='Etusivu' />
                 <Tab component={Link} to={'projectlist'} label='Projektit' />
                 <Tab component={Link} to={'entrylist'} label='Tuntikirjaukset' />
               </Tabs>
