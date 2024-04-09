@@ -24,7 +24,7 @@ public class Entry {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long entry_id;
-	@Size(max=250)
+	@Size(max = 250)
 	private String comment;
 	@NotNull
 	private LocalDate entry_date;

@@ -1,6 +1,7 @@
 package TeamRed.TimeManagementBE.domain;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 //import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -24,25 +25,26 @@ public class AppUser {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     @NotBlank
-    @Size(max=20)
+    @Size(max = 20)
     private String first_name;
     @NotBlank
-    @Size(max=30)
+    @Size(max = 30)
     private String last_name;
     @NotNull
-    @Size(max=20)
-    @Column(unique=true)
+    @Size(max = 20)
+    @Column(unique = true)
     private String username;
     @NotNull
-    @Size(min=8, max=100)
-    //@JsonIgnore
+    @Size(min = 8, max = 100)
+    // @JsonIgnore
     private String password_hash;
 
     @JsonIgnoreProperties({ "appUser" })
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "appUser")
     private Set<UserProjectRole> roles = new HashSet<>();
 
-    @OneToMany(mappedBy = "appUser", cascade = CascadeType.ALL)
+    @JsonIgnoreProperties({ "appUser" })
+    @OneToMany(mappedBy = "appUser")
     private List<Entry> entries;
 
     public AppUser() {
@@ -80,10 +82,10 @@ public class AppUser {
     }
 
     public void setUsername(String username) {
-		this.username = username;
-	}
+        this.username = username;
+    }
 
-	public String getUsername() {
+    public String getUsername() {
         return username;
     }
 
@@ -95,13 +97,17 @@ public class AppUser {
         this.password_hash = password_hash;
     }
 
-<<<<<<< HEAD
-    public List<Project> getProjects() {
-        return projects;
+    public Set<UserProjectRole> getRoles() {
+        return roles;
     }
 
-    public void setProjects(List<Project> projects) {
-        this.projects = projects;
+    public void setRoles(Set<UserProjectRole> roles) {
+        this.roles = roles;
+    }
+
+    @Override
+    public String toString() {
+        return "AppUser [id=" + id + ", username=" + username + "]";
     }
 
     public List<Entry> getEntries() {
@@ -112,27 +118,4 @@ public class AppUser {
         this.entries = entries;
     }
 
-    public String getRole() {
-        if (email.equals("user@example.com")) {
-            return "USER";
-        } else {
-            return "VIEWER";
-        }
-    }
-
-=======
-	public Set<UserProjectRole> getRoles() {
-		return roles;
-	}
-
-	public void setRoles(Set<UserProjectRole> roles) {
-		this.roles = roles;
-	}	
-
-	@Override
-	public String toString() {
-		return "AppUser [id=" + id + ", username=" + username + "]";
-	}
-	
->>>>>>> d47cc6507a0b58fb967ce4ed300085f59faca064
 }
