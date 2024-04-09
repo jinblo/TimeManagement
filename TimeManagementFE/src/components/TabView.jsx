@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Box, AppBar, Tabs, Tab, Button, Toolbar, } from '@mui/material';
+import { Box, AppBar, Tabs, Tab, Toolbar, } from '@mui/material';
 import { Link, Navigate, Outlet } from "react-router-dom";
 import { useParams } from 'react-router-dom';
 import { useAuth } from '../services/AuthProvider';
@@ -26,7 +26,7 @@ const TabView = () => {
             {token ?
               <Tabs value={tab} onChange={handleTabChange}
                 textColor='inherit' >
-                <Tab component={Link} to={`/`} label='Etusivu' />
+                <Tab component={Link} to={''} label='Etusivu' />
                 <Tab component={Link} to={'projectlist'} label='Projektit' />
                 <Tab component={Link} to={'entrylist'} label='Tuntikirjaukset' />
               </Tabs>

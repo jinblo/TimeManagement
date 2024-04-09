@@ -9,7 +9,7 @@ const Logout = () => {
   useEffect(() => {
     setTimeout(() => {
       setToken('');
-      navigate("/", { replace: true })
+      navigate("/TimeManagement", { replace: true })
     }, 1000)
   }, [])
 
