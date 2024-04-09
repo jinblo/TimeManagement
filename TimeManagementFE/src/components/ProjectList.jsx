@@ -7,6 +7,7 @@ import DeleteProject from './DeleteProject';
 import EditProject from './EditProject';
 import AlertMessage from './AlertMessage';
 import { useAuth } from '../services/AuthProvider';
+import { getProjects } from '../services/ProjectService';
 
 
 // Listataan projektin tiedot. Jokaisella projektilla poista ja muokkaa napit
@@ -14,7 +15,6 @@ import { useAuth } from '../services/AuthProvider';
 
 const ProjectList = () => {
     const { token } = useAuth()
-    const baseUrl = 'http://localhost:8080'
     const [projects, setProjects] = useState([]);
     const [alert, setAlert] = useState(null)
 
@@ -23,7 +23,9 @@ const ProjectList = () => {
             case 'success': {
                 return <AlertMessage alert={alert} alertMessage="Kirjaus tallennettu onnistuneesti" setAlert={setAlert} />
             }
-
+            case 'info': {
+                return <AlertMessage alert={alert} alertMessage="Kirjaus poistettu onnistuneesti" setAlert={setAlert} />
+            }
             case 'error': {
                 return <AlertMessage alert={alert} alertMessage="Kirjauksen tallennus epäonnistui" setAlert={setAlert} />
             }
@@ -35,55 +37,41 @@ const ProjectList = () => {
     }, [alert]);
 
     // Fetching project data from the database
-    const fetchData = () => {
-        fetch(`${baseUrl}/projects`, {
-            headers: {
-                'Authorization': token
-            }
-        })
-            .then(response => response.json())
+    const fetchProjects = () => {
+        getProjects(token)
             .then(data => setProjects(data))
-            .catch(error => console.error(error))
-    };
-
-    useEffect(fetchData, []);
-
-    const fetchWithOptions = (href, options) => {
-        fetch(href, options)
-            .then(response => {
-                if (response.ok) {
-                    fetchData()
-                    setAlert('success')
-                } else {
-                    setAlert('error')
-                }
-            })
-            .catch(error => {
-                console.error(error)
-            })
     }
+    useEffect(fetchProjects, []);
 
     // Details showing in the table
     const [colDefs, setColDefs] = useState([
         {
-            field: "title",
+            field: "project.title",
             headerName: "Projekti"
         },
         {
-            field: "id",
+            field: "role",
+            headerName: "Rooli"
+        },
+        {
+            field: "project.id",
             headerName: "Muokkaa",
             cellRenderer: params => {
                 return (
-                    <EditProject editData={params.data} editProject={fetchWithOptions} />
+                    params.data.role === "OWNER" ?
+                        <EditProject token={token} editData={params.data.project} setAlert={setAlert} fetchProjects={fetchProjects} />
+                        : null
                 )
             }
         },
         {
-            field: "id",
+            field: "project.id",
             headerName: "Poista",
             cellRenderer: params => {
                 return (
-                    <DeleteProject id={params.value} deleteProject={fetchWithOptions} />
+                    params.data.role === "OWNER" ?
+                        <DeleteProject token={token} id={params.value} setAlert={setAlert} fetchProjects={fetchProjects} />
+                        : null
                 )
             }
         },
@@ -104,7 +92,7 @@ const ProjectList = () => {
                 paginateChildRows={true}
                 autoSizeStrategy={{ type: 'fitCellContents' }}
             />
-            <AddProject addProject={fetchWithOptions} />
+            <AddProject token={token} setAlert={setAlert} fetchProjects={fetchProjects} />
         </div>
     )
 };

@@ -9,8 +9,8 @@ const Logout = () => {
   useEffect(() => {
     setTimeout(() => {
       setToken('');
-      navigate("/login", { replace: true })
-    }, 3000)
+      navigate("/TimeManagement", { replace: true })
+    }, 1000)
   }, [])
 
   return (

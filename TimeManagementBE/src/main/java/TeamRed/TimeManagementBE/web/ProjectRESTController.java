@@ -1,18 +1,24 @@
-package TeamRed.TimeManagementBE.web;
+ package TeamRed.TimeManagementBE.web;
 
-import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.fasterxml.jackson.annotation.JsonView;
+//import com.fasterxml.jackson.annotation.JsonView;
 
 import TeamRed.TimeManagementBE.domain.ProjectRepository;
+import TeamRed.TimeManagementBE.domain.ProjectRoleKey;
+import TeamRed.TimeManagementBE.domain.Role;
+import TeamRed.TimeManagementBE.domain.UserProjectRole;
+import TeamRed.TimeManagementBE.domain.UserProjectRoleRepository;
+import jakarta.validation.Valid;
 import TeamRed.TimeManagementBE.domain.AppUser;
 import TeamRed.TimeManagementBE.domain.AppUserRepository;
 import TeamRed.TimeManagementBE.domain.Project;
@@ -24,10 +30,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 
 @CrossOrigin
 @RestController
+@RequestMapping("/projects")
 public class ProjectRESTController {
 
     @Autowired
@@ -36,20 +44,34 @@ public class ProjectRESTController {
     @Autowired
     private AppUserRepository userRepository;
     
+    @Autowired
+    private UserProjectRoleRepository roleRepository;
+    
     private AppUser getUserDetails() {    	
     	Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String username = auth.getName();
-        return userRepository.findByEmail(username);
+        return userRepository.findByUsername(username);
+    }
+    
+    private Role getUserRole(Long id) {
+		ProjectRoleKey key = new ProjectRoleKey(id, getUserDetails().getId());
+		UserProjectRole userProjectRole = roleRepository.findById(key);
+		if (userProjectRole != null) {
+			return userProjectRole.getRole();
+		} else {
+			return null;
+		}
     }
 
     //Kaikkien tietyn käyttäjän projektien haku
-	@GetMapping("projects")
-	@JsonView(Project.ProjectOverview.class)
+	@GetMapping
+	//@JsonView(Project.ProjectOverview.class)
 	public ResponseEntity<?> getProjects() {
 		try {
-			Iterable<Project> projects = repository.findByAppUser(getUserDetails());
-			if (((List<Project>) projects).isEmpty()) {
-				return new ResponseEntity<>("Projekteja ei löytynyt", HttpStatus.NO_CONTENT);
+			AppUser user = getUserDetails();
+			Set<UserProjectRole> projects = user.getRoles();
+			if (((Set<UserProjectRole>) projects).isEmpty()) {
+				return new ResponseEntity<>("Projekteja ei löytynyt", HttpStatus.NOT_FOUND);
 			}
 			return new ResponseEntity<>(projects, HttpStatus.OK);
 		} catch (Exception e) {
@@ -58,13 +80,12 @@ public class ProjectRESTController {
 	}
 
 	//Palauttaa projektin haetulla id:llä, jos kyseessä käyttäjän oma projekti
-	@GetMapping("/projects/{projectId}")
-	@JsonView(Project.DetailedProjectView.class)
+	@GetMapping("/{projectId}")
+	//@JsonView(Project.DetailedProjectView.class)
 	public ResponseEntity<?> getProjectById(@PathVariable("projectId") Long id) {
 		try {
-			Optional<Project> projectById = repository.findById(id);
-			if (!projectById.isEmpty() && projectById.get().getAppUser().getId() == (getUserDetails().getId())) {
-				return new ResponseEntity<>(projectById, HttpStatus.OK);
+			if (getUserRole(id) != null) {
+				return new ResponseEntity<>(repository.findById(id), HttpStatus.OK);
 			}
 			return new ResponseEntity<>("Annetulla id:llä ei löytynyt projektia", HttpStatus.NOT_FOUND);
 		} catch (Exception e) {
@@ -73,14 +94,20 @@ public class ProjectRESTController {
 	}
 			
 	//Uuden projektin lisääminen
-	@PostMapping("projects")
-	public ResponseEntity<Project> addProject(@RequestBody Project project) {
+	@PostMapping
+	public ResponseEntity<?> addProject(@Valid @RequestBody Project project, BindingResult bindingResult) {
+		if (bindingResult.hasErrors()) {
+			return new ResponseEntity<>("Invalid data", HttpStatus.UNPROCESSABLE_ENTITY);
+	    }
 		try {
-			AppUser user = getUserDetails();
-			Project newProject = new Project();
-			newProject.setAppUser(user);
-			newProject.setTitle(project.getTitle());
+			Project newProject = new Project(project.getTitle());
 			repository.save(newProject);
+			AppUser user = getUserDetails();
+			UserProjectRole role = new UserProjectRole();
+			role.setRole(Role.OWNER);
+			role.setAppUser(user);
+			role.setProject(newProject);
+			roleRepository.save(role);		
 			return new ResponseEntity<>(newProject, HttpStatus.CREATED);
 		} catch (Exception e) {
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -88,14 +115,35 @@ public class ProjectRESTController {
 	}
 	
 	//Projektin muokkaus
-	@PutMapping("projects/{projectId}")
-	public ResponseEntity<?> editProject(@RequestBody Project updatedProject, @PathVariable("projectId") Long id) {
+	@PutMapping("/{projectId}")
+	public ResponseEntity<?> editProject(@Valid @RequestBody Project updatedProject, @PathVariable("projectId") Long id, BindingResult bindingResult) {
+		if (bindingResult.hasErrors()) {
+			return new ResponseEntity<>("Invalid data", HttpStatus.UNPROCESSABLE_ENTITY);
+	    }
 		try {
 			Optional<Project> toBeEdited = repository.findById(id);
-			if (!toBeEdited.isEmpty() && toBeEdited.get().getAppUser().getId() == (getUserDetails().getId())) {
+			if (!toBeEdited.isEmpty() && getUserRole(id).equals(Role.OWNER)) {
 				Project project = toBeEdited.get();
 				project.setTitle(updatedProject.getTitle());
 				repository.save(project);
+				Set<UserProjectRole> roles = updatedProject.getRoles();
+				for (UserProjectRole role : roles) {
+					AppUser user = role.getAppUser();
+					ProjectRoleKey key = new ProjectRoleKey(id, user.getId());
+					UserProjectRole userProjectRole = roleRepository.findById(key);
+					if (userProjectRole == null) {
+						UserProjectRole newProjectRole = new UserProjectRole();
+						newProjectRole.setRole(role.getRole());
+						newProjectRole.setAppUser(user);
+						newProjectRole.setProject(project);
+						roleRepository.save(newProjectRole);
+					} else if (role.getRole() == null) {
+						roleRepository.delete(userProjectRole);
+					} else {
+						userProjectRole.setRole(role.getRole());
+						roleRepository.save(userProjectRole);
+					}
+				}
 				return new ResponseEntity<>(project, HttpStatus.OK);
 			}
 			return new ResponseEntity<>("Annetulla id:llä ei löytynyt projektia", HttpStatus.NOT_FOUND);
@@ -105,13 +153,12 @@ public class ProjectRESTController {
 	}
 	
 	//Projektin poisto
-	@DeleteMapping("projects/{projectId}")
+	@DeleteMapping("/{projectId}")
 	public ResponseEntity<String> removeProject(@PathVariable("projectId") Long id) {
 		try {
-			Optional<Project> removableProject = repository.findById(id);
-			if (!removableProject.isEmpty() && removableProject.get().getAppUser().getId() == (getUserDetails().getId())) {
-				repository.delete(removableProject.get());
-				return new ResponseEntity<>("Projekti poistettu onnistuneesti", HttpStatus.OK);		
+			if (getUserRole(id).equals(Role.OWNER)) {
+				repository.deleteById(id);
+				return new ResponseEntity<>("Projekti poistettu onnistuneesti", HttpStatus.OK);
 			}
 			return new ResponseEntity<>("Annetulla id:llä ei löytynyt projektia", HttpStatus.NOT_FOUND);
 		} catch (Exception e) {

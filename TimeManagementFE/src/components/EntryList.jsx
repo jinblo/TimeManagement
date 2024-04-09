@@ -7,6 +7,8 @@ import DeleteEntry from './DeleteEntry';
 import EditEntry from './EditEntry';
 import AlertMessage from './AlertMessage';
 import { useAuth } from '../services/AuthProvider';
+import { getEntries } from '../services/EntryService';
+import { getProjects } from '../services/ProjectService';
 
 
 // Listataan työaikakirjausten tiedot, sekä jokaiselle kirjaukselle poista nappi
@@ -14,16 +16,17 @@ import { useAuth } from '../services/AuthProvider';
 
 const EntryList = () => {
   const { token } = useAuth()
-  const baseUrl = 'http://localhost:8080'
   const [entries, setEntries] = useState([])
-  const [projects, setProjects] = useState()
+  const [projects, setProjects] = useState([])
   const [alert, setAlert] = useState(null)
   const alertMessage = useMemo(() => {
     switch (alert) {
       case 'success': {
         return <AlertMessage alert={alert} alertMessage="Kirjaus tallennettu onnistuneesti" setAlert={setAlert} />
       }
-
+      case 'info': {
+        return <AlertMessage alert={alert} alertMessage="Kirjaus poistettu onnistuneesti" setAlert={setAlert} />
+      }
       case 'error': {
         return <AlertMessage alert={alert} alertMessage="Kirjauksen tallennus epäonnistui" setAlert={setAlert} />
       }
@@ -35,51 +38,19 @@ const EntryList = () => {
   }, [alert]);
 
   // Kirjausten hakeminen APIsta
-  useEffect(() => {
-    fetch(`${baseUrl}/entries`, {
-      headers: {
-        'Authorization': token
-      }
-    })
-      .then(response => response.json())
+  const fetchEntries = () => {
+    getEntries(token)
       .then(data => setEntries(data))
-      .catch(error => console.error(error))
-  }, []);
+  }
+  useEffect(fetchEntries, []);
 
   // Projektien hakeminen APIsta
-  useEffect(() => {
-    fetch(`${baseUrl}/projects`, {
-      headers: {
-        'Authorization': token
-      }
-    })
-      .then(response => response.json())
+  const fetchProjects = () => {
+    getProjects(token)
       .then(data => setProjects(data))
-      .catch(error => console.error(error))
-  }, []);
-
-
-  // Post, Put tai Delete pyyntöjen tekeminen APIin
-  const fetchWithOptions = (href, options) => {
-    fetch(href, {
-      ...options,
-      headers: {
-        'Authorization': token
-      }
-    })
-      .then(response => {
-        if (response.ok) {
-          fetchData()
-          setAlert('success')
-        } else {
-          setAlert('error')
-        }
-      }
-      )
-      .catch(error => {
-        console.error(error)
-      })
   }
+  useEffect(fetchProjects, []);
+
 
   // Ag-gridin sarakkeiden määritys
   const [colDefs, setColDefs] = useState([
@@ -105,48 +76,46 @@ const EntryList = () => {
     },
     {
       field: "entry_id",
-      headerName: "",
+      headerName: "Muokkaa",
       sortable: false,
       filter: false,
       width: 110,
       cellRenderer: params => {
         return (
-          <EditEntry oldEntry={params.data} saveEntry={fetchWithOptions} projects={projects} />
+          <EditEntry token={token} oldEntry={params.data} setAlert={setAlert} fetchEntries={fetchEntries} />
         )
       }
     },
     {
       field: "entry_id",
-      headerName: "",
+      headerName: "Poista",
       sortable: false,
       filter: false,
       width: 100,
       cellRenderer: params => {
         return (
-          <DeleteEntry entry_id={params.value} deleteEntry={fetchWithOptions} />
+          <DeleteEntry token={token} entry_id={params.value} setAlert={setAlert} fetchEntries={fetchEntries} />
         )
       }
     },
   ])
 
   return (
-    <div>
+    <div className="ag-theme-quartz" style={{ height: 400, marginTop: 10 }}>
       {alertMessage}
-      <AddEntry saveEntry={fetchWithOptions} projects={projects} />
-      <div className="ag-theme-quartz" style={{ height: 500, marginTop: 10 }}>
-        <AgGridReact
-          rowData={entries}
-          columnDefs={colDefs}
-          defaultColDef={{
-            sortable: true,
-            filter: true,
-            floatingFilter: true
-          }}
-          paginationAutoPageSize={true}
-          paginateChildRows={true}
-          autoSizeStrategy={{ type: 'fitCellContents' }}
-        />
-      </div>
+      <AgGridReact
+        rowData={entries}
+        columnDefs={colDefs}
+        defaultColDef={{
+          sortable: true,
+          filter: true,
+          floatingFilter: true
+        }}
+        paginationAutoPageSize={true}
+        paginateChildRows={true}
+        autoSizeStrategy={{ type: 'fitCellContents' }}
+      />
+      <AddEntry token={token} projects={projects} setAlert={setAlert} fetchEntries={fetchEntries} />
     </div>
   )
 };
