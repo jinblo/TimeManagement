@@ -35,7 +35,7 @@ const Login = () => {
       .then(response => {
         if (response.ok) {
           setToken(response.headers.get('Authorization'))
-          navigate("/TimeManagement", { replace: true })
+          navigate("/TimeManagement/", { replace: true })
         } else {
           alert('Wrong username or password');
           throw new Error("Error in fetch:" + response.statusText)

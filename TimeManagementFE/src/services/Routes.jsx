@@ -25,7 +25,6 @@ function Routes() {
   const userRoutes = [
     {
       index: true,
-      path: 'TimeManagement',
       element: <Home />,
     },
     {
