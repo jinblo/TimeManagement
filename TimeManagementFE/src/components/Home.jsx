@@ -23,15 +23,15 @@ const Home = () => {
 
   return (
     <Box style={{ paddingLeft: 40, paddingRight: 40 }}>
-        {first_name && last_name ? (
-          <Typography variant="h6" style={{ marginTop: 30, marginBottom: 40 }}>Hei {first_name + " " + last_name}!</Typography>
-        ) : (
-          <Typography variant="h6" style={{ marginTop: 30, marginBottom: 40 }}>Hei!</Typography>
-        )}
+      {first_name && last_name ? (
+        <Typography variant="h6" style={{ marginTop: 30, marginBottom: 40 }}>Hei {first_name + " " + last_name}!</Typography>
+      ) : (
+        <Typography variant="h6" style={{ marginTop: 30, marginBottom: 40 }}>Hei!</Typography>
+      )}
       <Grid container spacing={2}>
         <Grid item>
           <Card sx={{ maxWidth: 300 }}> {/* Projektit card */}
-            <CardActionArea component={Link} to='/projectlist'>
+            <CardActionArea component={Link} to='projectlist'>
               <CardContent>
                 <Typography gutterBottom variant="h5" component="div">
                   Projektit
@@ -45,7 +45,7 @@ const Home = () => {
         </Grid>
         <Grid item>
           <Card sx={{ maxWidth: 300 }}> {/* Tuntikirjaukset card */}
-            <CardActionArea component={Link} to='/entrylist'>
+            <CardActionArea component={Link} to='entrylist'>
               <CardContent>
                 <Typography gutterBottom variant="h5" component="div">
                   Tuntikirjaukset
@@ -73,7 +73,7 @@ const Home = () => {
         </Grid>
         <Grid item>
           <Card sx={{ maxWidth: 300 }}> {/* Käyttäjien hallinta card */}
-          <CardActionArea component={Link} to='/projectlist'>
+            <CardActionArea component={Link} to='projectlist'>
               <CardContent>
                 <Typography gutterBottom variant="h5" component="div">
                   Käyttäjien hallinta

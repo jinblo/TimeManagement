@@ -35,7 +35,7 @@ const Login = () => {
       .then(response => {
         if (response.ok) {
           setToken(response.headers.get('Authorization'))
-          navigate("/", { replace: true })
+          navigate("/TimeManagement/", { replace: true })
         } else {
           alert('Wrong username or password');
           throw new Error("Error in fetch:" + response.statusText)
@@ -52,11 +52,11 @@ const Login = () => {
   return (
     <Box>
       {alertMessage}
-      <Typography variant="h5" style={{ margin:20 }}>Työaikakirjausjärjestelmä</Typography>
-      <Typography style={{ marginLeft:20, marginBottom:20 }}>Kirjaudu sovellukseen tai rekisteröidy uudeksi käyttäjäksi</Typography>
+      <Typography variant="h5" style={{ margin: 20 }}>Työaikakirjausjärjestelmä</Typography>
+      <Typography style={{ marginLeft: 20, marginBottom: 20 }}>Kirjaudu sovellukseen tai rekisteröidy uudeksi käyttäjäksi</Typography>
       <Box component='form' onSubmit={handleSubmit} sx={{ margin: 2 }}>
         <TextField
-          style={{ marginRight:6, marginBottom:6}}
+          style={{ marginRight: 6, marginBottom: 6 }}
           autoFocus
           required
           name="username"
@@ -76,7 +76,7 @@ const Login = () => {
           value={user.password}
           onChange={e => handleChange(e)}
         />
-        <Button style={{ marginLeft:6 }} variant="contained" type="submit">
+        <Button style={{ marginLeft: 6 }} variant="contained" type="submit">
           Kirjaudu
         </Button>
       </Box>
