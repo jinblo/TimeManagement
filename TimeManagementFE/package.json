@@ -3,6 +3,7 @@
   "private": false,
   "version": "1.0.1",
   "type": "module",
+  "homepage": "https://teamred-ohjelmistoprojekti2.github.io/TimeManagement/",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
