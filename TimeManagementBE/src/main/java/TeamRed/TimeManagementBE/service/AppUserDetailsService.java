@@ -11,10 +11,10 @@ import TeamRed.TimeManagementBE.domain.AppUser;
 
 @Service
 public class AppUserDetailsService implements UserDetailsService {
-	
+
 	@Autowired
 	private AppUserRepository repository;
-	
+
 	@Override
 	public UserDetails loadUserByUsername(String username) {
 		AppUser curruser = repository.findByUsername(username);
@@ -24,6 +24,8 @@ public class AppUserDetailsService implements UserDetailsService {
 		UserDetails user = new org.springframework.security.core.userdetails.User(username, curruser.getPassword_hash(),
 				AuthorityUtils.createAuthorityList(curruser.getUsername()));
 		return user;
+
+
 	}
-	
 }
+
