@@ -105,4 +105,12 @@ public class Entry {
 		this.project = project;
 	}
 
+	public AppUser getAppUser() {
+		return appUser;
+	}
+
+	public void setAppUser(AppUser appUser) {
+		this.appUser = appUser;
+	}
+
 }
