@@ -31,7 +31,7 @@ public class AppUser {
     private String last_name;
     @NotNull
     @Size(max=20)
-    @Column(unique=true)
+    @Column(unique = true)
     private String username;
     @NotNull
     @Size(min=8, max=100)
