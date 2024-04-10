@@ -4,8 +4,28 @@
 
 **Metodi**: `PUT`
 
-**Vaadittu rooli**: 
+**Vaadittu rooli**: `OWNER`
+
+**Polku**: `BASE_URL/users/:pk`
 
 ## Esimerkkipyyntö:
 
-**Polku**: `BASE_URL/users/:pk`
+```json
+{
+    "title": "PROJEKTIN NIMI",
+    "roles": [
+        {
+            "appUser": {
+                "id": 2
+            },
+            "role": null
+        },
+        {
+            "appUser": {
+                "id": 1
+            },
+            "role": "OWNER"
+        }
+    ]
+}
+
