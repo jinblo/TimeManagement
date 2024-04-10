@@ -1,5 +1,5 @@
 package TeamRed.TimeManagementBE.web;
-
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -65,8 +65,10 @@ public class AppUserRESTController {
 			AppUser savedUser = appUserRepository.save(newUser);
 
 			return new ResponseEntity<>(savedUser, HttpStatus.CREATED);
+		} catch (DataIntegrityViolationException e) {
+			return new ResponseEntity<>("Username already exists", HttpStatus.CONFLICT);
 		} catch (Exception e) {
-			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+			return new ResponseEntity<>("Something weird happened", HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 
