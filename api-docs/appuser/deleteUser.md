@@ -4,7 +4,7 @@
 
 **Metodi**: `DELETE`
 
-**Vaadittu rooli**: OWNER
+**Vaadittu rooli**: `OWNER`
 
 ## Esimerkkipyyntö:
 
