@@ -9,3 +9,11 @@
 ## Esimerkkipyyntö:
 
 **Polku**: `BASE_URL/users/:pk`
+
+## Vastauksen paluukoodit
+
+**Koodit**:
+
+`200 OK`
+
+> _Poisto onnistui_
