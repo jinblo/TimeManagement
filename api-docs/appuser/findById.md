@@ -4,7 +4,7 @@
 
 **Metodi**: `GET`
 
-**Vaadittu rooli**: ÒWNER`
+**Vaadittu rooli**: `OWNER`
 
 **Polku**: `BASE_URL/users/:pk`
 
