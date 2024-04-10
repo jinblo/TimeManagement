@@ -17,11 +17,11 @@ import jakarta.validation.Valid;
 public class AppUserRESTController {
 
 	private final AppUserRepository appUserRepository;
-	
 
 	public AppUserRESTController(AppUserRepository appUserRepository) {
 		this.appUserRepository = appUserRepository;
 	}
+
 	// Hae käyttäjä ID:n perusteella
 	@GetMapping("/{id}")
 	public ResponseEntity<AppUser> getUserById(@PathVariable Long id) {
@@ -74,10 +74,11 @@ public class AppUserRESTController {
 
 	// Päivitä käyttäjä ID:n perusteella
 	@PutMapping("/{id}")
-	public ResponseEntity<?> updateUser(@PathVariable Long id, @Valid @RequestBody AppUser updatedUser, BindingResult bindingResult) {
+	public ResponseEntity<?> updateUser(@PathVariable Long id, @Valid @RequestBody AppUser updatedUser,
+			BindingResult bindingResult) {
 		if (bindingResult.hasErrors()) {
 			return new ResponseEntity<>("Invalid data", HttpStatus.UNPROCESSABLE_ENTITY);
-	    }
+		}
 		try {
 			if (appUserRepository.existsById(id)) {
 				updatedUser.setId(id);

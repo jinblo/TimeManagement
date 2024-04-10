@@ -24,7 +24,7 @@ public class Entry {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long entry_id;
-	@Size(max=250)
+	@Size(max = 250)
 	private String comment;
 	@NotNull
 	private LocalDate entry_date;
@@ -38,6 +38,10 @@ public class Entry {
 	// @JsonIgnore
 	@JsonIgnoreProperties({ "entries" })
 	private Project project;
+
+	@ManyToOne
+	@JoinColumn(name = "app_user_id")
+	private AppUser appUser;
 
 	public Entry() {
 		super();
@@ -99,6 +103,14 @@ public class Entry {
 
 	public void setProject(Project project) {
 		this.project = project;
+	}
+
+	public AppUser getAppUser() {
+		return appUser;
+	}
+
+	public void setAppUser(AppUser appUser) {
+		this.appUser = appUser;
 	}
 
 }
