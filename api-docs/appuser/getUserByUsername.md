@@ -4,7 +4,7 @@
 
 **Metodi**: `GET`
 
-**Vaadittu rooli**: 
+**Vaadittu rooli**: `OWNER`
 
 ## Esimerkkipyyntö:
 
@@ -20,5 +20,5 @@
         "last_name": "Käyttäjä",
         "username": "new_user1"
     },
-    "role": null
+    "role": "OWNER"
 }
