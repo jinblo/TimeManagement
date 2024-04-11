@@ -36,10 +36,11 @@ public class WebSecurityConfig {
 	@Autowired
 	private AuthEntryPoint exceptionHandler;
 
-	@Autowired
+	// Ei tarvita uudemmalla Spring Securitylla. Alempi authenticationManager tekee saman
+	/*@Autowired
 	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
 		auth.userDetailsService(userDetailsService).passwordEncoder(new BCryptPasswordEncoder());
-	}
+	}*/
 	
     @Bean
     public AuthenticationManager authenticationManager(HttpSecurity http) throws Exception {
