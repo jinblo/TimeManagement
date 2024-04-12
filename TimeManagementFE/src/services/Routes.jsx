@@ -7,6 +7,7 @@ import Error from "../components/Error"
 import Home from "../components/Home"
 import Login from "../components/Login"
 import Logout from "../components/Logout"
+import User from "../components/User"
 
 function Routes() {
   const { token } = useAuth()
@@ -34,6 +35,10 @@ function Routes() {
     {
       path: 'entrylist',
       element: <EntryList />
+    },
+    {
+      path: 'user',
+      element: <User />
     },
     {
       path: 'logout',

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField } from "@mui/material";
 import { register } from '../services/AppUserService';
 
-// Uuden käyttäjän rekisteröitymine palveluun
+// Uuden käyttäjän rekisteröityminen palveluun
 
 const Register = ({ setAlert }) => {
   const newUser = {
@@ -22,7 +22,7 @@ const Register = ({ setAlert }) => {
     setUser({ ...user, [e.target.name]: e.target.value })
   }
 
-  // adding new project to the database
+  // adding new user to the database
   const addUser = () => {
     if (user.password_hash.length < 7) {
       setError(true)
