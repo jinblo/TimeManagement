@@ -51,24 +51,24 @@ public class TimeManagementBeApplication {
 											 role.setAppUser(testUser);
 											 role.setProject(testiprojekti);
 											 roleRepo.save(role);
-											 testiprojekti.getRoles().add(role);
-											 testUser.getRoles().add(role);
+											// tämä pois: testiprojekti.getRoles().add(role);
+											// tämä pois: testUser.getRoles().add(role);
 											 // 2) Lisätään testUser2 useriksi projektiin testiprojekti
 											 UserProjectRole role2 = new UserProjectRole();
 											 role2.setRole(Role.USER);
 											 role2.setAppUser(testUser2);
 											 role2.setProject(testiprojekti);
 											 roleRepo.save(role2);
-											 testiprojekti.getRoles().add(role2);
-											 testUser2.getRoles().add(role2);
+											// tämä pois: testiprojekti.getRoles().add(role2);
+											// tämä pois: testUser2.getRoles().add(role2);
 											 // 3) Lisätään testUser2 owneriksi projektiin testiprojekti2
 											 UserProjectRole role3 = new UserProjectRole();
 											 role3.setRole(Role.OWNER);
 											 role3.setAppUser(testUser2);
 											 role3.setProject(testiprojekti2);
 											 roleRepo.save(role3);
-											 testiprojekti.getRoles().add(role3);
-											 testUser.getRoles().add(role3);
+											// tämä pois: testiprojekti.getRoles().add(role3);
+											// tämä pois: testUser.getRoles().add(role3);
 											 
 											 // Lisätään ensimmäiseen testiprojektiin kaksi työaikakirjausta:
 											 entryRepo.save(new Entry("Test entry 1", LocalDate.parse("2022-02-02"),

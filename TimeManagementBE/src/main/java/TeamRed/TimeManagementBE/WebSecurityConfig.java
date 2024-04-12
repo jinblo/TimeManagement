@@ -35,12 +35,6 @@ public class WebSecurityConfig {
 
 	@Autowired
 	private AuthEntryPoint exceptionHandler;
-
-	// Ei tarvita uudemmalla Spring Securitylla. Alempi authenticationManager tekee saman
-	/*@Autowired
-	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-		auth.userDetailsService(userDetailsService).passwordEncoder(new BCryptPasswordEncoder());
-	}*/
 	
     @Bean
     public AuthenticationManager authenticationManager(HttpSecurity http) throws Exception {
@@ -52,8 +46,8 @@ public class WebSecurityConfig {
     @Bean
     CorsConfigurationSource corsConfigurationSource() {
     	CorsConfiguration configuration = new CorsConfiguration();
-    	//configuration.setAllowedOrigins(Arrays.asList("http://localhost:5173"));
-    	configuration.setAllowedOrigins(Arrays.asList("https://teamred-ohjelmistoprojekti2.github.io"));
+    	configuration.setAllowedOrigins(Arrays.asList("http://localhost:5173"));
+    	//configuration.setAllowedOrigins(Arrays.asList("https://teamred-ohjelmistoprojekti2.github.io"));
     	configuration.setAllowedMethods(Arrays.asList("*"));
     	configuration.setAllowedHeaders(Arrays.asList("*"));
     	configuration.setAllowCredentials(true);
