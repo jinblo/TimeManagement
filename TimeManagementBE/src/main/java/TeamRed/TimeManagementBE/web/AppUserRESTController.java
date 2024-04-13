@@ -3,8 +3,6 @@ package TeamRed.TimeManagementBE.web;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -16,6 +14,7 @@ import jakarta.validation.Valid;
 @CrossOrigin
 @RestController
 @RequestMapping("/users")
+
 public class AppUserRESTController {
 
 	private final AppUserRepository appUserRepository;
@@ -81,53 +80,32 @@ public class AppUserRESTController {
 		if (bindingResult.hasErrors()) {
 			return new ResponseEntity<>("Invalid data", HttpStatus.UNPROCESSABLE_ENTITY);
 		}
-
-		// Tarkista, onko käyttäjällä oikeus päivittää projektin tietoja
-		if (!isAllowedToUpdateProjectInformation()) {
-			// Jos ei ole lupaa päivittää tietoja, palauta virhekoodi 403
-			return new ResponseEntity<>("Sinulla ei ole lupaa päivittää projektin tietoja", HttpStatus.FORBIDDEN);
-		}
-
 		try {
-			// Päivitä käyttäjälogiikka
-			return new ResponseEntity<>(HttpStatus.OK);
+			if (appUserRepository.existsById(id)) {
+				updatedUser.setId(id);
+				AppUser savedUser = appUserRepository.save(updatedUser);
+				return new ResponseEntity<>(savedUser, HttpStatus.OK);
+			} else {
+				return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+			}
 		} catch (Exception e) {
-			// Jos tapahtuu virhe, palauta virhekoodi 500
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
+
 	}
 
 	// Poista käyttäjä ID:n perusteella
 	@DeleteMapping("/{id}")
 	public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
-		// Tarkista, onko käyttäjällä oikeus poistaa projektin tietoja
-		if (!isAllowedToDeleteProjectInformation()) {
-			// Jos ei ole lupaa poistaa tietoja, palauta virhekoodi 403
-			return new ResponseEntity<>(HttpStatus.FORBIDDEN);
-		}
-
 		try {
-			// Poista käyttäjälogiikka
-			return new ResponseEntity<>(HttpStatus.OK);
+			if (appUserRepository.existsById(id)) {
+				appUserRepository.deleteById(id);
+				return new ResponseEntity<>(HttpStatus.OK);
+			} else {
+				return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+			}
 		} catch (Exception e) {
-			// Jos tapahtuu virhe, palauta virhekoodi 500
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
-	}
-
-	// Apumetodi tarkistaaksesi, onko käyttäjällä oikeus päivittää projektin tietoja
-	private boolean isAllowedToUpdateProjectInformation() {
-		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		// Vaihda "admin" rooliin, jolla on lupa päivittää projektin tietoja
-		return authentication != null && authentication.getAuthorities().stream()
-				.anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("admin"));
-	}
-
-	// Apumetodi tarkistaaksesi, onko käyttäjällä oikeus poistaa projektin tietoja
-	private boolean isAllowedToDeleteProjectInformation() {
-		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		// Vaihda "admin" rooliin, jolla on lupa poistaa projektin tietoja
-		return authentication != null && authentication.getAuthorities().stream()
-				.anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("admin"));
 	}
 }
