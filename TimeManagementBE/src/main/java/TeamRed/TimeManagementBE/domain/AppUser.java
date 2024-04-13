@@ -4,8 +4,11 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 //import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -19,6 +22,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 @Entity
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class AppUser {
 
     @Id
@@ -42,8 +46,9 @@ public class AppUser {
     @JsonIgnoreProperties({ "appUser" })
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "appUser")
     private Set<UserProjectRole> roles = new HashSet<>();
-
-    @JsonIgnoreProperties({ "appUser" })
+    
+    @JsonIgnore
+    //@JsonIgnoreProperties({ "appUser" })
     @OneToMany(mappedBy = "appUser")
     private List<Entry> entries;
 

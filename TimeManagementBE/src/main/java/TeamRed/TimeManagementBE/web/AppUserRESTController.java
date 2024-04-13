@@ -1,4 +1,7 @@
 package TeamRed.TimeManagementBE.web;
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -8,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import TeamRed.TimeManagementBE.domain.AppUser;
 import TeamRed.TimeManagementBE.domain.AppUserRepository;
+import TeamRed.TimeManagementBE.service.AppUserDetailsService;
 import jakarta.validation.Valid;
 
 @CrossOrigin
@@ -21,6 +25,9 @@ public class AppUserRESTController {
 	public AppUserRESTController(AppUserRepository appUserRepository) {
 		this.appUserRepository = appUserRepository;
 	}
+	
+    @Autowired
+    private AppUserDetailsService userDetailsService;
 
 	// Hae käyttäjä ID:n perusteella
 	@GetMapping("/{id}")
@@ -97,8 +104,12 @@ public class AppUserRESTController {
 	@DeleteMapping("/{id}")
 	public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
 		try {
-			if (appUserRepository.existsById(id)) {
-				appUserRepository.deleteById(id);
+			//if (appUserRepository.existsById(id)) {
+				//appUserRepository.deleteById(id);
+				//return new ResponseEntity<>(HttpStatus.OK);
+			Optional<AppUser> user = appUserRepository.findById(id);
+			if (!user.isEmpty() && user.get().getId() == userDetailsService.getAuthIdentity()) {
+				appUserRepository.delete(user.get());
 				return new ResponseEntity<>(HttpStatus.OK);
 			} else {
 				return new ResponseEntity<>(HttpStatus.NOT_FOUND);
