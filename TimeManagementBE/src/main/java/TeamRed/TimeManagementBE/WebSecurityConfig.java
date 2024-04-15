@@ -12,6 +12,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.header.writers.frameoptions.XFrameOptionsHeaderWriter;
 //import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
@@ -35,11 +36,6 @@ public class WebSecurityConfig {
 
 	@Autowired
 	private AuthEntryPoint exceptionHandler;
-
-	@Autowired
-	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-		auth.userDetailsService(userDetailsService).passwordEncoder(new BCryptPasswordEncoder());
-	}
 
 	@Bean
 	public AuthenticationManager authenticationManager(HttpSecurity http) throws Exception {
@@ -65,14 +61,17 @@ public class WebSecurityConfig {
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 		http
-				.csrf(csrf -> csrf.disable())
+				.csrf(csrf -> csrf
+						.ignoringRequestMatchers(antMatcher("/h2-console/**"))
+						.disable())
 				.cors(httpSecurityCorsConfigurer -> httpSecurityCorsConfigurer.configurationSource(corsConfigurationSource()))
 				.authorizeHttpRequests(authorize -> authorize
-						.requestMatchers(antMatcher("/h2-console*")).permitAll()
-						// .requestMatchers(new AntPathRequestMatcher("/h2-console/**")).permitAll()
+						.requestMatchers(antMatcher("/h2-console/**")).permitAll()
 						.requestMatchers(antMatcher("/login")).permitAll()
 						.requestMatchers(antMatcher(HttpMethod.POST, "/users")).permitAll()
 						.anyRequest().authenticated())
+				.headers(headers -> headers
+						.addHeaderWriter(new XFrameOptionsHeaderWriter(XFrameOptionsHeaderWriter.XFrameOptionsMode.SAMEORIGIN)))
 				.sessionManagement(management -> management
 						.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 				.exceptionHandling(exception -> exception.authenticationEntryPoint(exceptionHandler))

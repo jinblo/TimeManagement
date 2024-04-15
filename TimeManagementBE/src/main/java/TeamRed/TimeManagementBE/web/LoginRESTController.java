@@ -1,8 +1,5 @@
 package TeamRed.TimeManagementBE.web;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
@@ -14,8 +11,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import TeamRed.TimeManagementBE.CustomUserDetails;
 import TeamRed.TimeManagementBE.domain.AccountCredentialsDTO;
-import TeamRed.TimeManagementBE.domain.AppUser;
 import TeamRed.TimeManagementBE.domain.AppUserRepository;
 import TeamRed.TimeManagementBE.service.JwtService;
 
@@ -36,12 +33,8 @@ public class LoginRESTController {
 		UsernamePasswordAuthenticationToken creds = new UsernamePasswordAuthenticationToken(credentials.getUsername(),
 				credentials.getPassword());
 		Authentication auth = authManager.authenticate(creds);
-		AppUser user = userRepository.findByUsername(credentials.getUsername());
-		Map<String, Object> userDetails = new HashMap<>();
-		userDetails.put("id", user.getId());
-		userDetails.put("first_name", user.getFirst_name());
-		userDetails.put("last_name", user.getLast_name());
-		String jwts = jwtService.getToken(auth.getName(), userDetails);
+		CustomUserDetails userDetails = (CustomUserDetails) auth.getPrincipal();
+		String jwts = jwtService.getToken(userDetails);
 		return ResponseEntity.ok()
 				.header(HttpHeaders.AUTHORIZATION, "Bearer " + jwts)
 				.header(HttpHeaders.ACCESS_CONTROL_EXPOSE_HEADERS, "Authorization")
