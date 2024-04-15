@@ -10,8 +10,6 @@
 
 **Polku**: `BASE_URL{host}/users/{id}`
 
-## Esimerkkipyyntö:
-
 **request header**: `Authorization: {token}`
 
 **request body**: -
