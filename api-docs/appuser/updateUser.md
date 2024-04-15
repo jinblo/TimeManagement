@@ -4,28 +4,31 @@
 
 **Metodi**: `PUT`
 
-**Vaadittu rooli**: `OWNER`
+**Vaadittu rooli**: -
 
-**Polku**: `BASE_URL/users/:pk`
+**Polku**: `BASE_URL/{host}/users/{id}`
 
 ## Esimerkkipyyntö:
 
+**request header**: `Authorization: {token}`
+
+**request body**: 
+
 ```json
 {
-    "title": "PROJEKTIN NIMI",
-    "roles": [
-        {
-            "appUser": {
-                "id": 2
-            },
-            "role": null
-        },
-        {
-            "appUser": {
-                "id": 1
-            },
-            "role": "OWNER"
-        }
-    ]
+ "id": 1,
+"first_name": "Muokattu",
+"last_name": "Käyttäjä",
+"username": "new_user1",
+"password_hash": "******"
+
 }
+```
+
+**response header**: -
+
+**response body:** -
+
+
+
 
