@@ -16,9 +16,11 @@
 
 **response header:** -
 
+**response body:**
+
 ```json
 
-response body:
+
 [
     {
         "project": {
@@ -66,4 +68,4 @@ response body:
         "appUser": 1,
         "role": "OWNER"
     }
-
+```
