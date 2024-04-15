@@ -1,5 +1,6 @@
  package TeamRed.TimeManagementBE.web;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -18,6 +19,8 @@ import TeamRed.TimeManagementBE.service.AppUserDetailsService;
 import jakarta.validation.Valid;
 import TeamRed.TimeManagementBE.domain.AppUser;
 import TeamRed.TimeManagementBE.domain.AppUserRepository;
+import TeamRed.TimeManagementBE.domain.Entry;
+import TeamRed.TimeManagementBE.domain.EntryRepository;
 import TeamRed.TimeManagementBE.domain.Project;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -39,6 +42,9 @@ public class ProjectRESTController {
 	private ProjectRepository projectRepository;
     
     @Autowired
+    private EntryRepository entryRepository;
+    
+    @Autowired
     private UserProjectRoleRepository roleRepository;
     
     @Autowired
@@ -54,6 +60,14 @@ public class ProjectRESTController {
 			if (((Set<UserProjectRole>) projects).isEmpty()) {
 				return new ResponseEntity<>("Projekteja ei löytynyt", HttpStatus.NOT_FOUND);
 			}
+			// tästä alas testikoodi
+			for (UserProjectRole project : projects) {
+				if (project.getRole().equals(Role.USER)) {
+					List<Entry> entries = entryRepository.findByProjectAndAppUser(project.getProject(), user);
+					project.getProject().setEntries(entries);
+					}
+				}
+			//tästä ylös testikoodi
 			return new ResponseEntity<>(projects, HttpStatus.OK);
 		} catch (Exception e) {
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
@@ -65,8 +79,14 @@ public class ProjectRESTController {
 	//@JsonView(Project.DetailedProjectView.class)
 	public ResponseEntity<?> getProjectById(@PathVariable("projectId") Long projectId) {
 		try {
-			if (userDetailsService.getUserRole(projectId) != null) {
-				return new ResponseEntity<>(projectRepository.findById(projectId), HttpStatus.OK);
+			Optional<Project> project = projectRepository.findById(projectId);
+			Role role = userDetailsService.getUserRole(projectId);
+			if (!project.isEmpty() && role != null) {
+				if (role.equals(Role.USER)) {
+					List<Entry> entries = entryRepository.findByProjectAndAppUser(project.get(), userDetailsService.getAuthUser());
+					project.get().setEntries(entries);
+				}
+				return new ResponseEntity<>(project, HttpStatus.OK);
 			}
 			return new ResponseEntity<>("Annetulla id:llä ei löytynyt projektia", HttpStatus.NOT_FOUND);
 		} catch (Exception e) {
