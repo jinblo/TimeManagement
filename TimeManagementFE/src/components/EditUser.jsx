@@ -6,12 +6,11 @@ import { putUser } from '../services/AppUserService';
 // function for editing user information. Opens a dialog with information from current user.
 export default function EditUser({ token, setAlert }) {
   const decodedToken = jwtDecode(token);
-  const { id, sub, first_name, last_name } = decodedToken;
+  const { user_id, sub, first_name, last_name } = decodedToken;
   const [open, setOpen] = useState(false);
   const [user, setUser] = useState({
     id: '',
     username: '',
-    password_hash: '',
     first_name: '',
     last_name: '',
   });
@@ -21,7 +20,7 @@ export default function EditUser({ token, setAlert }) {
   // Fetching current user info and handling dialog
   const handleOpen = () => {
     setUser({
-      id: id,
+      id: user_id,
       username: sub,
       password_hash: '',
       first_name: first_name,

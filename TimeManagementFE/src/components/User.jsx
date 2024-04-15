@@ -9,21 +9,17 @@ import AlertMessage from "./AlertMessage";
 const User = () => {
   const { token } = useAuth();
   const decodedToken = jwtDecode(token);
-  const { id, sub, first_name, last_name } = decodedToken;
+  const { sub, first_name, last_name } = decodedToken;
 
   const [alert, setAlert] = useState(null)
   const alertMessage = useMemo(() => {
     switch (alert) {
       case 'success': {
-        return <AlertMessage alert={alert} alertMessage="Kirjaus tallennettu onnistuneesti" setAlert={setAlert} />
-      }
-      case 'info': {
-        return <AlertMessage alert={alert} alertMessage="Kirjaus poistettu onnistuneesti" setAlert={setAlert} />
+        return <AlertMessage alert={alert} alertMessage="Tiedot tallennettu onnistuneesti" setAlert={setAlert} />
       }
       case 'error': {
-        return <AlertMessage alert={alert} alertMessage="Kirjauksen tallennus epäonnistui" setAlert={setAlert} />
+        return <AlertMessage alert={alert} alertMessage="Tallennus epäonnistui" setAlert={setAlert} />
       }
-
       default: {
         return <></>
       }
