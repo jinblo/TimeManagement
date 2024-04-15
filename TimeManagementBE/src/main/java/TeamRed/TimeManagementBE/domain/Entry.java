@@ -41,7 +41,8 @@ public class Entry {
 	@ManyToOne
 	@JoinColumn(name = "project_id")
 	// @JsonIgnore
-	@JsonIgnoreProperties({ "roles", "entries" })
+	//@JsonIgnoreProperties({ "roles", "entries" })
+	@JsonIgnoreProperties(value = {"roles", "entries"}, allowSetters = true)
 	private Project project;
 
 	//@ManyToOne(fetch=FetchType.LAZY)

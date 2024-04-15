@@ -6,8 +6,8 @@ import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-//import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import jakarta.persistence.CascadeType;
@@ -40,10 +40,11 @@ public class AppUser {
     private String username;
     @NotNull
     @Size(min = 8, max = 100)
-    // @JsonIgnore
+    @JsonIgnore
     private String password_hash;
 
-    @JsonIgnoreProperties({ "appUser" })
+    @JsonIgnore
+    //@JsonIgnoreProperties({ "appUser" })
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "appUser")
     private Set<UserProjectRole> roles = new HashSet<>();
     
@@ -98,6 +99,7 @@ public class AppUser {
         return password_hash;
     }
 
+    @JsonProperty
     public void setPassword_hash(String password_hash) {
         this.password_hash = password_hash;
     }

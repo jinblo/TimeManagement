@@ -6,12 +6,8 @@ import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RestController;
-
-//import com.fasterxml.jackson.annotation.JsonView;
 
 import TeamRed.TimeManagementBE.domain.ProjectRepository;
 import TeamRed.TimeManagementBE.domain.ProjectRoleKey;
@@ -20,7 +16,6 @@ import TeamRed.TimeManagementBE.domain.UserProjectRole;
 import TeamRed.TimeManagementBE.domain.UserProjectRoleRepository;
 import TeamRed.TimeManagementBE.service.AppUserDetailsService;
 import jakarta.validation.Valid;
-//import TeamRed.TimeManagementBE.CustomAuthenticationToken;
 import TeamRed.TimeManagementBE.domain.AppUser;
 import TeamRed.TimeManagementBE.domain.AppUserRepository;
 import TeamRed.TimeManagementBE.domain.Project;
@@ -44,27 +39,10 @@ public class ProjectRESTController {
 	private ProjectRepository projectRepository;
     
     @Autowired
-    private AppUserRepository userRepository;
-    
-    @Autowired
     private UserProjectRoleRepository roleRepository;
     
     @Autowired
     private AppUserDetailsService userDetailsService;
-    
-    /*private AppUser getUserDetails() {
-		/*Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		if (auth instanceof CustomAuthenticationToken) {
-			CustomAuthenticationToken customToken = (CustomAuthenticationToken) auth;
-			long userId = customToken.getUser_id();
-			//System.out.println("USER ID: " + userId);
-		} else {
-			//System.out.println("Authentication is not a CustomAuthenticationToken");
-		}*/
-    	/*Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        String username = auth.getName();
-        return userRepository.findByUsername(username);
-    }*/
 
     //Kaikkien tietyn käyttäjän projektien haku
 	@GetMapping
