@@ -14,11 +14,10 @@ function Routes() {
   const publicRoutes = [
     {
       index: true,
-      path: '/',
       element: <Login />,
     }, {
       index: true,
-      path: '/login',
+      path: 'login',
       element: <Login />,
     },
   ]
@@ -29,21 +28,22 @@ function Routes() {
       element: <Home />,
     },
     {
-      path: '/projectlist',
+      path: 'projectlist',
       element: <ProjectList />,
     },
     {
-      path: '/entrylist',
+      path: 'entrylist',
       element: <EntryList />
     },
     {
-      path: '/logout',
+      path: 'logout',
       element: <Logout />,
     }
   ]
 
 
   const router = createBrowserRouter([{
+    path: '/TimeManagement/',
     element: <TabView />,
     errorElement: <Error />,
     children: [

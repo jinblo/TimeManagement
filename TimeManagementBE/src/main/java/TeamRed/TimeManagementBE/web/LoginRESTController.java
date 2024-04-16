@@ -11,7 +11,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import TeamRed.TimeManagementBE.CustomUserDetails;
 import TeamRed.TimeManagementBE.domain.AccountCredentialsDTO;
+import TeamRed.TimeManagementBE.domain.AppUserRepository;
 import TeamRed.TimeManagementBE.service.JwtService;
 
 @CrossOrigin
@@ -22,15 +24,19 @@ public class LoginRESTController {
 
 	@Autowired
 	AuthenticationManager authManager;
+	
+	@Autowired
+	AppUserRepository userRepository;
 
 	@PostMapping("/login")
 	public ResponseEntity<?> getToken(@RequestBody AccountCredentialsDTO credentials) {
 		UsernamePasswordAuthenticationToken creds = new UsernamePasswordAuthenticationToken(credentials.getUsername(),
 				credentials.getPassword());
 		Authentication auth = authManager.authenticate(creds);
-		String jwts = jwtService.getToken(auth.getName());
+		CustomUserDetails userDetails = (CustomUserDetails) auth.getPrincipal();
+		String jwts = jwtService.getToken(userDetails);
 		return ResponseEntity.ok()
-				.header(HttpHeaders.AUTHORIZATION, "Bearer" + jwts)
+				.header(HttpHeaders.AUTHORIZATION, "Bearer " + jwts)
 				.header(HttpHeaders.ACCESS_CONTROL_EXPOSE_HEADERS, "Authorization")
 				.build();
 

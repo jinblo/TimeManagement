@@ -4,12 +4,14 @@ import { postProject } from '../services/ProjectService';
 
 // Lisätään uusi projekti
 
-export default function AddProject({ token, fetchProjects }) {
+export default function AddProject({ token, setAlert, fetchProjects }) {
 
-    const [project, setProject] = useState({
+
+    const emptyProject = {
         title: '',
-    })
+    }
 
+    const [project, setProject] = useState(emptyProject);
     const [errorMessage, setErrorMessage] = useState('');
 
     // Handling dialog 
@@ -33,13 +35,14 @@ export default function AddProject({ token, fetchProjects }) {
                             // Project added successfully
                             console.log('Project added successfully');
                             fetchProjects();
-                            handleClose()
+                            setAlert('success')
                         } else {
                             // Handle errors
                             console.error('Failed to add project');
-                            setErrorMessage('Failed to add project');
+                            setAlert('error')
                         }
                     })
+                handleClose()
             } catch (error) {
                 console.error('Error adding project:', error);
                 setErrorMessage('Error adding project');
@@ -49,7 +52,7 @@ export default function AddProject({ token, fetchProjects }) {
 
     // Clearing the form and closing dialog
     const handleClose = () => {
-        setProject({ title: '' });
+        setProject(emptyProject);
         setErrorMessage('');
         setOpen(false);
     }

@@ -1,17 +1,18 @@
 # Työaikakirjausjärjestelmä - Team Red
 
 Projekti on toteutettu Haaga-Helian Ohjelmistoprojekti2 kurssilla.
-Toteuttava tiimi: Sonja Helminen, Katja Jääskeläinen, Kristin Luik, Ulla Montonen ja Anton Rezin. 
+Toteuttava tiimi: [Sonja Helminen](https://github.com/s0ina), [Katja Jääskeläinen](https://github.com/jinblo), [Kristin Luik](https://github.com/kristinLu), [Ulla Montonen](https://github.com/UllaMontonen) ja [Anton Rezin](https://github.com/antonrezin). 
+
 
 
 ## Sovelluksen tarkoitus
 
-Sovelluksen tarkoitus on toimia työaikakirjausjärjestelmänä, esimerkiksi yksityisyrittäjille, joiden on pidettävä kirjaa tehdystä työstä ja sen kestosta. Käyttäjällä voi samanaikaisesti olla hallinnoitavana useita projekteja, joille voidaan kohdentaa omia työaikakirjauksia. Sovelluksessa käyttäjä voi kirjoittaa muistiinpanoja tehdystä työstä ja merkitä työn keston sekä päivämäärän. Lisäksi työtunnit voidaan laskea yhteen käyttäjän valitsemalta ajanjaksolta tai projektilta.
+Sovelluksen tarkoitus on toimia työaikakirjausjärjestelmänä, esimerkiksi yksityisyrittäjille, joiden on pidettävä kirjaa tehdystä työstä ja sen kestosta. Käyttäjällä voi samanaikaisesti olla hallinnoitavana useita projekteja, joille voidaan kohdentaa omia työaikakirjauksia. Sovelluksessa käyttäjä voi kirjoittaa muistiinpanoja tehdystä työstä ja merkitä työn keston sekä päivämäärän. Lisäksi työtunnit voidaan laskea yhteen käyttäjän valitsemalta ajanjaksolta tai projektilta. Käyttäjä voi lisätä myös muita käyttäjiä omille projekteilleen ja valita missä roolissa he ovat projektissa. Käytössä olevat projektikohtaiset roolit ovat omistaja (owner), käyttäjä (user) sekä katselija (viewer). Projektin omistajalla on kaikki oikeudet projektiin, käyttäjä voi lisätä tuntikirjauksia projektille ja katselija näkee vain projektin tiedot ja siihen tehdyt tuntikirjaukset.
 
 
 ## Tärkeimmät ominaisuudet
 
-Sovellus vaatii rekisteröitymisen. Rekisteröitynyt käyttäjä voi luoda projekteja ja tehdä projekteille työaikakirjauksia.
+Sovellus vaatii rekisteröitymisen. Rekisteröitynyt käyttäjä voi luoda projekteja ja tehdä projekteille työaikakirjauksia. Hän voi myös lisätä muita käyttäjiä projekteilleen.
 
 ## Toteutusteknologiat
 * Spring Boot 3.2.1
@@ -19,6 +20,20 @@ Sovellus vaatii rekisteröitymisen. Rekisteröitynyt käyttäjä voi luoda proje
 * React 18.2.0
 * JavaScript
 * Node 20.11.0
+
+## Riippuvuudet
+* Spring Boot Starter Actuator
+* Spring Boot Starter Web
+* Spring Boot DevTools
+* Spring Boot Starter Test
+* Spring Boot Starter Data JPA
+* Spring Boot Starter Security
+* Spring Boot Starter validation
+* Spring Boot Maven plugin
+* H2 database
+* MySQL Connector Java
+* PostGRE SQL
+* JSON Web Token (api, impl, jackson)
 
 ## Tietokanta
 
@@ -59,8 +74,22 @@ Sovellus vaatii rekisteröitymisen. Rekisteröitynyt käyttäjä voi luoda proje
 
 * [Entry](api-docs/entry/)
 * [Project](api-docs/project/)
+* [AppUser](api-docs/appuser/)
 
 ## Backlogit
 
 * [Sprint backlog](https://github.com/orgs/TeamRed-Ohjelmistoprojekti2/projects/3/views/2)
 * [Product backlog](https://github.com/orgs/TeamRed-Ohjelmistoprojekti2/projects/3)
+
+## Tunnistautuminen
+Käyttäjän tulee olla kirjautunut, jotta hän pääsee käyttämään palvelua. Tunnistautumisessa on käytössä JSON Web Token. Rekisteröityminen onnistuu luonnollisesti ilman tunnistautumista. Jokaisen pyynnön yhteydessä tarkistetaan token.
+
+## Testaus
+End-to-End testaus on toteutettu Robot Frameworkilla. Testit on jaettu niin, että omat testit voidaan toteuttaa lokaalisti sekä julkaistulla versiolla. Testit testaavat REST toiminnallisuuksia. Testien tekeminen vaatii Python ja pip asennukset.
+
+## Julkaisu
+* Projektin backend on julkaistu [Herokussa](https://redtime-ffe09e78e9dd.herokuapp.com/)
+* Projektin frontend on julkaistu [GitHub Pagesissa](https://teamred-ohjelmistoprojekti2.github.io/TimeManagement/)
+
+### Tietokannan vaihtaminen
+Projektista löytyy tiedot sekä lokaaliin kehitykseen, että projektin julkaisuun liittyen. Käytössä on application.properties tiedostot, joiden avulla voidaan vaihtaa käytössä olevaa tietokantaa. application-dev.properties toimii lokaalissa ja application-heroku.properties julkaistussa versiossa. Käytössä olevan profiilin määritys tapahtuu application.properties tiedostossa. Frontti ja bäkki vaativat myös muutoksia riippuen käytetäänkö molempia lokaalissa vai vaan toista. Muutosta mahdollisesti vaativat tiedostot: CorsFilter.java, WebSecurityConfig.java, pom.xml, TimeManagementBeApplication.java sekä baseUrl.jsx

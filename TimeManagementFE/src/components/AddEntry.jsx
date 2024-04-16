@@ -45,7 +45,7 @@ const AddEntry = ({ token, projects, setAlert, fetchEntries }) => {
   }
 
   return (
-    <div style={{ float: 'right', margin: 20 }}>
+    <div style={{ marginTop: 20 }}>
       <Button variant="contained" onClick={() => setOpen(true)} >Lisää uusi kirjaus</Button>
       <Dialog open={open} onClose={() => setOpen(false)}>
         <DialogTitle>Uusi työaikakirjaus</DialogTitle>
@@ -65,8 +65,8 @@ const AddEntry = ({ token, projects, setAlert, fetchEntries }) => {
                 }}
                 input={<OutlinedInput label="Projekti" />}
               >
-                {projects ? projects.map(project => {
-                  return <MenuItem key={project.id} value={project.id}>{project.title}</MenuItem>
+                {projects ? projects.map(item => {
+                  return <MenuItem key={item.project.id} value={item.project.id}>{item.project.title}</MenuItem>
                 })
                   : null}
               </Select>

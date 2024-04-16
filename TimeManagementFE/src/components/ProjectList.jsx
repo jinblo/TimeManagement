@@ -23,7 +23,9 @@ const ProjectList = () => {
             case 'success': {
                 return <AlertMessage alert={alert} alertMessage="Kirjaus tallennettu onnistuneesti" setAlert={setAlert} />
             }
-
+            case 'info': {
+                return <AlertMessage alert={alert} alertMessage="Kirjaus poistettu onnistuneesti" setAlert={setAlert} />
+            }
             case 'error': {
                 return <AlertMessage alert={alert} alertMessage="Kirjauksen tallennus epäonnistui" setAlert={setAlert} />
             }
@@ -41,42 +43,35 @@ const ProjectList = () => {
     }
     useEffect(fetchProjects, []);
 
-    const fetchWithOptions = (href, options) => {
-        fetch(href, options)
-            .then(response => {
-                if (response.ok) {
-                    fetchData()
-                    setAlert('success')
-                } else {
-                    setAlert('error')
-                }
-            })
-            .catch(error => {
-                console.error(error)
-            })
-    }
-
     // Details showing in the table
     const [colDefs, setColDefs] = useState([
         {
-            field: "title",
+            field: "project.title",
             headerName: "Projekti"
         },
         {
-            field: "id",
+            field: "role",
+            headerName: "Rooli"
+        },
+        {
+            field: "project.id",
             headerName: "Muokkaa",
             cellRenderer: params => {
                 return (
-                    <EditProject token={token} editData={params.data} fetchProjects={fetchProjects} />
+                    params.data.role === "OWNER" ?
+                        <EditProject token={token} editData={params.data.project} setAlert={setAlert} fetchProjects={fetchProjects} />
+                        : null
                 )
             }
         },
         {
-            field: "id",
+            field: "project.id",
             headerName: "Poista",
             cellRenderer: params => {
                 return (
-                    <DeleteProject token={token} id={params.value} fetchProjects={fetchProjects} />
+                    params.data.role === "OWNER" ?
+                        <DeleteProject token={token} id={params.value} setAlert={setAlert} fetchProjects={fetchProjects} />
+                        : null
                 )
             }
         },
@@ -97,7 +92,7 @@ const ProjectList = () => {
                 paginateChildRows={true}
                 autoSizeStrategy={{ type: 'fitCellContents' }}
             />
-            <AddProject token={token} fetchProjects={fetchProjects} />
+            <AddProject token={token} setAlert={setAlert} fetchProjects={fetchProjects} />
         </div>
     )
 };

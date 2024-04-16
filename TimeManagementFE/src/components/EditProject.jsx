@@ -3,7 +3,7 @@ import { Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField } 
 import { putProject } from '../services/ProjectService';
 
 // function for editing project information. Opens a dialog with information from chosen project.
-export default function EditProject({ token, editData, fetchProjects }) {
+export default function EditProject({ token, editData, setAlert, fetchProjects }) {
 
     const [project, setProject] = useState({
         title: editData.title || "",
@@ -34,11 +34,13 @@ export default function EditProject({ token, editData, fetchProjects }) {
                             // Project edited successfully
                             console.log('Project edited successfully');
                             fetchProjects();
+                            setAlert('success')
                             handleClose();
                         } else {
                             // Handle errors
                             console.error('Failed to edit project');
                             setErrorMessage('Failed to edit project');
+                            setAlert('error')
                         }
                     })
             } catch (error) {
