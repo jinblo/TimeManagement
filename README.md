@@ -16,7 +16,7 @@ Sovellus vaatii rekisteröitymisen. Rekisteröitynyt käyttäjä voi luoda proje
 
 ## Toteutusteknologiat
 * Spring Boot 3.2.1
-* Java 21.0.2
+* Java jdk-17.0.2
 * React 18.2.0
 * JavaScript
 * Node 20.11.0
