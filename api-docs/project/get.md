@@ -1,10 +1,10 @@
-# Näytä kaikki projektit
+# Näytä käyttäjän omat projektit
 
 **URL**: `{host}/projects/`
 
 **Metodi**: `GET`
 
-**Vaadittu rooli**: `OWNER`
+**Vaadittu rooli**: User, Owner, Viewer
 
 ## Esimerkkivastaus:
 

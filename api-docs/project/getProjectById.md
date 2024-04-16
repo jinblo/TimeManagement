@@ -1,4 +1,4 @@
-# Hae projekti id:llä
+# Käyttäjän oman projektin haku id:llä
 
 **URL**: `{host}/projects/:pk`
 
