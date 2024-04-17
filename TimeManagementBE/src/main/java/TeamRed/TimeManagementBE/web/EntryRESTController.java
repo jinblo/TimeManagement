@@ -33,9 +33,9 @@ public class EntryRESTController {
 
 	@Autowired
 	private ProjectRepository projectRepository;
-	
-    @Autowired
-    private AppUserDetailsService userDetailsService;
+
+	@Autowired
+	private AppUserDetailsService userDetailsService;
 
 	// Kaikkien käyttäjän omien työaikakirjausten haku
 	@GetMapping("entries")
@@ -53,13 +53,15 @@ public class EntryRESTController {
 
 	// Uuden työaikakirjauksen lisääminen
 	@PostMapping("projects/{projectId}/entries")
-	public ResponseEntity<?> addEntry(@Valid @RequestBody Entry entry, @PathVariable("projectId") Long projectId, BindingResult bindingResult) {
+	public ResponseEntity<?> addEntry(@Valid @RequestBody Entry entry, @PathVariable("projectId") Long projectId,
+			BindingResult bindingResult) {
 		if (bindingResult.hasErrors()) {
 			return new ResponseEntity<>("Invalid data", HttpStatus.UNPROCESSABLE_ENTITY);
-	    }
+		}
 		try {
 			Optional<Project> project = projectRepository.findById(projectId);
-			if (!project.isEmpty() && userDetailsService.getUserRole(projectId) != null) { //pelkkä roolin tsekkauskin riittäisi
+			if (!project.isEmpty() && userDetailsService.getUserRole(projectId) != null) { // pelkkä roolin tsekkauskin
+																							// riittäisi
 				entry.setProject(project.get());
 				entry.setAppUser(userDetailsService.getAuthUser());
 				Entry newEntry = entryRepository.save(entry);
@@ -73,19 +75,21 @@ public class EntryRESTController {
 
 	// Työaikakirjauksen muokkaus
 	@PutMapping("projects/{projectId}/entries/{entryId}")
-	public ResponseEntity<?> editEntry(@Valid @RequestBody Entry updatedEntry, @PathVariable("entryId") Long entryId, BindingResult bindingResult) {
+	public ResponseEntity<?> editEntry(@Valid @RequestBody Entry updatedEntry, @PathVariable("entryId") Long entryId,
+			BindingResult bindingResult) {
 		if (bindingResult.hasErrors()) {
 			return new ResponseEntity<>("Invalid data", HttpStatus.UNPROCESSABLE_ENTITY);
-	    }
+		}
 		try {
 			Optional<Entry> toBeEdited = entryRepository.findById(entryId);
-			if (!toBeEdited.isEmpty() && toBeEdited.get().getAppUser().getId() == userDetailsService.getAuthIdentity()) {
+			if (!toBeEdited.isEmpty()
+					&& toBeEdited.get().getAppUser().getId() == userDetailsService.getAuthIdentity()) {
 				Entry entry = toBeEdited.get();
 				entry.setComment(updatedEntry.getComment());
 				entry.setEntry_date(updatedEntry.getEntry_date());
 				entry.setStart_time(updatedEntry.getStart_time());
 				entry.setEnd_time(updatedEntry.getEnd_time());
-				//entry.setAppUser(userDetailsService.getAuthUser());
+				// entry.setAppUser(userDetailsService.getAuthUser());
 				entryRepository.save(entry);
 				return new ResponseEntity<>(entry, HttpStatus.OK);
 			}
@@ -96,11 +100,12 @@ public class EntryRESTController {
 	}
 
 	// Työaikakirjauksen poisto
-	@DeleteMapping("entries/{entryId}")
+	@DeleteMapping("projects/{projectId}/entries/{entryId}")
 	public ResponseEntity<?> removeEntry(@PathVariable("entryId") Long entryId) {
 		try {
 			Optional<Entry> removableEntry = entryRepository.findById(entryId);
-			if (!removableEntry.isEmpty() && removableEntry.get().getAppUser().getId() == userDetailsService.getAuthIdentity()) {
+			if (!removableEntry.isEmpty()
+					&& removableEntry.get().getAppUser().getId() == userDetailsService.getAuthIdentity()) {
 				entryRepository.delete(removableEntry.get());
 				return new ResponseEntity<>("Työaikakirjaus poistettu onnistuneesti", HttpStatus.OK);
 			}
