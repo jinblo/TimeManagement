@@ -1,6 +1,6 @@
 # Näytä kaikki entryt
 
-**URL**: `entries/`
+**URL**: `{host}/entries/`
 
 **Metodi**: `GET`
 
@@ -8,4 +8,33 @@
 
 ## Esimerkkivastaus:
 
-**Polku**: `BASE_URL/entries`
+**Polku**: `BASE_URL/{host}/entries`
+
+**request header**: `Authorization: {token}`
+
+**request body**: -
+
+**response header**: -
+
+**response body:**
+
+```json
+[
+  {
+   "id": 1,
+  "comment": "testi",
+  "entry_date": "2024-04-15",
+  "start_time": "10:05:00",
+  "end_time": "12:10:00",
+  "project": {
+    "id": 1,
+    "title": "Testiprojekti"
+    },
+  "appUser": 1
+  }
+]
+  
+    
+  
+
+

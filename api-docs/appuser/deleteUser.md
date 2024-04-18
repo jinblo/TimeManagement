@@ -1,37 +1,20 @@
 # Poista käyttäjä id:llä
 
-**URL**: `/users/:pk`
+**URL**: `{host}/users/:pk`
 
 **Metodi**: `DELETE`
 
-**Vaadittu rooli**: `OWNER`
+**Vaadittu rooli**: -
 
 ## Esimerkkipyyntö:
 
-**Polku**: `BASE_URL/users/:pk`
+**Polku**: `BASE_URL{host}/users/{id}`
 
-## Esimerkkipyyntö:
-```json
-{
-    "title": "PROJEKTIN NIMI",
-    "roles": [
-        {
-            "appUser": {
-                "id": 2
-            },
-            "role": null
-        },
-        {
-            "appUser": {
-                "id": 1
-            },
-            "role": "OWNER"
-        }
-    ]
-}
+**request header**: `Authorization: {token}`
 
-## Vastauksen paluukoodit
+**request body**: -
 
-**Koodit**:
+**response header**: -
 
-`200 OK`
+**response body:** -
+

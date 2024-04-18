@@ -1,14 +1,14 @@
-# Muokkaa käyttäjää id:llä
+# Rekisteröityminen
 
-**URL**: `/users/:pk`
+**URL**: `/{host}/users`
 
-**Metodi**: `PUT`
+**Metodi**: `POST`
 
 **Vaadittu rooli**: -
 
-**Polku**: `BASE_URL/{host}/users/{id}`
-
 ## Esimerkkipyyntö:
+
+**Polku**: `BASE_URL/{host}/users`
 
 **request header**: `Authorization: {token}`
 
@@ -17,18 +17,15 @@
 ```json
 {
  "id": 1,
-"first_name": "Muokattu",
+"first_name": "Uusi",
 "last_name": "Käyttäjä",
 "username": "new_user1",
 "password_hash": "******"
 
 }
+
 ```
 
 **response header**: -
 
 **response body:** -
-
-
-
-
