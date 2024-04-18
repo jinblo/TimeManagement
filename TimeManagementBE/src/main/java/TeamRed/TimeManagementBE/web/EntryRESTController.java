@@ -1,5 +1,6 @@
 package TeamRed.TimeManagementBE.web;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -46,7 +47,7 @@ public class EntryRESTController {
 		try {
 			Iterable<Entry> entries = entryRepository.findByAppUser(userDetailsService.getAuthUser());
 			if (((List<Entry>) entries).isEmpty()) {
-				return new ResponseEntity<>("No results found", HttpStatus.NO_CONTENT);
+				return new ResponseEntity<>(new ArrayList<>(), HttpStatus.OK);
 			}
 			return new ResponseEntity<>(entries, HttpStatus.OK);
 		} catch (Exception e) {

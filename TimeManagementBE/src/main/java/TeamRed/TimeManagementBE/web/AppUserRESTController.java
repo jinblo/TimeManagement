@@ -3,6 +3,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -11,15 +12,20 @@ import org.springframework.web.bind.annotation.*;
 
 import com.fasterxml.jackson.annotation.JsonView;
 
+import TeamRed.TimeManagementBE.CustomUserDetails;
 import TeamRed.TimeManagementBE.domain.AppUser;
 import TeamRed.TimeManagementBE.domain.AppUserRepository;
 import TeamRed.TimeManagementBE.service.AppUserDetailsService;
+import TeamRed.TimeManagementBE.service.JwtService;
 import jakarta.validation.Valid;
 
 @CrossOrigin
 @RestController
 @RequestMapping("/users")
 public class AppUserRESTController {
+	
+	@Autowired
+	private JwtService jwtService;
 
 	private final AppUserRepository appUserRepository;
 
@@ -88,7 +94,12 @@ public class AppUserRESTController {
 				BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 				userToBeUpdated.setPassword_hash(encoder.encode(updatedUser.getPassword_hash()));
 				appUserRepository.save(userToBeUpdated);
-				return new ResponseEntity<>("User successfully updated", HttpStatus.OK);
+				CustomUserDetails userDetails = userDetailsService.loadUserById(userToBeUpdated.getId());
+				String jwts = jwtService.getToken(userDetails);
+				return ResponseEntity.ok()
+					    .header(HttpHeaders.AUTHORIZATION, "Bearer " + jwts)
+					    .header(HttpHeaders.ACCESS_CONTROL_EXPOSE_HEADERS, "Authorization")
+					    .body("User successfully updated");
 			} else {
 				return new ResponseEntity<>("Updating failed", HttpStatus.NOT_FOUND);
 			}
