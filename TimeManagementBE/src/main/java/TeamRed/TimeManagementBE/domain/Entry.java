@@ -2,17 +2,12 @@ package TeamRed.TimeManagementBE.domain;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import TeamRed.TimeManagementBE.domain.Project.DetailedProjectView;
+import TeamRed.TimeManagementBE.domain.Project.EntryListView;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonIdentityReference;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-// import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-//import com.fasterxml.jackson.annotation.JsonView;
-
-//import TeamRed.TimeManagementBE.domain.Project.DetailedProjectView;
+import com.fasterxml.jackson.annotation.JsonView;
 import jakarta.persistence.Entity;
-//import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -22,8 +17,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 @Entity
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
-//@JsonView(DetailedProjectView.class)
+@JsonView(EntryListView.class)
 public class Entry {
 
 	@Id
@@ -40,15 +34,13 @@ public class Entry {
 
 	@ManyToOne
 	@JoinColumn(name = "project_id")
-	// @JsonIgnore
-	//@JsonIgnoreProperties({ "roles", "entries" })
 	@JsonIgnoreProperties(value = {"roles", "entries"}, allowSetters = true)
 	private Project project;
 
-	//@ManyToOne(fetch=FetchType.LAZY)
 	@ManyToOne
 	@JoinColumn(name = "app_user_id")
-	@JsonIdentityReference(alwaysAsId = true)
+	@JsonIgnoreProperties(value = {"roles", "entries"}, allowSetters = true)
+	@JsonView(DetailedProjectView.class)
 	private AppUser appUser;
 
 	public Entry() {
@@ -106,6 +98,7 @@ public class Entry {
 		this.end_time = end_time;
 	}
 
+	
 	public Project getProject() {
 		return project;
 	}
