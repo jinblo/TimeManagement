@@ -9,7 +9,7 @@
 # Tee testit komennolla: robot testHeroku.robot TAI python -m robot testHeroku.robot
 # Testi jossa tietty tagi: robot -i test testHeroku.robot
 #
-# Mitä vielä uupuu: entryn testaus
+# Uupuu testit koskien käyttäjän lisäystä, roolin päivitystä sekä poistoa
 # Uupuva hienosaaäntö: muokkaukset ja poistot koskemaan juuri lisättyä asiaa
 
 
@@ -29,7 +29,7 @@ Login to Heroku and GitHub Page
     PageContainHeiRobotFramework
 
 Adding a new project after logged in
-    [Tags]    postproject
+    [Tags]    postproject    test
     ClickProjects
     AddProjectButton
     AddProjectInfo
@@ -45,34 +45,35 @@ Editing an existing project
     SaveButton
     SuccessfullEdition
 
-# Ei pääse kiinni select osioon
-# Adding a new entry to RobotTest project
-#    [Tags]    postEntry
-#    ClickEntries
-#    AddEntryButton
-#    Select From List By Index    name:project    1
-#    Click Element    //MenuItem[contains(text(), 'RobotTest')]
-#    Input Text    name=comment    CommentTest
-#    SaveButton
-#    Page Should Contain    CommentTest
+Adding a new entry to RobotTest project
+    [Tags]    postentry    test
+    ClickEntries
+    AddEntryButton
+    Click Element    xpath=//*[@id="mui-component-select-project"]
+    Click Element    xpath=//*[@id="menu-project"]/div[3]/ul/li[1]
+    Input Text    name=comment    CommentTest
+    SaveButton
+    Page Should Contain    CommentTest
 
 # nyt ensimmäisen rivin kommentin Muokkaa
-# Editing an existing entry
-#    [Tags]    putEntry
-#    ClickEntries
-#    EditButton
-#    EditEntryInfo
-#    SaveButton
-#    SuccessfullEdition
+
+Editing an existing entry
+    [Tags]    putentry
+    ClickEntries
+    EditButton
+    EditEntryInfo
+    SaveButton
+    SuccessfullEdition
 
 # poistaa ensimmäisen enrtyn
-# Deleting the first entry
-#    [Tags]    deleteEntry
-#    ClickEntries
-#    DeleteButton
-#    EntryDeletionWarning
-#    DeleteEntryButton
-#    SuccessfulDeletion
+
+Deleting the first entry
+    [Tags]    deleteentry
+    ClickEntries
+    DeleteButton
+    EntryDeletionWarning
+    DeleteEntryButton
+    SuccessfulDeletion
 
 # poistaa ensimmäisen projektin
 
