@@ -9,6 +9,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import com.fasterxml.jackson.annotation.JsonView;
+
 import TeamRed.TimeManagementBE.domain.AppUser;
 import TeamRed.TimeManagementBE.domain.AppUserRepository;
 import TeamRed.TimeManagementBE.service.AppUserDetailsService;
@@ -17,7 +19,6 @@ import jakarta.validation.Valid;
 @CrossOrigin
 @RestController
 @RequestMapping("/users")
-
 public class AppUserRESTController {
 
 	private final AppUserRepository appUserRepository;
@@ -29,34 +30,20 @@ public class AppUserRESTController {
     @Autowired
     private AppUserDetailsService userDetailsService;
 
-	// Hae käyttäjä ID:n perusteella
-	@GetMapping("/{id}")
-	public ResponseEntity<AppUser> getUserById(@PathVariable Long id) {
-		try {
-			AppUser user = appUserRepository.findById(id).orElse(null);
-			if (user != null) {
-				return new ResponseEntity<>(user, HttpStatus.OK);
-			} else {
-				return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-			}
-		} catch (Exception e) {
-			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-		}
-	}
-
 	// Hae käyttäjä käyttäjänimen perusteella
 	@GetMapping("/byusername/{username}")
-	public ResponseEntity<AppUser> getUserByUsername(@PathVariable String username) {
+	@JsonView(AppUser.BasicUserView.class)
+	public ResponseEntity<?> getUserByUsername(@PathVariable String username) {
 		try {
 			AppUser user = appUserRepository.findByUsername(username);
 
 			if (user != null) {
 				return new ResponseEntity<>(user, HttpStatus.OK);
 			} else {
-				return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+				return new ResponseEntity<>("No results found", HttpStatus.NOT_FOUND);
 			}
 		} catch (Exception e) {
-			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 
@@ -69,12 +56,12 @@ public class AppUserRESTController {
 		try {
 			BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 			newUser.setPassword_hash(encoder.encode(newUser.getPassword_hash()));
-			AppUser savedUser = appUserRepository.save(newUser);
-			return new ResponseEntity<>(savedUser, HttpStatus.CREATED);
+			appUserRepository.save(newUser);
+			return new ResponseEntity<>("User successfully added", HttpStatus.CREATED);
 		} catch (DataIntegrityViolationException e) {
 			return new ResponseEntity<>("Username already exists", HttpStatus.CONFLICT);
 		} catch (Exception e) {
-			return new ResponseEntity<>("Something weird happened", HttpStatus.INTERNAL_SERVER_ERROR);
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 
@@ -100,31 +87,31 @@ public class AppUserRESTController {
 				userToBeUpdated.setLast_name(updatedUser.getLast_name());
 				BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 				userToBeUpdated.setPassword_hash(encoder.encode(updatedUser.getPassword_hash()));
-				AppUser savedUser = appUserRepository.save(userToBeUpdated);
-				return new ResponseEntity<>(savedUser, HttpStatus.OK);
+				appUserRepository.save(userToBeUpdated);
+				return new ResponseEntity<>("User successfully updated", HttpStatus.OK);
 			} else {
-				return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+				return new ResponseEntity<>("Updating failed", HttpStatus.NOT_FOUND);
 			}
 		} catch (DataIntegrityViolationException e) {
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.CONFLICT);
 		} catch (Exception e) {
-			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 
 	// Poista käyttäjä ID:n perusteella
 	@DeleteMapping("/{id}")
-	public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
+	public ResponseEntity<?> deleteUser(@PathVariable Long id) {
 		try {
 			Optional<AppUser> user = appUserRepository.findById(id);
 			if (!user.isEmpty() && user.get().getId() == userDetailsService.getAuthIdentity()) {
 				appUserRepository.delete(user.get());
-				return new ResponseEntity<>(HttpStatus.OK);
+				return new ResponseEntity<>("User successfully deleted", HttpStatus.OK);
 			} else {
-				return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+				return new ResponseEntity<>("Deleting failed", HttpStatus.NOT_FOUND);
 			}
 		} catch (Exception e) {
-			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 }

@@ -1,8 +1,8 @@
 package TeamRed.TimeManagementBE.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonView;
 
+import TeamRed.TimeManagementBE.domain.Project.ProjectOverview;
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
@@ -12,21 +12,21 @@ import jakarta.persistence.MapsId;
 @Entity
 public class UserProjectRole {
 	@EmbeddedId
-	@JsonIgnore
 	private ProjectRoleKey id = new ProjectRoleKey();
 	
 	@ManyToOne
 	@MapsId("projectId")
 	@JoinColumn(name = "project_id")
-	//@JsonIgnoreProperties({"roles"})
+	@JsonView(ProjectOverview.class)
 	private Project project;
 	
 	@ManyToOne
 	@MapsId("userId")
 	@JoinColumn(name = "user_id")
-	@JsonIgnoreProperties({"password_hash", "roles"})
+	@JsonView(ProjectOverview.class)
 	private AppUser appUser;
 	
+	@JsonView(ProjectOverview.class)
 	private Role role;
 
 	public UserProjectRole() {
