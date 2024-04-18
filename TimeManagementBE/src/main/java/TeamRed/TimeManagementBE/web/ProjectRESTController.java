@@ -1,5 +1,6 @@
  package TeamRed.TimeManagementBE.web;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -59,16 +60,8 @@ public class ProjectRESTController {
 			AppUser user = userDetailsService.getAuthUser();
 			Set<UserProjectRole> projects = user.getRoles();
 			if (((Set<UserProjectRole>) projects).isEmpty()) {
-				return new ResponseEntity<>("No results found", HttpStatus.NOT_FOUND);
+				return new ResponseEntity<>(new ArrayList<>(), HttpStatus.OK);
 			}
-			/* Tätä ei kai enää tarvita tässä kohtaa
-			for (UserProjectRole project : projects) {
-				if (project.getRole().equals(Role.USER)) {
-					List<Entry> entries = entryRepository.findByProjectAndAppUser(project.getProject(), user);
-					project.getProject().setEntries(entries);
-					}
-				}
-			*/
 			return new ResponseEntity<>(projects, HttpStatus.OK);
 		} catch (Exception e) {
 			return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
