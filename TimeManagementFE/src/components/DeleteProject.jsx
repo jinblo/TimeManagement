@@ -45,7 +45,7 @@ export default function DeleteProject({ token, id, setAlert, fetchProjects }) {
         </DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-            Haluatko varmasti poistaa kyseisen projektin?
+            Haluatko varmasti poistaa kyseisen projektin? Projektin poisto poistaa kaikki sen kirjaukset.
           </DialogContentText>
         </DialogContent>
         <DialogActions>
