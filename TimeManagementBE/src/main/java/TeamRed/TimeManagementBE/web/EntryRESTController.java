@@ -1,5 +1,6 @@
 package TeamRed.TimeManagementBE.web;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -8,6 +9,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.fasterxml.jackson.annotation.JsonView;
 
 import TeamRed.TimeManagementBE.domain.EntryRepository;
 import TeamRed.TimeManagementBE.domain.Entry;
@@ -39,15 +42,16 @@ public class EntryRESTController {
 
 	// Kaikkien käyttäjän omien työaikakirjausten haku
 	@GetMapping("entries")
+	@JsonView(Project.EntryListView.class)
 	public ResponseEntity<?> getEntries() {
 		try {
 			Iterable<Entry> entries = entryRepository.findByAppUser(userDetailsService.getAuthUser());
 			if (((List<Entry>) entries).isEmpty()) {
-				return new ResponseEntity<>("Työaikakirjauksia ei löytynyt", HttpStatus.NO_CONTENT);
+				return new ResponseEntity<>(new ArrayList<>(), HttpStatus.OK);
 			}
 			return new ResponseEntity<>(entries, HttpStatus.OK);
 		} catch (Exception e) {
-			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 
@@ -62,12 +66,12 @@ public class EntryRESTController {
 			if (!project.isEmpty() && userDetailsService.getUserRole(projectId) != null) { //pelkkä roolin tsekkauskin riittäisi
 				entry.setProject(project.get());
 				entry.setAppUser(userDetailsService.getAuthUser());
-				Entry newEntry = entryRepository.save(entry);
-				return new ResponseEntity<>(newEntry, HttpStatus.CREATED);
+				entryRepository.save(entry);
+				return new ResponseEntity<>("Entry successfully added", HttpStatus.CREATED);
 			}
-			return new ResponseEntity<>("Jokin meni pieleen", HttpStatus.NOT_FOUND);
+			return new ResponseEntity<>("Adding new entry failed", HttpStatus.NOT_FOUND);
 		} catch (Exception e) {
-			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 
@@ -80,18 +84,23 @@ public class EntryRESTController {
 		try {
 			Optional<Entry> toBeEdited = entryRepository.findById(entryId);
 			if (!toBeEdited.isEmpty() && toBeEdited.get().getAppUser().getId() == userDetailsService.getAuthIdentity()) {
-				Entry entry = toBeEdited.get();
-				entry.setComment(updatedEntry.getComment());
-				entry.setEntry_date(updatedEntry.getEntry_date());
-				entry.setStart_time(updatedEntry.getStart_time());
-				entry.setEnd_time(updatedEntry.getEnd_time());
-				//entry.setAppUser(userDetailsService.getAuthUser());
-				entryRepository.save(entry);
-				return new ResponseEntity<>(entry, HttpStatus.OK);
+				try {
+					Entry entry = toBeEdited.get();
+					entry.setComment(updatedEntry.getComment());
+					entry.setEntry_date(updatedEntry.getEntry_date());
+					entry.setStart_time(updatedEntry.getStart_time());
+					entry.setEnd_time(updatedEntry.getEnd_time());
+					//entry.setAppUser(userDetailsService.getAuthUser());
+					entryRepository.save(entry);
+					return new ResponseEntity<>("Entry successfully updated", HttpStatus.OK);
+				} catch (Exception e) {
+					return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+				}
+				
 			}
-			return new ResponseEntity<>("Jokin meni pieleen", HttpStatus.NOT_FOUND);
+			return new ResponseEntity<>("Updating failed", HttpStatus.NOT_FOUND);
 		} catch (Exception e) {
-			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 
@@ -102,11 +111,11 @@ public class EntryRESTController {
 			Optional<Entry> removableEntry = entryRepository.findById(entryId);
 			if (!removableEntry.isEmpty() && removableEntry.get().getAppUser().getId() == userDetailsService.getAuthIdentity()) {
 				entryRepository.delete(removableEntry.get());
-				return new ResponseEntity<>("Työaikakirjaus poistettu onnistuneesti", HttpStatus.OK);
+				return new ResponseEntity<>("Entry successfully deleted", HttpStatus.OK);
 			}
-			return new ResponseEntity<>("Jokin meni pieleen", HttpStatus.NOT_FOUND);
+			return new ResponseEntity<>("Deleting failed", HttpStatus.NOT_FOUND);
 		} catch (Exception e) {
-			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 }

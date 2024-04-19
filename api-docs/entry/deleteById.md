@@ -1,6 +1,6 @@
 # Entryn poisto
 
-**URL**: `/entries/:pk`
+**URL**: `/{host}/entries/:pk`
 
 **Metodi**: `DELETE`
 
@@ -8,4 +8,12 @@
 
 ## Esimerkkipyyntö:
 
-**Polku**: `BASE_URL/entries/:pk`
+**Polku**: `BASE_URL/{host}/entries/{entry_id}`
+
+**request header**: `Authorization: {token}`
+
+**request body**: -
+
+**response header**: -
+
+**response body:** `Työaikakirjaus poistettu onnistuneesti`

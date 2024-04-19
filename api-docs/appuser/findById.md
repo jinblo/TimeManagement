@@ -4,21 +4,26 @@
 
 **Metodi**: `GET`
 
-**Vaadittu rooli**: `OWNER`
+**Vaadittu rooli**: -
 
-**Polku**: `BASE_URL/users/:pk`
+**Polku**: `BASE_URL/{host}/users/{id}`
 
-## Esimerkkivastaus:
+**request header**: `Authorization: {token}`
+
+**request body**: -
+
+**response header**: -
+
+**response body:**
 
 ```json
 {
-    "appUser": {
-        "id": 1,
-        "first_name": "Ensimmäinen",
-        "last_name": "Käyttäjä",
-        "username": "new_user1"
-    },
-    "role": "OWNER"
+ "id": 1,
+"first_name": "Ensimmäinen",
+"last_name": "Käyttäjä",
+"username": "new_user1",
+"password_hash": "******"
+
 }
 
 

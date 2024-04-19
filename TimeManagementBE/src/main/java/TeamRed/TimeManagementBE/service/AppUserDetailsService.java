@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
@@ -30,11 +29,27 @@ public class AppUserDetailsService implements UserDetailsService {
     private UserProjectRoleRepository roleRepository;
 
 	@Override
-	public UserDetails loadUserByUsername(String username) {
+	public CustomUserDetails loadUserByUsername(String username) {
 		AppUser user = userRepository.findByUsername(username);
 		if (user == null) {
 			throw new UsernameNotFoundException("User not found");
 		}
+		return new CustomUserDetails(
+				user.getUsername(),
+				user.getPassword_hash(),
+				Collections.emptyList(),
+				user.getId(),
+				user.getFirst_name(),
+				user.getLast_name()
+				);
+	}
+	
+	public CustomUserDetails loadUserById(long id) {
+		Optional<AppUser> userToBeFound = userRepository.findById(id);
+		if (userToBeFound.isEmpty()) {
+			throw new UsernameNotFoundException("User not found");
+		}
+		AppUser user = userToBeFound.get();
 		return new CustomUserDetails(
 				user.getUsername(),
 				user.getPassword_hash(),
