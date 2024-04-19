@@ -21,15 +21,14 @@ const ProjectList = () => {
     const alertMessage = useMemo(() => {
         switch (alert) {
             case 'success': {
-                return <AlertMessage alert={alert} alertMessage="Kirjaus tallennettu onnistuneesti" setAlert={setAlert} />
+                return <AlertMessage alert={alert} alertMessage="Projekti tallennettu onnistuneesti" setAlert={setAlert} />
             }
             case 'info': {
-                return <AlertMessage alert={alert} alertMessage="Kirjaus poistettu onnistuneesti" setAlert={setAlert} />
+                return <AlertMessage alert={alert} alertMessage="Projekti poistettu onnistuneesti" setAlert={setAlert} />
             }
             case 'error': {
-                return <AlertMessage alert={alert} alertMessage="Kirjauksen tallennus epäonnistui" setAlert={setAlert} />
+                return <AlertMessage alert={alert} alertMessage="Projektin tallennus epäonnistui" setAlert={setAlert} />
             }
-
             default: {
                 return <></>
             }

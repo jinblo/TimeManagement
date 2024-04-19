@@ -30,7 +30,7 @@ const Home = () => {
       )}
       <Grid container spacing={2}>
         <Grid item>
-          <Card sx={{ maxWidth: 300 }}> {/* Projektit card */}
+          <Card sx={{ width: 300 }}> {/* Projektit card */}
             <CardActionArea component={Link} to='projectlist'>
               <CardContent>
                 <Typography gutterBottom variant="h5" component="div">
@@ -44,7 +44,7 @@ const Home = () => {
           </Card>
         </Grid>
         <Grid item>
-          <Card sx={{ maxWidth: 300 }}> {/* Tuntikirjaukset card */}
+          <Card sx={{ width: 300 }}> {/* Tuntikirjaukset card */}
             <CardActionArea component={Link} to='entrylist'>
               <CardContent>
                 <Typography gutterBottom variant="h5" component="div">
@@ -58,21 +58,21 @@ const Home = () => {
           </Card>
         </Grid>
         <Grid item>
-          <Card sx={{ maxWidth: 300 }}> {/* Omat tiedot card */}
-            <CardActionArea>
+          <Card sx={{ width: 300 }}> {/* Omat tiedot card */}
+            <CardActionArea component={Link} to='user'>
               <CardContent>
                 <Typography gutterBottom variant="h5" component="div">
                   Omat tiedot
                 </Typography>
                 <Typography variant="body2" color="text.secondary">
-                  (LINKKI UUPUU) Tarkastele ja muokkaa omia tietojasi.
+                  Tarkastele ja muokkaa omia tietojasi.
                 </Typography>
               </CardContent>
             </CardActionArea>
           </Card>
         </Grid>
         <Grid item>
-          <Card sx={{ maxWidth: 300 }}> {/* Käyttäjien hallinta card */}
+          <Card sx={{ width: 300 }}> {/* Käyttäjien hallinta card */}
             <CardActionArea component={Link} to='projectlist'>
               <CardContent>
                 <Typography gutterBottom variant="h5" component="div">
