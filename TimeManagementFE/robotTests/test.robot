@@ -10,7 +10,7 @@
 # Tee testit komennolla: robot test.robot TAI python -m robot test.robot
 # Testi jossa tietty tagi: robot -i test test.robot
 #
-# Mitä vielä uupuu: entryn muokkaus
+# Uupuu testit koskien käyttäjän lisäystä, roolin päivitystä sekä poistoa
 # Uupuva hienosaaäntö: muokkaukset ja poistot koskemaan juuri lisättyä asiaa
 
 
@@ -30,7 +30,7 @@ Login to the TimeManagement service
     PageContainHei
 
 Adding a new project after logged in
-    [Tags]    postproject    heroku    localhost
+    [Tags]    postproject    localhost
     ClickProjects
     AddProjectButton
     AddProjectInfo
@@ -40,22 +40,23 @@ Adding a new project after logged in
 # Muutos kohdistuu ensimmäiseen riviin
 
 Editing an existing project
-    [Tags]    putproject    heroku    localhost
+    [Tags]    putproject    localhost
     EditButton
     EditProjectInfo
     SaveAllChangesButton
     SuccessfullEdition
 
-# Ei pääse kiinni select osioon
-# Adding a new entry to RobotTest project
-#    [Tags]    postEntry    heroku    localhost
-#    ClickEntries
-#    AddEntryButton
-#    Select From List By Index    name:project    1
-#    Click Element    //MenuItem[contains(text(), 'RobotTest')]
-#    Input Text    name=comment    CommentTest
-#    SaveButton
-#    Page Should Contain    CommentTest
+# Valitsee listan ensimmäisen projektin
+
+Adding a new entry to RobotTest project
+    [Tags]    postentry    test    localhost
+    ClickEntries
+    AddEntryButton
+    Click Element    xpath=//*[@id="mui-component-select-project"]
+    Click Element    xpath=//*[@id="menu-project"]/div[3]/ul/li[1]
+    Input Text    name=comment    CommentTest
+    SaveButton
+    Page Should Contain    CommentTest
 
 # nyt ensimmäisen rivin kommentin Muokkaa
 
