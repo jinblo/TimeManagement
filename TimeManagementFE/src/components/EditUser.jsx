@@ -2,9 +2,11 @@ import { useState } from 'react';
 import { jwtDecode } from "jwt-decode";
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField } from "@mui/material";
 import { putUser } from '../services/AppUserService';
+import { useAuth } from '../services/AuthProvider';
 
 // function for editing user information. Opens a dialog with information from current user.
 export default function EditUser({ token, setAlert }) {
+  const { setToken } = useAuth();
   const decodedToken = jwtDecode(token);
   const { user_id, sub, first_name, last_name } = decodedToken;
   const [open, setOpen] = useState(false);
@@ -44,7 +46,7 @@ export default function EditUser({ token, setAlert }) {
   // Editing user info
   const editUser = async () => {
     // Checking that the fields are not empty
-    if (user.first_name.trim() === "" || user.last_name.trim() === "") {
+    if (user.username.trim() === "" || user.first_name.trim() === "" || user.last_name.trim() === "") {
       setNameError('Kenttä ei voi olla tyhjä');
     } else if (user.password_hash.length < 7) {
       setPassError(true)
@@ -54,7 +56,7 @@ export default function EditUser({ token, setAlert }) {
           .then(response => {
             if (response.ok) {
               // User edited successfully
-              console.log('User edited successfully');
+              setToken(response.headers.get('Authorization'))
               setAlert('success')
               handleClose();
             } else {
@@ -92,11 +94,14 @@ export default function EditUser({ token, setAlert }) {
           <TextField
             margin='normal'
             fullWidth
+            required
             name="username"
             label="Käyttäjänimi"
             type="text"
             value={user.username}
-            disabled
+            onChange={handleChange}
+            error={nameError !== ''}
+            helperText={nameError}
           />
           <TextField
             autoFocus
