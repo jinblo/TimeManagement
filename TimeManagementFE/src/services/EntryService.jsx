@@ -27,7 +27,7 @@ export async function postEntry(token, entry, project_id) {
 
 export async function putEntry(token, entry) {
   const request =
-    fetch(`${baseUrl}/projects/${entry.project.id}/entries/${entry.entry_id}`, {
+    fetch(`${baseUrl}/projects/${entry.project.id}/entries/${entry.id}`, {
       method: 'put',
       headers: {
         'Authorization': token,
@@ -39,9 +39,9 @@ export async function putEntry(token, entry) {
   return request
 }
 
-export async function deleteEntry(token, entry_id) {
+export async function deleteEntry(token, id) {
   const request =
-    fetch(`${baseUrl}/entries/${entry_id}`, {
+    fetch(`${baseUrl}/entries/${id}`, {
       method: 'delete',
       headers: {
         'Authorization': token,

@@ -75,7 +75,7 @@ const EntryList = () => {
       headerName: "Muistiinpanot"
     },
     {
-      field: "entry_id",
+      field: "id",
       headerName: "Muokkaa",
       sortable: false,
       filter: false,
@@ -87,7 +87,7 @@ const EntryList = () => {
       }
     },
     {
-      field: "entry_id",
+      field: "id",
       headerName: "Poista",
       sortable: false,
       filter: false,
