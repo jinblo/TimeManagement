@@ -61,14 +61,3 @@ export async function getUser(token, username) {
       .catch(error => console.error(error))
   return request.then(response => response.json())
 }
-
-export async function getUserById(token, user_id) {
-  const request =
-    fetch(`${baseUrl}/users/${user_id}`, {
-      headers: {
-        'Authorization': token
-      }
-    })
-      .catch(error => console.error(error))
-  return request.then(response => response.json())
-}
