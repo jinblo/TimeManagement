@@ -36,48 +36,46 @@ public class WebSecurityConfig {
 
 	@Autowired
 	private AuthEntryPoint exceptionHandler;
-
-	@Bean
-	public AuthenticationManager authenticationManager(HttpSecurity http) throws Exception {
-		AuthenticationManagerBuilder authenticationManagerBuilder = http
-				.getSharedObject(AuthenticationManagerBuilder.class);
-		authenticationManagerBuilder.userDetailsService(userDetailsService).passwordEncoder(new BCryptPasswordEncoder());
-		return authenticationManagerBuilder.build();
-	}
-
-	@Bean
-	CorsConfigurationSource corsConfigurationSource() {
-		CorsConfiguration configuration = new CorsConfiguration();
-		configuration.setAllowedOrigins(Arrays.asList("http://localhost:5173"));
-		// configuration.setAllowedOrigins(Arrays.asList("https://teamred-ohjelmistoprojekti2.github.io"));
-		configuration.setAllowedMethods(Arrays.asList("*"));
-		configuration.setAllowedHeaders(Arrays.asList("*"));
-		configuration.setAllowCredentials(true);
-		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-		source.registerCorsConfiguration("/**", configuration);
-		return source;
-	}
-
-	@Bean
-	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-		http
-				.csrf(csrf -> csrf
-						.ignoringRequestMatchers(antMatcher("/h2-console/**"))
-						.disable())
-				.cors(httpSecurityCorsConfigurer -> httpSecurityCorsConfigurer.configurationSource(corsConfigurationSource()))
-				.authorizeHttpRequests(authorize -> authorize
-						.requestMatchers(antMatcher("/h2-console/**")).permitAll()
-						.requestMatchers(antMatcher("/login")).permitAll()
-						.requestMatchers(antMatcher(HttpMethod.POST, "/users")).permitAll()
-						.anyRequest().authenticated())
-				.headers(headers -> headers
-						.addHeaderWriter(new XFrameOptionsHeaderWriter(XFrameOptionsHeaderWriter.XFrameOptionsMode.SAMEORIGIN)))
-				.sessionManagement(management -> management
-						.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-				.exceptionHandling(exception -> exception.authenticationEntryPoint(exceptionHandler))
-				.addFilterBefore(authenticationFilter, UsernamePasswordAuthenticationFilter.class);
-
-		return http.build();
-	}
+	
+    @Bean
+    public AuthenticationManager authenticationManager(HttpSecurity http) throws Exception {
+        AuthenticationManagerBuilder authenticationManagerBuilder = http.getSharedObject(AuthenticationManagerBuilder.class);
+        authenticationManagerBuilder.userDetailsService(userDetailsService).passwordEncoder(new BCryptPasswordEncoder());
+        return authenticationManagerBuilder.build();
+    }
+    
+    @Bean
+    CorsConfigurationSource corsConfigurationSource() {
+    	CorsConfiguration configuration = new CorsConfiguration();
+    	configuration.setAllowedOrigins(Arrays.asList("http://localhost:5173"));
+    	//configuration.setAllowedOrigins(Arrays.asList("https://teamred-ohjelmistoprojekti2.github.io"));
+    	configuration.setAllowedMethods(Arrays.asList("*"));
+    	configuration.setAllowedHeaders(Arrays.asList("*"));
+    	configuration.setAllowCredentials(true);
+    	UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+    	source.registerCorsConfiguration("/**", configuration);
+    	return source; 	
+    }
+    
+    @Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    	http
+    	.csrf(csrf -> csrf
+    			.ignoringRequestMatchers(antMatcher("/h2-console/**"))
+    			.disable())
+    	.cors(httpSecurityCorsConfigurer -> httpSecurityCorsConfigurer.configurationSource(corsConfigurationSource()))
+    	.authorizeHttpRequests(authorize -> authorize
+    			.requestMatchers(antMatcher("/h2-console/**")).permitAll()
+    			.requestMatchers(antMatcher("/login")).permitAll()
+    			.requestMatchers(antMatcher(HttpMethod.POST,"/users")).permitAll()
+    			.anyRequest().authenticated())
+    	.headers(headers -> headers.addHeaderWriter(new XFrameOptionsHeaderWriter(XFrameOptionsHeaderWriter.XFrameOptionsMode.SAMEORIGIN)))
+        .sessionManagement(management -> management
+    			.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+    	.exceptionHandling(exception -> exception.authenticationEntryPoint(exceptionHandler))
+    	.addFilterBefore(authenticationFilter, UsernamePasswordAuthenticationFilter.class);
+    	
+        return http.build();
+    }
 
 }
