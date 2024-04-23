@@ -1,37 +1,58 @@
 *** Settings ***
 Library     SeleniumLibrary    15.0    5.0
+# Keywords sections:
+# - Click certain button on the page
+# - LogIn process using Localhost
+# - LogIn process using Deployment version
+# - Adding project process
+# - Editing project process
+# - Adding entry process
+# - Editing entry process
+# - Navigating on the page
+# - Page contain
+# TARKISTA ETTÄ KAIKKI KÄYTÖSSÄ
 
 
 *** Variables ***
-${Browser}              Chrome
-${URL-localhost}        http://localhost:5173/TimeManagement/login
-${URL}                  https://teamred-ohjelmistoprojekti2.github.io/TimeManagement/
-${AddedProject}         RobotTest
-${EditedText}           Edited
-${EditedProject}        RobotTestEdited
-${AddedEntry}           RobotTestEntry
-${EditedEntry}          RobotTestEntryEdited
-&{TESTUSER}             username=new_user1    password=AppUser1
-&{TESTUSERHEROKU}       username=RobotTest    password=RobotTest
-${KirjausOnnistui}      Kirjaus tallennettu onnistuneesti
+${Browser}                          Chrome
+${URL-localhost}                    http://localhost:5173/TimeManagement/login
+${URL}                              https://teamred-ohjelmistoprojekti2.github.io/TimeManagement/
+${AddedProject}                     RobotTest
+${EditedText}                       Edited
+${EditedProject}                    RobotTestEdited
+${AddedEntry}                       RobotTestEntry
+${EditedEntry}                      RobotTestEntryEdited
+&{TESTUSER}                         username=testi    password=AppUser1
+&{TESTUSERHEROKU}                   username=RobotTest    password=RobotTest
+${KirjausOnnistui}                  Kirjaus tallennettu onnistuneesti
+${ProjectEditedSuccessfully}        Projekti tallennettu onnistuneesti
+${ProjectDeletedSuccessfully}       Projekti poistettu onnistuneesti
+${UsernameLocal}                    new_user2
+${UsernameHeroku}                   RobotFriend
+${CommentText}                      CommentText
+
+# TARKISTA ETTÄ KAIKKI KÄYTÖSSÄ
 
 
 *** Keywords ***
-### Press certain button on the page ###
+### Click certain button on the page ###
 SaveButton
-    Click button    Tallenna
+    Click Button    Tallenna
 
 SaveAllChangesButton
-    Click button    Tallenna kaikki muutokset
+    Click Button    Tallenna kaikki muutokset
 
 LogInbutton
-    Click button    Kirjaudu
+    Click Button    Kirjaudu
+
+RegisterButton
+    Click Button    Rekisteröidy
 
 EditButton
     Click Button    Muokkaa
 
 DeleteButton
-    click button    Poista
+    click Button    Poista
 
 DeleteProjectButton
     Click Button    Poista projekti
@@ -40,10 +61,27 @@ DeleteEntryButton
     Click Button    Poista kirjaus
 
 AddProjectButton
-    click button    Lisää uusi projekti
+    click Button    Lisää uusi projekti
 
 AddEntryButton
-    click button    Lisää uusi kirjaus
+    click Button    Lisää uusi kirjaus
+
+FindUserButton
+    Click Button    Hae käyttäjä
+
+### Registration ###
+
+AddUserName
+    Input Text    id=usernameReg    ${TESTUSER}[username]
+
+AddPassword
+    Input Text    name=password_hash    ${TESTUSER}[password]
+
+AddFirstName
+    Input Text    name=first_name    Robotti
+
+AddLastName
+    Input Text    name=last_name    Testaaja
 
 ### LogIn process using Localhost ###
 
@@ -69,7 +107,7 @@ LogInWithHeroku
 PageContainHeiRobotFramework
     Page Should Contain    Hei Robot Framework
 
-### Adding project ###
+### Adding project process ###
 
 AddProjectInfo
     Input Text    name=title    ${AddedProject}
@@ -77,17 +115,40 @@ AddProjectInfo
 CheckProjectAdded
     Page Should Contain    ${AddedProject}
 
-### Editing project ###
+### Editing project process ###
 
 EditProjectInfo
     Input Text    name=title    ${EditedText}
 
-### Adding entry ###
+AddUserToProjectLocalhost
+    Input Text    name=username    ${UsernameLocal}
 
-### Editing entry ###
+AddUserToProjectHeroku
+    Input Text    name=username    ${UsernameHeroku}
+
+### Adding entry process ###
+
+ChooseProjectName
+    Click Element    xpath=//*[@id="mui-component-select-project"]
+
+ChooseFirtsProjectName
+    Click Element    xpath=//*[@id="menu-project"]/div[3]/ul/li[1]
+
+AddComment
+    Input Text    name=comment    ${CommentText}
+
+### Editing entry process ###
 
 EditEntryInfo
     Input Text    name=entry    ${EditedText}
+
+### Editing user details
+
+FirstNameEdit
+    Input Text    name=first_name    1
+
+PasswordAdd
+    Input Text    name=password_hash    ${TESTUSER}[password]
 
 ### Navigating on the page ###
 
@@ -100,7 +161,15 @@ ClickEntries
 ClickLogOut
     Click Link    Kirjaudu ulos
 
+ClickHomePage
+    Click Link    Etusivu
+
+ClickUserDetails
+    Click Link    Omat tiedot
 ### Page contain ###
+
+SuccessfullRegistration
+    Wait Until Page Contains    Käyttäjä rekisteröity onnistuneesti
 
 ProjectDeletionWarning
     Page Should Contain    Haluatko varmasti poistaa kyseisen projektin?
@@ -111,8 +180,20 @@ EntryDeletionWarning
 SuccessfulDeletion
     Wait Until Page Contains    Kirjaus poistettu onnistuneesti
 
+ProjectSuccessfulDeletion
+    Wait Until Page Contains    ${ProjectDeletedSuccessfully}
+
 SuccessfulLogOut
     Page Should Contain    Sinut on kirjattu ulos
 
 SuccessfullEdition
     Page Should Contain    ${KirjausOnnistui}
+
+SuccessfullProjectEdition
+    Page Should Contain    ${ProjectEditedSuccessfully}
+
+EntryCommentOnThePage
+    Page Should Contain    ${CommentText}
+
+UserInfoSavedSuccessfully
+    Page Should Contain    Tiedot tallennettu onnistuneesti

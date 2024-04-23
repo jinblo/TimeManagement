@@ -22,76 +22,145 @@ Resource            resources.robot
 
 
 *** Test Cases ***
-Login to the TimeManagement service
-    [Tags]    localhost    test
+## Rekisteröidään uusi käyttäjä
+Registerin a new user
+    [Tags]    localhost    register
     OpenBrowserLocalhost
+    RegisterButton
+    AddUserName
+    AddPassword
+    AddFirstName
+    AddLastName
+    SaveButton
+    SuccessfullRegistration
+    sleep    2s
+
+## Kirjaudutaan sisään uutena käyttäjänä
+
+Login to the TimeManagement service
+    [Tags]    localhost    test    role    user
+    # OpenBrowserLocalhost
     LogInWithCredentials
     LogInbutton
     PageContainHei
 
+## Lisätään käyttäjälle projekti
+
 Adding a new project after logged in
-    [Tags]    postproject    localhost
+    [Tags]    postproject    localhost    test
     ClickProjects
     AddProjectButton
     AddProjectInfo
     SaveButton
     CheckProjectAdded
 
-# Muutos kohdistuu ensimmäiseen riviin
+## Muokataan lisättyä projektia
 
-Editing an existing project
+Editing an existing project title
     [Tags]    putproject    localhost
     EditButton
     EditProjectInfo
     SaveAllChangesButton
-    SuccessfullEdition
+    SuccessfullProjectEdition
 
-# Valitsee listan ensimmäisen projektin
+## Lisätään projektille käyttäjä ja hänelle rooli user
+
+Adding a user to the project with role user
+    [Tags]    putproject    localhost    test
+    #ClickProjects
+    EditButton
+    AddUserToProjectLocalhost
+    FindUserButton
+    SaveAllChangesButton
+    SuccessfullProjectEdition
+
+## Päivitetään käyttäjän rooli userista vieweriksi
+
+Editing a user role from user to viewer
+    [Tags]    putproject    localhost    test    role
+    #ClickProjects
+    EditButton
+    Click Element    xpath=/html/body/div[2]/div[3]/div/div/table/tbody/tr[2]/td[2]/div/div
+    Click Element    xpath=//li[contains(text(), 'Viewer')]
+    Sleep    2s
+    SaveAllChangesButton
+    SuccessfullProjectEdition
+
+## Poistetaan projektilta lisätty käyttäjä
+
+Deleting the user from the project
+    [Tags]    dleteproject    localhost    test    role
+    #ClickProjects
+    EditButton
+    Click Element    xpath=/html/body/div[2]/div[3]/div/div/table/tbody/tr[2]/td[3]/span/input
+    SaveAllChangesButton
+    SuccessfullProjectEdition
+    Sleep    2s
+
+## Lisätään projektille uusi kirjaus
 
 Adding a new entry to RobotTest project
-    [Tags]    postentry    test    localhost
+    [Tags]    postentry    localhost
     ClickEntries
     AddEntryButton
-    Click Element    xpath=//*[@id="mui-component-select-project"]
-    Click Element    xpath=//*[@id="menu-project"]/div[3]/ul/li[1]
-    Input Text    name=comment    CommentTest
+    ChooseProjectName
+    ChooseFirtsProjectName
+    AddComment
     SaveButton
-    Page Should Contain    CommentTest
+    EntryCommentOnThePage
 
-# nyt ensimmäisen rivin kommentin Muokkaa
+## Muokataan kirjauksen kommenttia
 
 Editing an existing entry
     [Tags]    putentry
-    ClickEntries
+    #ClickEntries
     EditButton
     EditEntryInfo
     SaveButton
     SuccessfullEdition
 
-# poistaa ensimmäisen enrtyn
+## Poistetaan kyseinen kirjaus
 
  Deleting the first entry
     [Tags]    deleteentry
-    ClickEntries
+    # ClickEntries
     DeleteButton
     EntryDeletionWarning
     DeleteEntryButton
     SuccessfulDeletion
+    Sleep    2s
 
-# poistaa ensimmäisen projektin
+## Poistetaan kyseinen projekti
 
 Deleting a project
-    [Tags]    deleteproject    heroku    localhost
+    [Tags]    deleteproject    localhost    test
     ClickProjects
     DeleteButton
     ProjectDeletionWarning
     DeleteProjectButton
-    SuccessfulDeletion
+    ProjectSuccessfulDeletion
+    Sleep    2s
+
+## Muokataan käyttjän omia tietoja
+
+Editing own user derails
+    [Tags]    user
+    ClickUserDetails
+    EditButton
+    FirstNameEdit
+    PasswordAdd
+    SaveButton
+    UserInfoSavedSuccessfully
+    Sleep    2s
+
+## Kirjaudutaan ulos
 
 Testing logging out function
-    [Tags]    logout    heroku    localhost
+    [Tags]    logout    localhost    test
     ClickLogOut
     SuccessfulLogOut
+
+## Suljetaan selain
 
 Closing Browser
     Close Browser

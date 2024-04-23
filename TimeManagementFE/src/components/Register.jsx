@@ -71,6 +71,7 @@ const Register = ({ setAlert }) => {
         <DialogTitle>Rekisteröidy</DialogTitle>
         <DialogContent>
           <TextField
+            id="usernameReg"
             autoFocus
             required
             margin='normal'
