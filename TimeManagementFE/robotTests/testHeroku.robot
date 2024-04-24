@@ -1,16 +1,15 @@
 *** Comments ***
-# Robotframerowk test cases for Heroku
-#
-# *** HUOM SISÄINEN MUISTIINPANO ***
-# Testien tekemistä varten tarvitaan omalle koneelle asennukset: Python ja pip
-# Asenna robotframework koneellesi pip:illä komennolla: pip install robotframework
-# Asenna SeleniumLibrary kirjasto: pip install robotframework-seleniumlibrary
-#
-# Tee testit komennolla: robot testHeroku.robot TAI python -m robot testHeroku.robot
-# Testi jossa tietty tagi: robot -i test testHeroku.robot
-#
-# Uupuu testit koskien käyttäjän lisäystä, roolin päivitystä sekä poistoa
-# Uupuva hienosaaäntö: muokkaukset ja poistot koskemaan juuri lisättyä asiaa
+Robotframerowk test cases for Heroku
+
+To perform testing, you need the following installations on your own machine: Python and pip
+Install robotframework on your machine using pip command: pip install robotframework
+Install the SeleniumLibrary library: pip install robotframework-seleniumlibrary
+
+Run the tests using the command: robot testHeroku.robot OR python -m robot testHeroku.robot
+Run tests with a specific tag: robot -i test testHeroku.robot
+
+Uupuu testit koskien käyttäjän lisäystä, roolin päivitystä sekä poistoa
+Uupuva hienosaaäntö: muokkaukset ja poistot koskemaan juuri lisättyä asiaa
 
 
 *** Settings ***
@@ -23,72 +22,64 @@ Resource            resources.robot
 *** Test Cases ***
 Login to Heroku and GitHub Page
     [Tags]    test
-    OpenBrowserGitHUbPage
-    LogInWithHeroku
-    LogInbutton
-    PageContainHeiRobotFramework
+    Open Browser and Navigate to GitHub Page
+    Login With Heroku Test User Credentials
+    Click Login Button
+    Page Contain Heroku Test User's name
 
 Adding a new project after logged in
     [Tags]    postproject    test
-    ClickProjects
-    AddProjectButton
-    AddProjectInfo
-    SaveButton
-    CheckProjectAdded
-
-# Muutos kohdistuu ensimmäiseen riviin
+    Navigate to Projects Page
+    Click Add Project Button
+    Add Title to Project Input Section
+    Click Save Button
+    Page Contain Added Project
 
 Editing an existing project
     [Tags]    putproject
-    EditButton
-    EditProjectInfo
-    SaveButton
-    SuccessfullEdition
+    Click Edit Button
+    Edit Project Title
+    Click Save Button
+    Page Contain Entry Successful Saved
 
 Adding a new entry to RobotTest project
     [Tags]    postentry    test
-    ClickEntries
-    AddEntryButton
-    Click Element    xpath=//*[@id="mui-component-select-project"]
-    Click Element    xpath=//*[@id="menu-project"]/div[3]/ul/li[1]
-    Input Text    name=comment    CommentTest
-    SaveButton
-    Page Should Contain    CommentTest
-
-# nyt ensimmäisen rivin kommentin Muokkaa
+    Navigate to Entries Page
+    Click Add Entry Button
+    Choose Project for Added Entry
+    Choose First Project Name from the List
+    Add Comment to Entry Input Section
+    Click Save Button
+    Page Contain Entry Successful Saved
 
 Editing an existing entry
     [Tags]    putentry
-    ClickEntries
-    EditButton
-    EditEntryInfo
-    SaveButton
-    SuccessfullEdition
-
-# poistaa ensimmäisen enrtyn
+    Navigate to Entries Page
+    Click Edit Button
+    Edit Entry's comment
+    Click Save Button
+    Page Contain Entry Successful Saved
 
 Deleting the first entry
     [Tags]    deleteentry
-    ClickEntries
-    DeleteButton
-    EntryDeletionWarning
-    DeleteEntryButton
-    SuccessfulDeletion
-
-# poistaa ensimmäisen projektin
+    Navigate to Entries Page
+    Click Delete Button
+    Page Contain Entry Deletion Warning
+    Click Delete Entry Button
+    Wait Page Contain Successful Deletion
 
 Deleting a project
     [Tags]    deleteproject
-    ClickProjects
-    DeleteButton
-    ProjectDeletionWarning
-    DeleteProjectButton
-    SuccessfulDeletion
+    Navigate to Projects Page
+    Click Delete Button
+    Page Contain Project Deletion Warning
+    Click Delete Project Button
+    Wait Page Contain Successful Deletion
 
 Testing logging out function
     [Tags]    logout
-    ClickLogOut
-    SuccessfulLogOut
+    Navigate to Logout Page
+    Page Contain Successful Logout
 
 Closing Browser
     Close Browser
