@@ -67,7 +67,7 @@ Click Add Entry Button
 Click Add Project Button
     Click Button    Lisää uusi projekti
 
-Click Cancel Button   
+Click Cancel Button
     Click Button    Peruuta
 
 Click Delete Button
@@ -145,6 +145,7 @@ Page Contain Entry Successful Saved
 
 Page Contain Does not have Other Users
     Page Should Contain    Projektille ei ole vielä lisätty muita käyttäjiä
+
 Page Contain Heroku Test User's name
     [Documentation]    Checking that showing first and last names
     Page Should Contain    Hei Robot Framework

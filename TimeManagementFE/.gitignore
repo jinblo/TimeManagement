@@ -26,8 +26,12 @@ dist-ssr
 # macOS
 .DS_Store
 
-# Robot Framework test
+# Robot Framework tests
 robotTests/log.html
 robotTests/output.xml
 robotTests/report.html
 robotTests/selenium-screenshot*
+robotTests/reports/log.html
+robotTests/reports/output.xml
+robotTests/reports/report.html
+robotTests/reports/selenium-screenshot*

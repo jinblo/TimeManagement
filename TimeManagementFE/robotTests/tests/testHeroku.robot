@@ -5,8 +5,8 @@ To perform testing, you need the following installations on your own machine: Py
 Install robotframework on your machine using pip command: pip install robotframework
 Install the SeleniumLibrary library: pip install robotframework-seleniumlibrary
 
-Run the tests using the command: robot testHeroku.robot OR python -m robot testHeroku.robot
-Run tests with a specific tag: robot -i test testHeroku.robot
+Run the tests using the command: robot --name HerokuTest -d reports tests/testHeroku.robot
+Or Or python -m robot --name HerokuTest -d reports tests/testHeroku.robot
 
 Uupuu testit koskien käyttäjän lisäystä, roolin päivitystä sekä poistoa
 Uupuva hienosaaäntö: muokkaukset ja poistot koskemaan juuri lisättyä asiaa
@@ -16,8 +16,7 @@ Uupuva hienosaaäntö: muokkaukset ja poistot koskemaan juuri lisättyä asiaa
 Documentation       Deployment: Tests to check login and REST functions in project and entry
 
 Library             SeleniumLibrary    15.0    5.0
-Resource            resources.robot
-
+Resource            ../Resources/resources.robot
 
 *** Test Cases ***
 Login to Heroku and GitHub Page
