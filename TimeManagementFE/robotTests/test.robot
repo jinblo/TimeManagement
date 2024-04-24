@@ -1,17 +1,13 @@
 *** Comments ***
-# Robotframerowk test cases for localhost
-#
-# *** HUOM SISÄINEN MUISTIINPANO ***
-# Testien tekemistä varten tarvitaan omalle koneelle asennukset: Python ja pip
-# Asenna robotframework koneellesi pip:illä komennolla: pip install robotframework
-# Asenna SeleniumLibrary kirjasto: pip install robotframework-seleniumlibrary
-#
-# ** Ennen kuin projekti on julkaistu: käynnistä sekä BE että FE ennen testejä **
-# Tee testit komennolla: robot test.robot TAI python -m robot test.robot
-# Testi jossa tietty tagi: robot -i test test.robot
-#
-# Uupuu testit koskien käyttäjän lisäystä, roolin päivitystä sekä poistoa
-# Uupuva hienosaaäntö: muokkaukset ja poistot koskemaan juuri lisättyä asiaa
+Robotframerowk test cases for localhost
+
+To perform testing, you need the following installations on your own machine: Python and pip
+Install robotframework on your machine using pip command: pip install robotframework
+Install the SeleniumLibrary library: pip install robotframework-seleniumlibrary
+
+Start both the backend and frontend before running tests
+Run the tests using the command: robot test.robot OR python -m robot test.robot
+Run tests with a specific tag: robot -i test test.robot
 
 
 *** Settings ***
@@ -22,145 +18,127 @@ Resource            resources.robot
 
 
 *** Test Cases ***
-## Rekisteröidään uusi käyttäjä
 Registerin a new user
-    [Tags]    localhost    register
-    OpenBrowserLocalhost
-    RegisterButton
-    AddUserName
-    AddPassword
-    AddFirstName
-    AddLastName
-    SaveButton
-    SuccessfullRegistration
-    sleep    2s
-
-## Kirjaudutaan sisään uutena käyttäjänä
+    [Tags]      register
+    Open Browser and Navigate to Localhost
+    Click Register Button
+    Add Username to Registration Input Section
+    Add Password to Registration Input Section
+    Add First Name to Registration Input Section
+    Add Last Name to Registration Input Section
+    Click Save Button
+    Wait Page Contain Successfull Registration
+    # sleep    2s
 
 Login to the TimeManagement service
-    [Tags]    localhost    test    role    user
-    # OpenBrowserLocalhost
-    LogInWithCredentials
-    LogInbutton
-    PageContainHei
-
-## Lisätään käyttäjälle projekti
+    [Tags]     test    role    user
+    # Open Browser and Navigate to Localhost
+    Login With Localhost Test User Credentials
+    Click Login Button
+    Page Contain Text Hei
 
 Adding a new project after logged in
     [Tags]    postproject    localhost    test
-    ClickProjects
-    AddProjectButton
-    AddProjectInfo
-    SaveButton
-    CheckProjectAdded
-
-## Muokataan lisättyä projektia
+    Navigate to Projects Page
+    Click Add Project Button
+    Add Title to Project Input Section
+    Click Save Button
+    Page Contain Added Project
 
 Editing an existing project title
-    [Tags]    putproject    localhost
-    EditButton
-    EditProjectInfo
-    SaveAllChangesButton
-    SuccessfullProjectEdition
-
-## Lisätään projektille käyttäjä ja hänelle rooli user
+    [Documentation]    Editing the title of the project
+    [Tags]    putproject    
+    Click Edit Button
+    Edit Project Title
+    Click Save All Changes Button
+    Page Contain Project Successful Edition
 
 Adding a user to the project with role user
-    [Tags]    putproject    localhost    test
-    #ClickProjects
-    EditButton
-    AddUserToProjectLocalhost
-    FindUserButton
-    SaveAllChangesButton
-    SuccessfullProjectEdition
-
-## Päivitetään käyttäjän rooli userista vieweriksi
+    [Documentation]    User will have the role user
+    [Tags]    putproject    
+    # Navigate to Projects Page
+    Click Edit Button
+    Add Username to Project input section in Localhost
+    Click Find Username Button
+    Click Save All Changes Button
+    Page Contain Project Successful Edition
 
 Editing a user role from user to viewer
-    [Tags]    putproject    localhost    test    role
-    #ClickProjects
-    EditButton
-    Click Element    xpath=/html/body/div[2]/div[3]/div/div/table/tbody/tr[2]/td[2]/div/div
-    Click Element    xpath=//li[contains(text(), 'Viewer')]
-    Sleep    2s
-    SaveAllChangesButton
-    SuccessfullProjectEdition
-
-## Poistetaan projektilta lisätty käyttäjä
+    [Tags]    putproject   
+    # Navigate to Projects Page
+    Click Edit Button
+    Choose the Second User from the List
+    Choose the Viewer Role from the List
+    Sleep    1s
+    Click Save All Changes Button
+    Page Contain Project Successful Edition
 
 Deleting the user from the project
-    [Tags]    dleteproject    localhost    test    role
-    #ClickProjects
-    EditButton
-    Click Element    xpath=/html/body/div[2]/div[3]/div/div/table/tbody/tr[2]/td[3]/span/input
-    SaveAllChangesButton
-    SuccessfullProjectEdition
-    Sleep    2s
+    [Tags]    dleteproject    localhost    role
+    # Navigate to Projects Page
+    Click Edit Button
+    Choose the Option to remove the Second User from the Project
+    Click Save All Changes Button
+    Page Contain Project Successful Edition
 
-## Lisätään projektille uusi kirjaus
+Checking that Project don't have other users
+    [Tags]    test
+    Click Edit Button
+    Page Contain Does not have Other Users
+    Click Cancel Button 
 
 Adding a new entry to RobotTest project
     [Tags]    postentry    localhost
-    ClickEntries
-    AddEntryButton
-    ChooseProjectName
-    ChooseFirtsProjectName
-    AddComment
-    SaveButton
-    EntryCommentOnThePage
-
-## Muokataan kirjauksen kommenttia
+    Navigate to Entries Page
+    Click Add Entry Button
+    Choose Project for Added Entry
+    Choose First Project Name from the List
+    Add Comment to Entry Input Section
+    Click Save Button
+    Page Contain Added Project
 
 Editing an existing entry
+    [Documentation]    Editing entry's comment
     [Tags]    putentry
-    #ClickEntries
-    EditButton
-    EditEntryInfo
-    SaveButton
-    SuccessfullEdition
-
-## Poistetaan kyseinen kirjaus
+    # Navigate to Entries Page
+    Click Edit Button
+    Edit Entry's comment
+    Click Save Button
+    Page Contain Entry Successful Saved
 
  Deleting the first entry
     [Tags]    deleteentry
-    # ClickEntries
-    DeleteButton
-    EntryDeletionWarning
-    DeleteEntryButton
-    SuccessfulDeletion
-    Sleep    2s
-
-## Poistetaan kyseinen projekti
+    # Navigate to Entries Page
+    Click Delete Button
+    Page Contain Entry Deletion Warning
+    Click Delete Entry Button
+    Wait Page Contain Successful Deletion
+    # Sleep    2s
 
 Deleting a project
     [Tags]    deleteproject    localhost    test
-    ClickProjects
-    DeleteButton
-    ProjectDeletionWarning
-    DeleteProjectButton
-    ProjectSuccessfulDeletion
-    Sleep    2s
+    Navigate to Projects Page
+    Click Delete Button
+    Page Contain Project Deletion Warning
+    Click Delete Project Button
+    Wait Page Contain Project Successful Deletion
+    # Sleep    2s
 
-## Muokataan käyttjän omia tietoja
-
-Editing own user derails
+Editing user's own derails
+    [Documentation]    Adding a character 1 at the end of the first name
     [Tags]    user
-    ClickUserDetails
-    EditButton
-    FirstNameEdit
-    PasswordAdd
-    SaveButton
-    UserInfoSavedSuccessfully
-    Sleep    2s
-
-## Kirjaudutaan ulos
+    Navigate to User Detail's Page
+    Click Edit Button
+    Edit User's First Name
+    Add Test User's Current Password to Input Section
+    Click Save Button
+    Page Contain User Info Saved Successfully
+    # Sleep    2s
 
 Testing logging out function
     [Tags]    logout    localhost    test
-    ClickLogOut
-    SuccessfulLogOut
-
-## Suljetaan selain
+    Navigate to Logout Page
+    Page Contain Successful Logout
 
 Closing Browser
     Close Browser
