@@ -1,199 +1,174 @@
 *** Settings ***
 Library     SeleniumLibrary    15.0    5.0
-# Keywords sections:
-# - Click certain button on the page
-# - LogIn process using Localhost
-# - LogIn process using Deployment version
-# - Adding project process
-# - Editing project process
-# - Adding entry process
-# - Editing entry process
-# - Navigating on the page
-# - Page contain
-# TARKISTA ETTÄ KAIKKI KÄYTÖSSÄ
 
 
 *** Variables ***
 ${Browser}                          Chrome
 ${URL-localhost}                    http://localhost:5173/TimeManagement/login
-${URL}                              https://teamred-ohjelmistoprojekti2.github.io/TimeManagement/
+${URL-github}                       https://teamred-ohjelmistoprojekti2.github.io/TimeManagement/
 ${AddedProject}                     RobotTest
 ${EditedText}                       Edited
-${EditedProject}                    RobotTestEdited
-${AddedEntry}                       RobotTestEntry
-${EditedEntry}                      RobotTestEntryEdited
-&{TESTUSER}                         username=testi    password=AppUser1
-&{TESTUSERHEROKU}                   username=RobotTest    password=RobotTest
-${KirjausOnnistui}                  Kirjaus tallennettu onnistuneesti
-${ProjectEditedSuccessfully}        Projekti tallennettu onnistuneesti
+${EntrySavedSuccessfully}           Kirjaus tallennettu onnistuneesti
+${ProjectSavedSuccessfully}         Projekti tallennettu onnistuneesti
 ${ProjectDeletedSuccessfully}       Projekti poistettu onnistuneesti
 ${UsernameLocal}                    new_user2
 ${UsernameHeroku}                   RobotFriend
 ${CommentText}                      CommentText
-
-# TARKISTA ETTÄ KAIKKI KÄYTÖSSÄ
+&{TESTUSER}                         username=testi    password=AppUser1
+&{TESTUSERHEROKU}                   username=RobotTest    password=RobotTest
 
 
 *** Keywords ***
-### Click certain button on the page ###
-SaveButton
-    Click Button    Tallenna
+Add Comment to Entry Input Section
+    Input Text    name=comment    ${CommentText}
 
-SaveAllChangesButton
-    Click Button    Tallenna kaikki muutokset
-
-LogInbutton
-    Click Button    Kirjaudu
-
-RegisterButton
-    Click Button    Rekisteröidy
-
-EditButton
-    Click Button    Muokkaa
-
-DeleteButton
-    click Button    Poista
-
-DeleteProjectButton
-    Click Button    Poista projekti
-
-DeleteEntryButton
-    Click Button    Poista kirjaus
-
-AddProjectButton
-    click Button    Lisää uusi projekti
-
-AddEntryButton
-    click Button    Lisää uusi kirjaus
-
-FindUserButton
-    Click Button    Hae käyttäjä
-
-### Registration ###
-
-AddUserName
-    Input Text    id=usernameReg    ${TESTUSER}[username]
-
-AddPassword
-    Input Text    name=password_hash    ${TESTUSER}[password]
-
-AddFirstName
+Add First Name to Registration Input Section
     Input Text    name=first_name    Robotti
 
-AddLastName
+Add Last Name to Registration Input Section
     Input Text    name=last_name    Testaaja
 
-### LogIn process using Localhost ###
+Add Password to Registration Input Section
+    Input Text    name=password_hash    ${TESTUSER}[password]
 
-OpenBrowserLocalhost
-    Open Browser    ${URL-localhost}    ${Browser}
+Add Test User's Current Password to Input Section
+    Input Text    name=password_hash    ${TESTUSER}[password]
 
-LogInWithCredentials
-    Input Text    username    ${TESTUSER}[username]
-    Input Text    password    ${TESTUSER}[password]
+Add Title to Project Input Section
+    Input Text    name=title    ${AddedProject}
 
-PageContainHei
-    Page Should Contain    Hei
+Add Username to Registration Input Section
+    Input Text    id=usernameReg    ${TESTUSER}[username]
 
-### LogIn process using Deployment version ###
+Add Username to Project input section in Localhost
+    Input Text    name=username    ${UsernameLocal}
 
-OpenBrowserGitHUbPage
-    Open Browser    ${URL}    ${Browser}
+Add Username to Project input section in Heroku
+    Input Text    name=username    ${UsernameHeroku}
 
-LogInWithHeroku
+Choose First Project Name from the List
+    Click Element    xpath=//*[@id="menu-project"]/div[3]/ul/li[1]
+
+Choose Project for Added Entry
+    Click Element    xpath=//*[@id="mui-component-select-project"]
+
+Choose the Second User from the List
+    Click Element    xpath=/html/body/div[2]/div[3]/div/div/table/tbody/tr[2]/td[2]/div/div
+
+Choose the Viewer Role from the List
+    Click Element    xpath=//li[contains(text(), 'Viewer')]
+
+Choose the Option to remove the Second User from the Project
+    Click Element    xpath=/html/body/div[2]/div[3]/div/div/table/tbody/tr[2]/td[3]/span/input
+
+Click Add Entry Button
+    Click Button    Lisää uusi kirjaus
+
+Click Add Project Button
+    Click Button    Lisää uusi projekti
+
+Click Cancel Button   
+    Click Button    Peruuta
+
+Click Delete Button
+    Click Button    Poista
+
+Click Delete Entry Button
+    Click Button    Poista kirjaus
+
+Click Delete Project Button
+    Click Button    Poista projekti
+
+Click Edit Button
+    Click Button    Muokkaa
+
+Click Find Username Button
+    Click Button    Hae käyttäjä
+
+Click Login Button
+    Click Button    Kirjaudu
+
+Click Register Button
+    Click Button    Rekisteröidy
+
+Click Save All Changes Button
+    Click Button    Tallenna kaikki muutokset
+
+Click Save Button
+    Click Button    Tallenna
+
+Edit Entry's comment
+    Input Text    name=entry    ${EditedText}
+
+Edit Project Title
+    Input Text    name=title    ${EditedText}
+
+Edit User's First Name
+    Input Text    name=first_name    1
+
+Login With Heroku Test User Credentials
     Input Text    username    ${TESTUSERHEROKU}[username]
     Input Text    password    ${TESTUSERHEROKU}[password]
 
-PageContainHeiRobotFramework
-    Page Should Contain    Hei Robot Framework
+Login With Localhost Test User Credentials
+    Input Text    username    ${TESTUSER}[username]
+    Input Text    password    ${TESTUSER}[password]
 
-### Adding project process ###
-
-AddProjectInfo
-    Input Text    name=title    ${AddedProject}
-
-CheckProjectAdded
-    Page Should Contain    ${AddedProject}
-
-### Editing project process ###
-
-EditProjectInfo
-    Input Text    name=title    ${EditedText}
-
-AddUserToProjectLocalhost
-    Input Text    name=username    ${UsernameLocal}
-
-AddUserToProjectHeroku
-    Input Text    name=username    ${UsernameHeroku}
-
-### Adding entry process ###
-
-ChooseProjectName
-    Click Element    xpath=//*[@id="mui-component-select-project"]
-
-ChooseFirtsProjectName
-    Click Element    xpath=//*[@id="menu-project"]/div[3]/ul/li[1]
-
-AddComment
-    Input Text    name=comment    ${CommentText}
-
-### Editing entry process ###
-
-EditEntryInfo
-    Input Text    name=entry    ${EditedText}
-
-### Editing user details
-
-FirstNameEdit
-    Input Text    name=first_name    1
-
-PasswordAdd
-    Input Text    name=password_hash    ${TESTUSER}[password]
-
-### Navigating on the page ###
-
-ClickProjects
-    Click Link    Projektit
-
-ClickEntries
+Navigate to Entries Page
     Click Link    Tuntikirjaukset
 
-ClickLogOut
+Navigate to Logout Page
     Click Link    Kirjaudu ulos
 
-ClickHomePage
-    Click Link    Etusivu
+Navigate to Projects Page
+    Click Link    Projektit
 
-ClickUserDetails
+Navigate to User Detail's Page
     Click Link    Omat tiedot
-### Page contain ###
 
-SuccessfullRegistration
-    Wait Until Page Contains    Käyttäjä rekisteröity onnistuneesti
+Open Browser and Navigate to GitHub Page
+    [Documentation]    Using deployed url for loginin
+    Open Browser    ${URL-github}    ${Browser}
 
-ProjectDeletionWarning
-    Page Should Contain    Haluatko varmasti poistaa kyseisen projektin?
+Open Browser and Navigate to Localhost
+    [Documentation]    Using localhost url
+    Open Browser    ${URL-localhost}    ${Browser}
 
-EntryDeletionWarning
+Page Contain Added Project
+    Page Should Contain    ${AddedProject}
+
+Page Contain Entry Deletion Warning
     Page Should Contain    Vahvista työaikakirjauksen poisto.
 
-SuccessfulDeletion
-    Wait Until Page Contains    Kirjaus poistettu onnistuneesti
+Page Contain Entry Successful Saved
+    Page Should Contain    ${EntrySavedSuccessfully}
 
-ProjectSuccessfulDeletion
-    Wait Until Page Contains    ${ProjectDeletedSuccessfully}
+Page Contain Does not have Other Users
+    Page Should Contain    Projektille ei ole vielä lisätty muita käyttäjiä
+Page Contain Heroku Test User's name
+    [Documentation]    Checking that showing first and last names
+    Page Should Contain    Hei Robot Framework
 
-SuccessfulLogOut
+Page Contain Project Deletion Warning
+    Page Should Contain    Haluatko varmasti poistaa kyseisen projektin?
+
+Page Contain Project Successful Edition
+    Page Should Contain    ${ProjectSavedSuccessfully}
+
+Page Contain Successful Logout
     Page Should Contain    Sinut on kirjattu ulos
 
-SuccessfullEdition
-    Page Should Contain    ${KirjausOnnistui}
+Page Contain Text Hei
+    Page Should Contain    Hei
 
-SuccessfullProjectEdition
-    Page Should Contain    ${ProjectEditedSuccessfully}
-
-EntryCommentOnThePage
-    Page Should Contain    ${CommentText}
-
-UserInfoSavedSuccessfully
+Page Contain User Info Saved Successfully
     Page Should Contain    Tiedot tallennettu onnistuneesti
+
+Wait Page Contain Project Successful Deletion
+    Wait Until Page Contains    ${ProjectDeletedSuccessfully}
+
+Wait Page Contain Successful Deletion
+    Wait Until Page Contains    Kirjaus poistettu onnistuneesti
+
+Wait Page Contain Successfull Registration
+    Wait Until Page Contains    Käyttäjä rekisteröity onnistuneesti
