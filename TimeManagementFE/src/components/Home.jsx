@@ -1,13 +1,10 @@
 import { Box, Typography } from '@mui/material';
-import React, { useEffect, useState } from 'react';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
-import CardMedia from '@mui/material/CardMedia';
 import { CardActionArea } from '@mui/material';
 import { Link } from 'react-router-dom';
 import Grid from '@mui/material/Grid';
 import { useAuth } from '../services/AuthProvider';
-import { getUser } from '../services/AppUserService';
 import { jwtDecode } from "jwt-decode";
 
 // Aloitussivu. Päivitetään vielä lopussa.
@@ -17,9 +14,7 @@ import { jwtDecode } from "jwt-decode";
 const Home = () => {
   const { token } = useAuth();
   const decodedToken = jwtDecode(token);
-  const { id, first_name, last_name } = decodedToken;
-
-  console.log(decodedToken);
+  const { first_name, last_name } = decodedToken;
 
   return (
     <Box style={{ paddingLeft: 40, paddingRight: 40 }}>
