@@ -37,7 +37,7 @@ Sovellus vaatii rekisteröitymisen. Rekisteröitynyt käyttäjä voi luoda proje
 
 ## Tietokanta
 
-![työaikaseuranta](https://github.com/TeamRed-Ohjelmistoprojekti2/TimeManagement/assets/91193039/da0099c9-94fb-4109-b955-0dba29ac7042)
+![työaikaseuranta (1)](https://github.com/TeamRed-Ohjelmistoprojekti2/TimeManagement/assets/91193039/67d262c1-d0d8-4a77-a8be-281d7093ed57)
 
 ### Project / projekti
 
@@ -75,6 +75,7 @@ Sovellus vaatii rekisteröitymisen. Rekisteröitynyt käyttäjä voi luoda proje
 * [Entry](api-docs/entry/)
 * [Project](api-docs/project/)
 * [AppUser](api-docs/appuser/)
+* [Login](api-docs/login.md)
 
 ## Backlogit
 

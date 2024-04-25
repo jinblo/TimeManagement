@@ -1,5 +1,4 @@
 import { Box, Typography } from '@mui/material';
-import React, { useEffect, useState } from 'react';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import { CardActionArea } from '@mui/material';
@@ -14,8 +13,7 @@ const Home = () => {
   const decodedToken = jwtDecode(token);
   const { first_name, last_name } = decodedToken;
 
-  console.log(decodedToken);
-
+  
   return (
     <Box style={{ paddingLeft: 40, paddingRight: 40 }}>
       {first_name && last_name ? (
