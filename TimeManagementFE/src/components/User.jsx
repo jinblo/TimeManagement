@@ -36,19 +36,17 @@ const User = () => {
         </Typography>
         <Card sx={{ width: 500 }}>
           <CardContent>
-            <Typography variant="subtitle1" >
-              <Typography sx={{ fontWeight: 'bold' }}>
-                käyttäjänimi:
-              </Typography>
-              {sub}
-              <Typography sx={{ fontWeight: 'bold' }}>
-                etunimi:
-              </Typography>
-              {first_name}
-              <Typography sx={{ fontWeight: 'bold' }}>
-                sukunimi:
-              </Typography>
-              {last_name}
+            <Typography gutterBottom variant="subtitle1" component="div">
+              <Typography component="span" fontWeight="bold">Käyttäjänimi: </Typography>
+              <Typography component="span">{sub}</Typography>
+            </Typography>
+            <Typography gutterBottom variant="subtitle1" component="div">
+              <Typography component="span" fontWeight="bold"> Etunimi: </Typography>
+              <Typography component="span">{first_name}</Typography>
+            </Typography>
+            <Typography gutterBottom variant="subtitle1" component="div">
+              <Typography component="span" fontWeight="bold">Sukunimi: </Typography>
+              <Typography component="span">{last_name}</Typography>
             </Typography>
           </CardContent>
         </Card>

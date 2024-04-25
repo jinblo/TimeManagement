@@ -10,8 +10,8 @@ import { useAuth } from '../services/AuthProvider';
 import { getProjects } from '../services/ProjectService';
 
 
-// Listataan projektin tiedot. Jokaisella projektilla poista ja muokkaa napit
-// Lisää uusi projekti -nappi myös mukana 
+// Listing project details. Each project has delete and edit buttons
+// Also includes a 'Add New Project' button 
 
 const ProjectList = () => {
     const { token } = useAuth()

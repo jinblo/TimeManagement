@@ -113,7 +113,7 @@ const Register = ({ setAlert }) => {
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose}>Peruuta</Button>
+          <Button color='secondary' onClick={handleClose}>Peruuta</Button>
           <Button type="submit">Tallenna</Button>
         </DialogActions>
       </Dialog>
