@@ -88,6 +88,15 @@ Käyttäjän tulee olla kirjautunut, jotta hän pääsee käyttämään palvelua
 ## Testaus
 End-to-End testaus on toteutettu Robot Frameworkilla. Testit on jaettu niin, että omat testit voidaan toteuttaa lokaalisti sekä julkaistulla versiolla. Testit testaavat REST toiminnallisuuksia. Testien tekeminen vaatii Python ja pip asennukset.
 
+## Työaikakirjausjärjestelmän asennusohjeet
+Asennusta varten tarvitset koneellesi tässä dokumentissa mainitut toteutusteknologiat sekä tekstieditorin, esim. Visual Studio Code tai Eclipse. Voit kloonata TimeManagement järjestelmän komennolla: `git clone https://github.com/TeamRed-Ohjelmistoprojekti2/TimeManagement.git`. Tässä tulee mukana sekä backend (TimeManagementBE) että frontend (TimeManagementFE).
+
+### Backend
+Backendin voit käynnistää esimerkiksi Visual Studio Codessa avaamalla TimeManagementBeApplication.java -tiedoston ja painamalla Coden navigaatiosta `Run` sekä `Start Debugging`. Tämä käynnistää Spring Bootin ja avaa Codeen uuden terminaalin missä näkyy sovelluksen käynnistyminen. Tämä käynnistää backendin lokaalisti osoitteeseen: http://localhost:8080/
+
+### Frontend
+Frontin asennusta varten navigoi TimeManagementFE kansioon ja anna siellä terminaalissa komento `npm install`. Tämä asentaa tarvittavat riippuvuudet. Saat frontin käyntiin komennolla `npm run dev`. Tämä käynnistää frontin locaalisti osoitteeseen http://localhost:5173/TimeManagement/
+
 ## Julkaisu
 * Projektin backend on julkaistu [Herokussa](https://redtime-ffe09e78e9dd.herokuapp.com/)
 * Projektin frontend on julkaistu [GitHub Pagesissa](https://teamred-ohjelmistoprojekti2.github.io/TimeManagement/)
