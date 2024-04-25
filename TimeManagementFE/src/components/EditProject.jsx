@@ -267,7 +267,7 @@ export default function EditProject({ token, editData, setAlert, fetchProjects }
                     <Typography style={{ fontSize: '14px' }} color="error">{errorMessage}</Typography>
                     <Typography style={{ fontSize: '12px', marginTop: 20 }}>Muokatut tiedot tallennetaan vasta kun painat tallenna kaikki muutokset -nappia</Typography>
                     <DialogActions style={{ justifyContent: "center", marginTop: 10, marginBottom: 10 }}>
-                        <Button variant="contained" onClick={handleClose}>Peruuta</Button>
+                        <Button variant="contained" color="secondary" onClick={handleClose}>Peruuta</Button>
                         <Button variant="contained" onClick={editProject}>Tallenna kaikki muutokset</Button>
                     </DialogActions>
                 </DialogContent>
