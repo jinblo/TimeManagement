@@ -56,7 +56,7 @@ Choose the Second User from the List
     Click Element    xpath=/html/body/div[2]/div[3]/div/div/table/tbody/tr[2]/td[2]/div/div
 
 Choose the Viewer Role from the List
-    Click Element    xpath=//li[contains(text(), 'Viewer')]
+    Click Element    xpath=//li[contains(text(), 'Seuraaja')]
 
 Choose the Option to remove the Second User from the Project
     Click Element    xpath=/html/body/div[2]/div[3]/div/div/table/tbody/tr[2]/td[3]/span/input
@@ -81,6 +81,10 @@ Click Delete Project Button
 
 Click Edit Button
     Click Button    Muokkaa
+
+Click Edit Info Button
+    Click Button    Muokkaa tietoja
+
 
 Click Find Username Button
     Click Button    Hae käyttäjä

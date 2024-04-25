@@ -131,7 +131,7 @@ Editing user's own derails
     [Documentation]    Adding a character 1 at the end of the first name
     [Tags]    user
     Navigate to User Detail's Page
-    Click Edit Button
+    Click Edit Info Button
     Edit User's First Name
     Add Test User's Current Password to Input Section
     Click Save Button
