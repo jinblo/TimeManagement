@@ -236,9 +236,9 @@ export default function EditProject({ token, editData, setAlert, fetchProjects }
                                                     displayEmpty
                                                 >
                                                     <MenuItem value="NON">Valitse</MenuItem>
-                                                    <MenuItem value="USER">User</MenuItem>
-                                                    <MenuItem value="VIEWER">Viewer</MenuItem>
-                                                    <MenuItem value="OWNER">Owner</MenuItem>
+                                                    <MenuItem value="USER">Käyttäjä</MenuItem>
+                                                    <MenuItem value="VIEWER">Seuraaja</MenuItem>
+                                                    <MenuItem value="OWNER">Omistaja</MenuItem>
                                                     <MenuItem value="">Poista</MenuItem>
                                                 </Select>
                                             </TableCell>
