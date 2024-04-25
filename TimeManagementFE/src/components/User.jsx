@@ -34,7 +34,7 @@ const User = () => {
         <Typography gutterBottom variant="h5" component="div">
           Käyttäjätiedot
         </Typography>
-        <Card sx={{ width: 500 }}>
+        <Card sx={{ maxWidth: 450 }}>
           <CardContent>
             <Typography gutterBottom variant="subtitle1" component="div">
               <Typography component="span" fontWeight="bold">Käyttäjänimi: </Typography>
