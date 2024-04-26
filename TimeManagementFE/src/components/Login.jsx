@@ -19,7 +19,9 @@ const Login = () => {
       case 'error': {
         return <AlertMessage alert={alert} alertMessage="Käyttäjän rekisteröinti epäonnistui" setAlert={setAlert} />
       }
-
+      case 'warning': {
+        return <AlertMessage alert={alert} alertMessage="Virheellinen käyttäjätunnus tai salasana" setAlert={setAlert} />
+      }
       default: {
         return <></>
       }
@@ -37,7 +39,7 @@ const Login = () => {
           setToken(response.headers.get('Authorization'))
           navigate("/TimeManagement/", { replace: true })
         } else {
-          alert('Wrong username or password');
+          setAlert('warning')
           throw new Error("Error in fetch:" + response.statusText)
         }
       })

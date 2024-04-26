@@ -4,11 +4,10 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonView;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
+import TeamRed.TimeManagementBE.domain.AppUser.BasicUserView;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -19,25 +18,27 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
 @Entity
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Project {
 	
-	public interface ProjectOverview {};
-	public interface DetailedProjectView extends ProjectOverview{};
+	public interface ProjectOverview extends BasicUserView {};
+	public interface DetailedProjectView extends ProjectOverview, EntryListView {};
+	public interface EntryListView extends ProjectOverview {}
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@JsonView(ProjectOverview.class)
 	private long id;
-	@JsonView(ProjectOverview.class)
 	@Size(min=2, max=50)
 	@NotBlank(message = "Pakollinen kenttä")
+	@JsonView(ProjectOverview.class)
 	private String title;
-	//@JsonIgnore
+	
 	@JsonIgnoreProperties(value = {"project"}, allowSetters = true)
+	@JsonView(ProjectOverview.class)
 	@OneToMany(mappedBy = "project", cascade = CascadeType.ALL)
 	private Set<UserProjectRole> roles = new HashSet<>();
-	@JsonIgnoreProperties({"project"})
+	
+	@JsonIgnoreProperties(value = {"project"}, allowSetters = true)
 	@JsonView(DetailedProjectView.class)
 	@OneToMany(cascade=CascadeType.ALL, mappedBy="project")
 	private List<Entry> entries;

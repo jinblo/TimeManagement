@@ -11,8 +11,8 @@ import { getEntries } from '../services/EntryService';
 import { getProjects } from '../services/ProjectService';
 
 
-// Listataan työaikakirjausten tiedot, sekä jokaiselle kirjaukselle poista nappi
-// Lisää uusi työaikakirjaus -nappi myös mukana
+// Listing the details of entries, with a delete button for each entry
+// Also includes a 'Add New Entry' button
 
 const EntryList = () => {
   const { token } = useAuth()
@@ -37,14 +37,14 @@ const EntryList = () => {
     }
   }, [alert]);
 
-  // Kirjausten hakeminen APIsta
+  // Fetching entries from the API
   const fetchEntries = () => {
     getEntries(token)
       .then(data => setEntries(data))
   }
   useEffect(fetchEntries, []);
 
-  // Projektien hakeminen APIsta
+  // Fetching projects from the API
   const fetchProjects = () => {
     getProjects(token)
       .then(data => setProjects(data))
@@ -52,7 +52,7 @@ const EntryList = () => {
   useEffect(fetchProjects, []);
 
 
-  // Ag-gridin sarakkeiden määritys
+  // Defining columns in Ag-Grid
   const [colDefs, setColDefs] = useState([
     {
       field: "project.title",
@@ -75,7 +75,7 @@ const EntryList = () => {
       headerName: "Muistiinpanot"
     },
     {
-      field: "entry_id",
+      field: "id",
       headerName: "Muokkaa",
       sortable: false,
       filter: false,
@@ -87,7 +87,7 @@ const EntryList = () => {
       }
     },
     {
-      field: "entry_id",
+      field: "id",
       headerName: "Poista",
       sortable: false,
       filter: false,

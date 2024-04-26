@@ -7,7 +7,7 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import { deleteEntry } from '../services/EntryService';
 
-// Poistetaan työaikakirjaus ja pyydetään varmentamaan kirjauksen poisto
+// Delete entry and request confirmation for deletion
 
 export default function DeleteEntry({ token, entry_id, setAlert, fetchEntries }) {
   const [open, setOpen] = useState(false);
@@ -27,7 +27,7 @@ export default function DeleteEntry({ token, entry_id, setAlert, fetchEntries })
 
   return (
     <div>
-      <Button variant="outlined" color="error" size='small' onClick={() => setOpen(true)}>
+      <Button variant="contained" color="secondary" size='small' onClick={() => setOpen(true)}>
         Poista
       </Button>
       <Dialog
@@ -44,7 +44,7 @@ export default function DeleteEntry({ token, entry_id, setAlert, fetchEntries })
         </DialogContent>
         <DialogActions>
           <Button onClick={() => setOpen(false)}>Peruuta</Button>
-          <Button color="error" onClick={handleDelete} autoFocus>
+          <Button color="secondary" onClick={handleDelete} autoFocus>
             Poista kirjaus
           </Button>
         </DialogActions>

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField } from "@mui/material";
 import { register } from '../services/AppUserService';
 
-// Uuden käyttäjän rekisteröitymine palveluun
+// Uuden käyttäjän rekisteröityminen palveluun
 
 const Register = ({ setAlert }) => {
   const newUser = {
@@ -22,7 +22,7 @@ const Register = ({ setAlert }) => {
     setUser({ ...user, [e.target.name]: e.target.value })
   }
 
-  // adding new project to the database
+  // adding new user to the database
   const addUser = () => {
     if (user.password_hash.length < 7) {
       setError(true)
@@ -71,6 +71,7 @@ const Register = ({ setAlert }) => {
         <DialogTitle>Rekisteröidy</DialogTitle>
         <DialogContent>
           <TextField
+            id="usernameReg"
             autoFocus
             required
             margin='normal'
@@ -112,7 +113,7 @@ const Register = ({ setAlert }) => {
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose}>Peruuta</Button>
+          <Button color='secondary' onClick={handleClose}>Peruuta</Button>
           <Button type="submit">Tallenna</Button>
         </DialogActions>
       </Dialog>

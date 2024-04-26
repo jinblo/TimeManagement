@@ -4,7 +4,7 @@ import dayjs from "dayjs";
 import { useState } from "react";
 import { putEntry } from "../services/EntryService";
 
-// Työaikakirjauksen muokkaaminen. Kirjauksen siirtäminen projektilta toiselle ei ole nyt mahdollista.
+// Editing entry. Moving an entry from one project to another is not currently possible.
 
 const EditEntry = ({ token, oldEntry, setAlert, fetchEntries }) => {
   const emptyEntry = {
@@ -19,22 +19,22 @@ const EditEntry = ({ token, oldEntry, setAlert, fetchEntries }) => {
     }
   }
   const [entry, setEntry] = useState(emptyEntry)
-  // Dialogin tila
+  // Dialog state
   const [open, setOpen] = useState(false);
 
-  // Dialogin avaus muokattavan kirjauksen tiedoilla
+  // Opening dialog with the details of the entry to be edited
   const handleClickOpen = () => {
     setEntry(oldEntry)
     setOpen(true)
   }
 
-  // Dialogin sulkeminen ja lomakkeen tyhjennys
+  // Closing the dialog and clearing the form
   const handleClose = () => {
     setEntry(emptyEntry)
     setOpen(false);
   }
 
-  // Muokatun kirjauksen tallennus
+  // Saving the edited entry.
   const handleSave = () => {
     putEntry(token, entry)
       .then(response => {
@@ -58,7 +58,7 @@ const EditEntry = ({ token, oldEntry, setAlert, fetchEntries }) => {
             <FormControl sx={{ width: 550, marginTop: '3px' }}>
               <InputLabel htmlFor="project">Projekti</InputLabel>
               <Select
-                disabled // Projektin muuttaminen ei ole nyt mahdollista
+                disabled // Changing the project is not possible at the moment
                 name="id"
                 value={entry.project.id}
                 onChange={e => handleChange(e)}
@@ -101,8 +101,8 @@ const EditEntry = ({ token, oldEntry, setAlert, fetchEntries }) => {
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose}>Peruuta</Button>
-          <Button onClick={handleSave}>Tallenna</Button>
+          <Button variant="contained" color="secondary" onClick={handleClose}>Peruuta</Button>
+          <Button variant="contained" color="primary" onClick={handleSave}>Tallenna</Button>
         </DialogActions>
       </Dialog>
     </div >

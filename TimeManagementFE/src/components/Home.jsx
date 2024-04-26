@@ -1,26 +1,19 @@
 import { Box, Typography } from '@mui/material';
-import React, { useEffect, useState } from 'react';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
-import CardMedia from '@mui/material/CardMedia';
 import { CardActionArea } from '@mui/material';
 import { Link } from 'react-router-dom';
 import Grid from '@mui/material/Grid';
 import { useAuth } from '../services/AuthProvider';
-import { getUser } from '../services/AppUserService';
 import { jwtDecode } from "jwt-decode";
-
-// Aloitussivu. Päivitetään vielä lopussa.
-// Uupuu linkiki omiin tietoihin (sivua ei vielä ole)
 
 
 const Home = () => {
   const { token } = useAuth();
   const decodedToken = jwtDecode(token);
-  const { id, first_name, last_name } = decodedToken;
+  const { first_name, last_name } = decodedToken;
 
-  console.log(decodedToken);
-
+  
   return (
     <Box style={{ paddingLeft: 40, paddingRight: 40 }}>
       {first_name && last_name ? (
@@ -30,13 +23,13 @@ const Home = () => {
       )}
       <Grid container spacing={2}>
         <Grid item>
-          <Card sx={{ maxWidth: 300 }}> {/* Projektit card */}
+          <Card sx={{ width: 300 }}> {/* Projektit card */}
             <CardActionArea component={Link} to='projectlist'>
-              <CardContent>
+              <CardContent sx={{ "&:hover": { backgroundColor: "#A9B8C3" } }}>
                 <Typography gutterBottom variant="h5" component="div">
                   Projektit
                 </Typography>
-                <Typography variant="body2" color="text.secondary">
+                <Typography variant="body2">
                   Listaus kaikista projekteistasi. Lisää uusia projekteja sekä muokkaa niitä.
                 </Typography>
               </CardContent>
@@ -44,13 +37,13 @@ const Home = () => {
           </Card>
         </Grid>
         <Grid item>
-          <Card sx={{ maxWidth: 300 }}> {/* Tuntikirjaukset card */}
+          <Card sx={{ width: 300 }}> {/* Tuntikirjaukset card */}
             <CardActionArea component={Link} to='entrylist'>
-              <CardContent>
+              <CardContent sx={{ "&:hover": { backgroundColor: "#A9B8C3" } }}>
                 <Typography gutterBottom variant="h5" component="div">
                   Tuntikirjaukset
                 </Typography>
-                <Typography variant="body2" color="text.secondary">
+                <Typography variant="body2">
                   Näe kaikki tuntikirjaukset samasta näkymästä. Lisää ja muokkaa kirjauksia.
                 </Typography>
               </CardContent>
@@ -58,27 +51,27 @@ const Home = () => {
           </Card>
         </Grid>
         <Grid item>
-          <Card sx={{ maxWidth: 300 }}> {/* Omat tiedot card */}
-            <CardActionArea>
-              <CardContent>
+          <Card sx={{ width: 300 }}> {/* Omat tiedot card */}
+            <CardActionArea component={Link} to='user'>
+              <CardContent sx={{ "&:hover": { backgroundColor: "#A9B8C3" } }}>
                 <Typography gutterBottom variant="h5" component="div">
                   Omat tiedot
                 </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  (LINKKI UUPUU) Tarkastele ja muokkaa omia tietojasi.
+                <Typography variant="body2">
+                  Tarkastele ja muokkaa omia tietojasi. Muista pitää tietosi ajan tasalla.
                 </Typography>
               </CardContent>
             </CardActionArea>
           </Card>
         </Grid>
         <Grid item>
-          <Card sx={{ maxWidth: 300 }}> {/* Käyttäjien hallinta card */}
+          <Card sx={{ width: 300 }}> {/* Käyttäjien hallinta card */}
             <CardActionArea component={Link} to='projectlist'>
-              <CardContent>
+              <CardContent sx={{ "&:hover": { backgroundColor: "#A9B8C3" } }}>
                 <Typography gutterBottom variant="h5" component="div">
                   Käyttäjien hallinta
                 </Typography>
-                <Typography variant="body2" color="text.secondary">
+                <Typography variant="body2">
                   Hallitse projektien käyttäjiä kyseisen projektin muokkausnäkymästä.
                 </Typography>
               </CardContent>

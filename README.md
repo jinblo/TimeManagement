@@ -7,7 +7,7 @@ Toteuttava tiimi: [Sonja Helminen](https://github.com/s0ina), [Katja Jääskelä
 
 ## Sovelluksen tarkoitus
 
-Sovelluksen tarkoitus on toimia työaikakirjausjärjestelmänä, esimerkiksi yksityisyrittäjille, joiden on pidettävä kirjaa tehdystä työstä ja sen kestosta. Käyttäjällä voi samanaikaisesti olla hallinnoitavana useita projekteja, joille voidaan kohdentaa omia työaikakirjauksia. Sovelluksessa käyttäjä voi kirjoittaa muistiinpanoja tehdystä työstä ja merkitä työn keston sekä päivämäärän. Lisäksi työtunnit voidaan laskea yhteen käyttäjän valitsemalta ajanjaksolta tai projektilta. Käyttäjä voi lisätä myös muita käyttäjiä omille projekteilleen ja valita missä roolissa he ovat projektissa. Käytössä olevat projektikohtaiset roolit ovat omistaja (owner), käyttäjä (user) sekä katselija (viewer). Projektin omistajalla on kaikki oikeudet projektiin, käyttäjä voi lisätä tuntikirjauksia projektille ja katselija näkee vain projektin tiedot ja siihen tehdyt tuntikirjaukset.
+Sovelluksen tarkoitus on toimia työaikakirjausjärjestelmänä, esimerkiksi yksityisyrittäjille, joiden on pidettävä kirjaa tehdystä työstä ja sen kestosta. Käyttäjällä voi samanaikaisesti olla hallinnoitavana useita projekteja, joille voidaan kohdentaa omia työaikakirjauksia. Sovelluksessa käyttäjä voi kirjoittaa muistiinpanoja tehdystä työstä ja merkitä työn keston sekä päivämäärän. Lisäksi työtunnit voidaan laskea yhteen käyttäjän valitsemalta ajanjaksolta tai projektilta. Käyttäjä voi lisätä myös muita käyttäjiä omille projekteilleen ja valita missä roolissa he ovat projektissa. Käytössä olevat projektikohtaiset roolit ovat omistaja (owner), käyttäjä (user) sekä seuraaja (viewer). Projektin omistajalla on kaikki oikeudet projektiin, käyttäjä voi lisätä tuntikirjauksia projektille ja seuraaja näkee vain projektin tiedot ja siihen tehdyt tuntikirjaukset.
 
 
 ## Tärkeimmät ominaisuudet
@@ -37,7 +37,7 @@ Sovellus vaatii rekisteröitymisen. Rekisteröitynyt käyttäjä voi luoda proje
 
 ## Tietokanta
 
-![työaikaseuranta](https://github.com/TeamRed-Ohjelmistoprojekti2/TimeManagement/assets/91193039/da0099c9-94fb-4109-b955-0dba29ac7042)
+![työaikaseuranta (1)](https://github.com/TeamRed-Ohjelmistoprojekti2/TimeManagement/assets/91193039/67d262c1-d0d8-4a77-a8be-281d7093ed57)
 
 ### Project / projekti
 
@@ -75,6 +75,7 @@ Sovellus vaatii rekisteröitymisen. Rekisteröitynyt käyttäjä voi luoda proje
 * [Entry](api-docs/entry/)
 * [Project](api-docs/project/)
 * [AppUser](api-docs/appuser/)
+* [Login](api-docs/login.md)
 
 ## Backlogit
 
@@ -86,6 +87,15 @@ Käyttäjän tulee olla kirjautunut, jotta hän pääsee käyttämään palvelua
 
 ## Testaus
 End-to-End testaus on toteutettu Robot Frameworkilla. Testit on jaettu niin, että omat testit voidaan toteuttaa lokaalisti sekä julkaistulla versiolla. Testit testaavat REST toiminnallisuuksia. Testien tekeminen vaatii Python ja pip asennukset.
+
+## Työaikakirjausjärjestelmän asennusohjeet
+Asennusta varten tarvitset koneellesi tässä dokumentissa mainitut toteutusteknologiat sekä tekstieditorin, esim. Visual Studio Code tai Eclipse. Voit kloonata TimeManagement järjestelmän komennolla: `git clone https://github.com/TeamRed-Ohjelmistoprojekti2/TimeManagement.git`. Tässä tulee mukana sekä backend (TimeManagementBE) että frontend (TimeManagementFE).
+
+### Backend
+Backendin voit käynnistää esimerkiksi Visual Studio Codessa avaamalla TimeManagementBeApplication.java -tiedoston ja painamalla Coden navigaatiosta `Run` sekä `Start Debugging`. Tämä käynnistää Spring Bootin ja avaa Codeen uuden terminaalin missä näkyy sovelluksen käynnistyminen. Tämä käynnistää backendin lokaalisti osoitteeseen: http://localhost:8080/
+
+### Frontend
+Frontin asennusta varten navigoi TimeManagementFE kansioon ja anna siellä terminaalissa komento `npm install`. Tämä asentaa tarvittavat riippuvuudet. Saat frontin käyntiin komennolla `npm run dev`. Tämä käynnistää frontin locaalisti osoitteeseen http://localhost:5173/TimeManagement/
 
 ## Julkaisu
 * Projektin backend on julkaistu [Herokussa](https://redtime-ffe09e78e9dd.herokuapp.com/)
