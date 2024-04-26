@@ -86,7 +86,6 @@ public class EntryRESTController {
 		}
 		try {
 			Optional<Entry> toBeEdited = entryRepository.findById(entryId);
-<<<<<<< HEAD
 			if (!toBeEdited.isEmpty()
 					&& toBeEdited.get().getAppUser().getId() == userDetailsService.getAuthIdentity()) {
 				Entry entry = toBeEdited.get();
@@ -97,22 +96,6 @@ public class EntryRESTController {
 				// entry.setAppUser(userDetailsService.getAuthUser());
 				entryRepository.save(entry);
 				return new ResponseEntity<>(entry, HttpStatus.OK);
-=======
-			if (!toBeEdited.isEmpty() && toBeEdited.get().getAppUser().getId() == userDetailsService.getAuthIdentity()) {
-				try {
-					Entry entry = toBeEdited.get();
-					entry.setComment(updatedEntry.getComment());
-					entry.setEntry_date(updatedEntry.getEntry_date());
-					entry.setStart_time(updatedEntry.getStart_time());
-					entry.setEnd_time(updatedEntry.getEnd_time());
-					//entry.setAppUser(userDetailsService.getAuthUser());
-					entryRepository.save(entry);
-					return new ResponseEntity<>("Entry successfully updated", HttpStatus.OK);
-				} catch (Exception e) {
-					return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
-				}
-				
->>>>>>> origin/development
 			}
 			return new ResponseEntity<>("Updating failed", HttpStatus.NOT_FOUND);
 		} catch (Exception e) {
