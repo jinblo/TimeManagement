@@ -19,9 +19,6 @@ import {
 import { putProject } from '../services/ProjectService';
 import { getUser } from '../services/AppUserService';
 
-// *** Tällä hetkellä ei osaa vielä palauttaa arvoa takaisin siihen rooliin mikä kyseisellä käyttäjällä oli ennen checkboxin painamista, 
-// *** jos checkboxin ottaakin pois (poislukien ne käyttäjät, jotka on juuri lisätty)
-// *** Ei myöskään tyhjennä hae käyttäjänimellä kenttää kun haku on tehty
 
 // Function for editing project information. Opens a dialog with information from chosen project.
 // User can add, edit and delete users and their roles for chosen project
@@ -91,7 +88,6 @@ export default function EditProject({ token, editData, setAlert, fetchProjects }
                             username: data.username
                         },
                         role: 'USER',
-                        originalRole: 'USER'
 
                     }]);
                     setErrorMessageUser('');
@@ -239,9 +235,10 @@ export default function EditProject({ token, editData, setAlert, fetchProjects }
                                                     }}
                                                     displayEmpty
                                                 >
-                                                    <MenuItem value="USER">User</MenuItem>
-                                                    <MenuItem value="VIEWER">Viewer</MenuItem>
-                                                    <MenuItem value="OWNER">Owner</MenuItem>
+                                                    <MenuItem value="NON">Valitse</MenuItem>
+                                                    <MenuItem value="USER">Käyttäjä</MenuItem>
+                                                    <MenuItem value="VIEWER">Seuraaja</MenuItem>
+                                                    <MenuItem value="OWNER">Omistaja</MenuItem>
                                                     <MenuItem value="">Poista</MenuItem>
                                                 </Select>
                                             </TableCell>
@@ -251,7 +248,7 @@ export default function EditProject({ token, editData, setAlert, fetchProjects }
                                                     checked={user.role === ""}
                                                     onChange={e => {
                                                         let newTable = [...addedUsers];
-                                                        newTable[index] = { ...user, role: e.target.checked ? "" : user.originalRole };
+                                                        newTable[index] = { ...user, role: e.target.checked ? "" : "NON" };
                                                         setAddedUsers(newTable);
                                                     }}
                                                 />

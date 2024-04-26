@@ -76,7 +76,7 @@ export default function EditUser({ token, setAlert }) {
   // Returning a dialog, where a user can edit their own information
   return (
     <div>
-      <Button onClick={handleOpen}>Muokkaa
+      <Button style={{ marginTop: 20 }} variant="contained" onClick={handleOpen}>Muokkaa tietoja
       </Button>
       <Dialog
         open={open}
@@ -144,8 +144,8 @@ export default function EditUser({ token, setAlert }) {
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose}>Peruuta</Button>
-          <Button type='submit'>Tallenna</Button>
+          <Button variant="contained" color='secondary' onClick={handleClose}>Peruuta</Button>
+          <Button variant="contained" type='submit'>Tallenna</Button>
         </DialogActions>
       </Dialog>
     </div >

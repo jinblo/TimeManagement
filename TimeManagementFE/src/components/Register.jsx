@@ -71,6 +71,7 @@ const Register = ({ setAlert }) => {
         <DialogTitle>Rekisteröidy</DialogTitle>
         <DialogContent>
           <TextField
+            id="usernameReg"
             autoFocus
             required
             margin='normal'
@@ -112,7 +113,7 @@ const Register = ({ setAlert }) => {
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose}>Peruuta</Button>
+          <Button color='secondary' onClick={handleClose}>Peruuta</Button>
           <Button type="submit">Tallenna</Button>
         </DialogActions>
       </Dialog>
