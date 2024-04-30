@@ -75,7 +75,7 @@ public class EntryRESTController {
 		}
 	}
 
-	// Työaikakirjauksen muokkaus
+	// Editing project entry
 	@PutMapping("projects/{projectId}/entries/{entryId}")
 	public ResponseEntity<?> editEntry(@Valid @RequestBody Entry updatedEntry, @PathVariable("entryId") Long entryId, BindingResult bindingResult) {
 		if (bindingResult.hasErrors()) {
