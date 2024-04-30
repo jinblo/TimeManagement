@@ -79,23 +79,26 @@ public class EntryRESTController {
 
 	// Editing project entry
 	@PutMapping("projects/{projectId}/entries/{entryId}")
-	public ResponseEntity<?> editEntry(@Valid @RequestBody Entry updatedEntry, @PathVariable("entryId") Long entryId,
-			BindingResult bindingResult) {
+	public ResponseEntity<?> editEntry(@Valid @RequestBody Entry updatedEntry, @PathVariable("entryId") Long entryId, BindingResult bindingResult) {
 		if (bindingResult.hasErrors()) {
 			return new ResponseEntity<>("Invalid data", HttpStatus.UNPROCESSABLE_ENTITY);
-		}
+	    }
 		try {
 			Optional<Entry> toBeEdited = entryRepository.findById(entryId);
-			if (!toBeEdited.isEmpty()
-					&& toBeEdited.get().getAppUser().getId() == userDetailsService.getAuthIdentity()) {
-				Entry entry = toBeEdited.get();
-				entry.setComment(updatedEntry.getComment());
-				entry.setEntry_date(updatedEntry.getEntry_date());
-				entry.setStart_time(updatedEntry.getStart_time());
-				entry.setEnd_time(updatedEntry.getEnd_time());
-				// entry.setAppUser(userDetailsService.getAuthUser());
-				entryRepository.save(entry);
-				return new ResponseEntity<>(entry, HttpStatus.OK);
+			if (!toBeEdited.isEmpty() && toBeEdited.get().getAppUser().getId() == userDetailsService.getAuthIdentity()) {
+				try {
+					Entry entry = toBeEdited.get();
+					entry.setComment(updatedEntry.getComment());
+					entry.setEntry_date(updatedEntry.getEntry_date());
+					entry.setStart_time(updatedEntry.getStart_time());
+					entry.setEnd_time(updatedEntry.getEnd_time());
+					//entry.setAppUser(userDetailsService.getAuthUser());
+					entryRepository.save(entry);
+					return new ResponseEntity<>("Entry successfully updated", HttpStatus.OK);
+				} catch (Exception e) {
+					return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+				}
+				
 			}
 			return new ResponseEntity<>("Updating failed", HttpStatus.NOT_FOUND);
 		} catch (Exception e) {
