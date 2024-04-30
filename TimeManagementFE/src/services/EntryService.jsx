@@ -39,9 +39,9 @@ export async function putEntry(token, entry) {
   return request
 }
 
-export async function deleteEntry(token, id) {
+export async function deleteEntry(token, entry) {
   const request =
-    fetch(`${baseUrl}/entries/${id}`, {
+    fetch(`${baseUrl}/projects/${entry.project.id}/entries/${entry.id}`, {
       method: 'delete',
       headers: {
         'Authorization': token,
