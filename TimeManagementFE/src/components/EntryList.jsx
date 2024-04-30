@@ -94,7 +94,7 @@ const EntryList = () => {
       width: 100,
       cellRenderer: params => {
         return (
-          <DeleteEntry token={token} entry_id={params.value} setAlert={setAlert} fetchEntries={fetchEntries} />
+          <DeleteEntry token={token} entry={params.data} setAlert={setAlert} fetchEntries={fetchEntries} />
         )
       }
     },
