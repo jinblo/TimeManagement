@@ -19,9 +19,6 @@ import {
 import { putProject } from '../services/ProjectService';
 import { getUser } from '../services/AppUserService';
 
-// *** Tällä hetkellä ei osaa vielä palauttaa arvoa takaisin siihen rooliin mikä kyseisellä käyttäjällä oli ennen checkboxin painamista, 
-// *** jos checkboxin ottaakin pois (poislukien ne käyttäjät, jotka on juuri lisätty)
-// *** Ei myöskään tyhjennä hae käyttäjänimellä kenttää kun haku on tehty
 
 // Function for editing project information. Opens a dialog with information from chosen project.
 // User can add, edit and delete users and their roles for chosen project
@@ -91,7 +88,6 @@ export default function EditProject({ token, editData, setAlert, fetchProjects }
                             username: data.username
                         },
                         role: 'USER',
-                        originalRole: 'USER'
 
                     }]);
                     setErrorMessageUser('');
@@ -105,7 +101,12 @@ export default function EditProject({ token, editData, setAlert, fetchProjects }
     };
 
     useEffect(() => {
-        setProject({ ...project, roles: addedUsers })
+        let newTable = [...addedUsers];
+        const index = addedUsers.findIndex(user => user.role === "")
+        if (index != -1) {
+            newTable[index] = { ...newTable[index], role: null };
+        }
+        setProject({ ...project, roles: newTable })
     }, [addedUsers]);
 
 
@@ -113,7 +114,7 @@ export default function EditProject({ token, editData, setAlert, fetchProjects }
     // Editing a project info and user roles
     const editProject = async () => {
         // Checking that all users have a role
-        const allUsersHaveRoles = addedUsers.every(user => user.role === 'OWNER' || user.role === 'USER' || user.role === 'VIEWER' || user.role === null);
+        const allUsersHaveRoles = project.roles.every(user => user.role === 'OWNER' || user.role === 'USER' || user.role === 'VIEWER' || user.role === null);
         if (!allUsersHaveRoles) {
             setErrorMessageUserRole('Jokaisella käyttäjällä pitää olla rooli valittuna.');
             return;
@@ -228,25 +229,26 @@ export default function EditProject({ token, editData, setAlert, fetchProjects }
                                                 <Select
                                                     value={user.role}
                                                     onChange={e => {
-                                                        let newTable = [addedUsers].flat()
+                                                        let newTable = [...addedUsers]
                                                         newTable[index] = { ...user, role: e.target.value }
                                                         setAddedUsers(newTable)
                                                     }}
                                                     displayEmpty
                                                 >
-                                                    <MenuItem value="USER">User</MenuItem>
-                                                    <MenuItem value="VIEWER">Viewer</MenuItem>
-                                                    <MenuItem value="OWNER">Owner</MenuItem>
-                                                    <MenuItem value={null}>Poista</MenuItem>
+                                                    <MenuItem value="NON">Valitse</MenuItem>
+                                                    <MenuItem value="USER">Käyttäjä</MenuItem>
+                                                    <MenuItem value="VIEWER">Seuraaja</MenuItem>
+                                                    <MenuItem value="OWNER">Omistaja</MenuItem>
+                                                    <MenuItem value="">Poista</MenuItem>
                                                 </Select>
                                             </TableCell>
                                             <TableCell>
                                                 <Checkbox
                                                     color="primary"
-                                                    checked={user.role === null}
+                                                    checked={user.role === ""}
                                                     onChange={e => {
                                                         let newTable = [...addedUsers];
-                                                        newTable[index] = { ...user, role: e.target.checked ? null : user.originalRole };
+                                                        newTable[index] = { ...user, role: e.target.checked ? "" : "NON" };
                                                         setAddedUsers(newTable);
                                                     }}
                                                 />
@@ -262,7 +264,7 @@ export default function EditProject({ token, editData, setAlert, fetchProjects }
                     <Typography style={{ fontSize: '14px' }} color="error">{errorMessage}</Typography>
                     <Typography style={{ fontSize: '12px', marginTop: 20 }}>Muokatut tiedot tallennetaan vasta kun painat tallenna kaikki muutokset -nappia</Typography>
                     <DialogActions style={{ justifyContent: "center", marginTop: 10, marginBottom: 10 }}>
-                        <Button variant="contained" onClick={handleClose}>Peruuta</Button>
+                        <Button variant="contained" color="secondary" onClick={handleClose}>Peruuta</Button>
                         <Button variant="contained" onClick={editProject}>Tallenna kaikki muutokset</Button>
                     </DialogActions>
                 </DialogContent>

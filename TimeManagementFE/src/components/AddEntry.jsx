@@ -4,7 +4,7 @@ import dayjs from "dayjs";
 import { useState } from "react";
 import { postEntry } from "../services/EntryService";
 
-// Lisätään uusi työaikakirjaus
+// Adding a new entry
 
 const AddEntry = ({ token, projects, setAlert, fetchEntries }) => {
   const emptyEntry = {
@@ -106,7 +106,7 @@ const AddEntry = ({ token, projects, setAlert, fetchEntries }) => {
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose}>Peruuta</Button>
+          <Button color="secondary" onClick={handleClose}>Peruuta</Button>
           <Button onClick={handleSave}>Tallenna</Button>
         </DialogActions>
       </Dialog>

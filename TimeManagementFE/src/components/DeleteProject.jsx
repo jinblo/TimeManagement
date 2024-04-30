@@ -7,6 +7,8 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import { deleteProject } from '../services/ProjectService';
 
+// Delete project and request confirmation for deletion
+
 export default function DeleteProject({ token, id, setAlert, fetchProjects }) {
   const [open, setOpen] = useState(false);
 
@@ -33,7 +35,7 @@ export default function DeleteProject({ token, id, setAlert, fetchProjects }) {
 
   return (
     <div>
-      <Button variant="outlined" color="error" size='small' onClick={handleClickOpen}>
+      <Button variant="contained" color="secondary" size='small' onClick={handleClickOpen}>
         Poista
       </Button>
       <Dialog
@@ -50,7 +52,7 @@ export default function DeleteProject({ token, id, setAlert, fetchProjects }) {
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Peruuta</Button>
-          <Button color="error" onClick={handleDelete} autoFocus>
+          <Button color="secondary" onClick={handleDelete} autoFocus>
             Poista projekti
           </Button>
         </DialogActions>

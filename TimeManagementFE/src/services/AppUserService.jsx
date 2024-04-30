@@ -3,8 +3,7 @@ import { baseUrl } from "./baseUrl"
 export async function login(user) {
   const request =
     fetch(`${baseUrl}/login`, {
-      method: 'POST',
-      mode: 'cors',
+      method: 'post',
       headers: {
         'Content-Type': 'application/json',
       },
@@ -34,7 +33,7 @@ export async function putUser(token, user) {
         'Authorization': token,
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify(entry)
+      body: JSON.stringify(user)
     })
       .catch(error => console.error(error))
   return request

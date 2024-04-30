@@ -14,7 +14,7 @@ const AlertMessage = ({ alert, alertMessage, setAlert }) => {
         setTimeout(() => {
           setShow(false)
           setAlert(null)
-        }, 3000)
+        }, 5000)
       }}
     >
       <Alert severity={alert}>{alertMessage}</Alert>

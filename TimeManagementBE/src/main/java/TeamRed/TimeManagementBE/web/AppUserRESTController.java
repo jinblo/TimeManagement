@@ -1,6 +1,6 @@
 package TeamRed.TimeManagementBE.web;
-import java.util.Optional;
 
+import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpHeaders;
@@ -32,9 +32,9 @@ public class AppUserRESTController {
 	public AppUserRESTController(AppUserRepository appUserRepository) {
 		this.appUserRepository = appUserRepository;
 	}
-	
-    @Autowired
-    private AppUserDetailsService userDetailsService;
+
+	@Autowired
+	private AppUserDetailsService userDetailsService;
 
 	// Hae käyttäjä käyttäjänimen perusteella
 	@GetMapping("/byusername/{username}")

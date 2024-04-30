@@ -8,7 +8,7 @@ const TabView = () => {
   const { token } = useAuth()
   let { id } = useParams();
   const [tab, setTab] = useState(0);
-  const [log, setLog] = useState(0);
+  const [log, setLog] = useState(1);
 
   const handleTabChange = (e, val) => {
     setTab(val);
@@ -33,14 +33,15 @@ const TabView = () => {
               : null
             }
           </div>
+          {token ?
           <Tabs value={log} onChange={handleLogChange}
             textColor='inherit'>
-            {token ?
+              <Tab component={Link} to={'user'} label='Omat tiedot' />
               <Tab component={Link} to={'logout'} label='Kirjaudu ulos' />
+            </Tabs>
               :
               <Tab component={Link} to={'login'} label='Kirjaudu sisään' />
-            }
-          </Tabs>
+          }
         </Toolbar>
       </AppBar>
       <Outlet />

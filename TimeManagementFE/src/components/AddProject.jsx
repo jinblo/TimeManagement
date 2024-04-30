@@ -2,10 +2,9 @@ import React, { useState } from 'react';
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField } from "@mui/material";
 import { postProject } from '../services/ProjectService';
 
-// Lisätään uusi projekti
+// Adding a new project
 
 export default function AddProject({ token, setAlert, fetchProjects }) {
-
 
     const emptyProject = {
         title: '',
@@ -77,7 +76,7 @@ export default function AddProject({ token, setAlert, fetchProjects }) {
                     />
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={handleClose}>Peruuta</Button>
+                    <Button color="secondary" onClick={handleClose}>Peruuta</Button>
                     <Button onClick={addProject}>Tallenna</Button>
                 </DialogActions>
             </Dialog>
