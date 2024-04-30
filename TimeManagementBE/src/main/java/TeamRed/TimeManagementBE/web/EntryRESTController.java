@@ -105,7 +105,7 @@ public class EntryRESTController {
 	}
 
 	// Työaikakirjauksen poisto
-	@DeleteMapping("entries/{entryId}")
+	@DeleteMapping("projects/{projectId}/entries/{entryId}")
 	public ResponseEntity<?> removeEntry(@PathVariable("entryId") Long entryId) {
 		try {
 			Optional<Entry> removableEntry = entryRepository.findById(entryId);
