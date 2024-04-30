@@ -9,11 +9,11 @@ import { deleteEntry } from '../services/EntryService';
 
 // Delete entry and request confirmation for deletion
 
-export default function DeleteEntry({ token, entry_id, setAlert, fetchEntries }) {
+export default function DeleteEntry({ token, entry, setAlert, fetchEntries }) {
   const [open, setOpen] = useState(false);
 
   const handleDelete = () => {
-    deleteEntry(token, entry_id)
+    deleteEntry(token, entry)
       .then(response => {
         if (response.ok) {
           fetchEntries()
