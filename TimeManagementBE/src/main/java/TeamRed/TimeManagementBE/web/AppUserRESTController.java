@@ -60,6 +60,9 @@ public class AppUserRESTController {
 			return new ResponseEntity<>("Invalid data", HttpStatus.UNPROCESSABLE_ENTITY);
 		}
 		try {
+			if (appUserRepository.existsByUsername(newUser.getUsername())) {
+				throw new DataIntegrityViolationException("Username already exists");
+				}
 			BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 			newUser.setPassword_hash(encoder.encode(newUser.getPassword_hash()));
 			appUserRepository.save(newUser);
