@@ -14,6 +14,13 @@ Sovelluksen tarkoitus on toimia työaikakirjausjärjestelmänä, esimerkiksi yks
 
 Sovellus vaatii rekisteröitymisen. Rekisteröitynyt käyttäjä voi luoda projekteja ja tehdä projekteille työaikakirjauksia. Hän voi myös lisätä muita käyttäjiä projekteilleen.
 
+## Käyttöliittymä
+
+![Kuva kirjautumisnäkymästä ja etusivusta](images/Kayttoliittyma1.png)
+
+![Kuva projektin muokkaamisesta ja työaikakirjauksista](images/Kayttoliittyma2.png)
+
+
 ## Toteutusteknologiat
 * Spring Boot 3.2.1
 * Java jdk-17.0.2
@@ -77,7 +84,9 @@ Sovellus vaatii rekisteröitymisen. Rekisteröitynyt käyttäjä voi luoda proje
 * [AppUser](api-docs/appuser/)
 * [Login](api-docs/login.md)
 
-## Backlogit
+## Projektin backlogit
+
+Sprint backlogille on listattu kehitysideoita, jotka löytyvät myös projektin issues-kohdasta
 
 * [Sprint backlog](https://github.com/orgs/TeamRed-Ohjelmistoprojekti2/projects/3/views/2)
 * [Product backlog](https://github.com/orgs/TeamRed-Ohjelmistoprojekti2/projects/3)
