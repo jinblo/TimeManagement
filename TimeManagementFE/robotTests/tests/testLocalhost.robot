@@ -34,14 +34,14 @@ Registerin a new user
     # sleep    2s
 
 Login to the TimeManagement service
-    [Tags]    test    role    user
-    # Open Browser and Navigate to Localhost
+    [Tags]    test    role    user    navi
+    #open Browser and Navigate to Localhost
     Login With Localhost Test User Credentials
     Click Login Button
     Page Contain Text Hei
 
 Adding a new project after logged in
-    [Tags]    postproject    localhost    test
+    [Tags]    postproject    localhost    test    navi
     Navigate to Projects Page
     Click Add Project Button
     Add Title to Project Input Section
@@ -91,7 +91,7 @@ Checking that Project don't have other users
     Click Cancel Button
 
 Adding a new entry to RobotTest project
-    [Tags]    postentry    localhost
+    [Tags]    postentry    localhost   navi
     Navigate to Entries Page
     Click Add Entry Button
     Choose Project for Added Entry
@@ -139,7 +139,7 @@ Editing user's own derails
     # Sleep    2s
 
 Testing logging out function
-    [Tags]    logout    localhost    test
+    [Tags]    logout    localhost    test    navi
     Navigate to Logout Page
     Page Contain Successful Logout
 
