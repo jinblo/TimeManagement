@@ -11,7 +11,10 @@
 
   Kommunikaatio ja sprinttien suunnittelu parani huomattavasti kurssin edetessä ja ongelmia pyrittiin ratkomaan yhdessä. Tietokantaongelmien ratkomisesta erityismaininta Kristinille! Projekti valmistui ja julkaistiin ajallaan sellaisena, kuin  
   oltiin suunniteltu, eli lopulta ongelmia saatiin hyvin ratkottua.
+  
 - Missä osa-alueissa (esim. tekninen toteutus, projektinhallinta, dokumentaatio) onnistuitette tiiminä?
+
+
   Onnistumisia koettiin muun muassa sujuvasta projektinhallinnasta, esimerkiksi backlog pysyi hyvin ajan tasalla. Omat git-haarat kaikilla ryhmäläisillä tuntui toimivalta ratkaisulta. Backin ja frontin yhteistyö tuntui myös toimivalta. Ennen kaikkea minimum viable product valmistui!
   
 - Missä osa-alueissa jäi parantamisen varaa?
