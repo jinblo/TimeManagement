@@ -85,7 +85,6 @@ Click Edit Button
 Click Edit Info Button
     Click Button    Muokkaa tietoja
 
-
 Click Find Username Button
     Click Button    Hae käyttäjä
 
@@ -119,16 +118,16 @@ Login With Localhost Test User Credentials
     Input Text    password    ${TESTUSER}[password]
 
 Navigate to Entries Page
-    Click Element   xpath=//*[@id="root"]/div/header/div/div[2]/button[3]
+    Click Element    xpath=//*[@id="root"]/div/header/div/div[2]/button[3]
 
 Navigate to Logout Page
-    Click Element   xpath=//*[@id="root"]/div/header/div/div[4]/button[2]
+    Click Element    xpath=//*[@id="root"]/div/header/div/div[4]/button[2]
 
 Navigate to Projects Page
     Click Element    xpath=//*[@id="root"]/div/header/div/div[2]/button[2]
 
 Navigate to User Detail's Page
-    Click Element   xpath=//*[@id="root"]/div/header/div/div[4]/button[1]
+    Click Element    xpath=//*[@id="root"]/div/header/div/div[4]/button[1]
 
 Open Browser and Navigate to GitHub Page
     [Documentation]    Using deployed url for loginin

@@ -22,7 +22,7 @@ Resource            ../Resources/resources.robot
 
 *** Test Cases ***
 Registerin a new user
-    [Tags]    register
+    [Tags]    register    role
     Open Browser and Navigate to Localhost
     Click Register Button
     Add Username to Registration Input Section
@@ -34,14 +34,14 @@ Registerin a new user
     # sleep    2s
 
 Login to the TimeManagement service
-    [Tags]    test    role    user    navi
-    #open Browser and Navigate to Localhost
+    [Tags]    login    role
+    # open Browser and Navigate to Localhost
     Login With Localhost Test User Credentials
     Click Login Button
     Page Contain Text Hei
 
 Adding a new project after logged in
-    [Tags]    postproject    localhost    test    navi
+    [Tags]    postproject    role
     Navigate to Projects Page
     Click Add Project Button
     Add Title to Project Input Section
@@ -58,7 +58,7 @@ Editing an existing project title
 
 Adding a user to the project with role user
     [Documentation]    User will have the role user
-    [Tags]    putproject
+    [Tags]    putproject    role
     # Navigate to Projects Page
     Click Edit Button
     Add Username to Project input section in Localhost
@@ -67,17 +67,17 @@ Adding a user to the project with role user
     Page Contain Project Successful Edition
 
 Editing a user role from user to viewer
-    [Tags]    putproject
+    [Tags]    putproject    role
     # Navigate to Projects Page
     Click Edit Button
     Choose the Second User from the List
     Choose the Viewer Role from the List
-    Sleep    1s
+    # Sleep    1s
     Click Save All Changes Button
     Page Contain Project Successful Edition
 
 Deleting the user from the project
-    [Tags]    dleteproject    localhost    role
+    [Tags]    deleteuser    role
     # Navigate to Projects Page
     Click Edit Button
     Choose the Option to remove the Second User from the Project
@@ -85,13 +85,13 @@ Deleting the user from the project
     Page Contain Project Successful Edition
 
 Checking that Project don't have other users
-    [Tags]    test
+    [Tags]    deleteuser
     Click Edit Button
     Page Contain Does not have Other Users
     Click Cancel Button
 
 Adding a new entry to RobotTest project
-    [Tags]    postentry    localhost   navi
+    [Tags]    postentry
     Navigate to Entries Page
     Click Add Entry Button
     Choose Project for Added Entry
@@ -119,7 +119,7 @@ Editing an existing entry
     # Sleep    2s
 
 Deleting a project
-    [Tags]    deleteproject    localhost    test
+    [Tags]    deleteproject
     Navigate to Projects Page
     Click Delete Button
     Page Contain Project Deletion Warning
@@ -139,7 +139,7 @@ Editing user's own derails
     # Sleep    2s
 
 Testing logging out function
-    [Tags]    logout    localhost    test    navi
+    [Tags]    logout    role
     Navigate to Logout Page
     Page Contain Successful Logout
 
