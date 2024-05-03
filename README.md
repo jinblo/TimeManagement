@@ -95,10 +95,13 @@ Sprint backlogille on listattu kehitysideoita, jotka löytyvät myös projektin 
 ## Tunnistautuminen
 Käyttäjän tulee olla kirjautunut, jotta hän pääsee käyttämään palvelua. Tunnistautumisessa on käytössä JSON Web Token. Rekisteröityminen onnistuu luonnollisesti ilman tunnistautumista. Jokaisen pyynnön yhteydessä tarkistetaan token.
 
-## Testaus ja esiin tulleet virheet
+## Testaus
 End-to-End testaus on toteutettu Robot Frameworkilla. Testit on jaettu niin, että omat testit voidaan toteuttaa lokaalisti sekä julkaistulla versiolla. Testit testaavat REST toiminnallisuuksia. Testien tekeminen vaatii Python ja pip asennukset. Uusin release testattu ja testit menneet läpi onnistuneesti.
 
-End-to-end testien lisäksi toteutimme myös manuaalista testaamista tiimin voimin. Testauksessa ei tullut ilmi virheitä koodin toiminnallisuuteen liittyen.
+End-to-end testien lisäksi toteutimme myös manuaalista testaamista tiimin voimin. 
+
+## Tiedossa olevat virheet
+* Kun käyttäjä lisää projektille uutta käyttäjää ja saman session aikana hän haluaakin poistaa käyttäjän, jota ei kuitenkaan ole vielä lisätty projektille, ja painaa tallenna-nappia, niin lisätty käyttäjä lisätään projektin tietoihin roolilla null. Bäkki ei osaa poistaa käyttäjää listasta, jossa sitä ei ole. Kun projektin avaa uudelleen niin käyttäjänimi näkyy listassa, mutta käyttäjän rooli on tyhjänä. Tämä projekti näkyy myös lisätylle käyttäjälle ja hän voi lisätä projektille tuntikirjauksia.
 
 ## Työaikakirjausjärjestelmän asennusohjeet
 Asennusta varten tarvitset koneellesi tässä dokumentissa mainitut toteutusteknologiat sekä tekstieditorin, esim. Visual Studio Code tai Eclipse. Voit kloonata TimeManagement järjestelmän komennolla: `git clone https://github.com/TeamRed-Ohjelmistoprojekti2/TimeManagement.git`. Tässä tulee mukana sekä backend (TimeManagementBE) että frontend (TimeManagementFE).
