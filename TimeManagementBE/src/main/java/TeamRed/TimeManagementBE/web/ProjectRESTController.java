@@ -126,15 +126,15 @@ public class ProjectRESTController {
 					AppUser user = role.getAppUser();
 					ProjectRoleKey key = new ProjectRoleKey(projectId, user.getId());
 					UserProjectRole userProjectRole = roleRepository.findById(key);
-					if (userProjectRole == null) {
+					if (userProjectRole == null && role.getRole() != null){
 						UserProjectRole newProjectRole = new UserProjectRole();
 						newProjectRole.setRole(role.getRole());
 						newProjectRole.setAppUser(user);
 						newProjectRole.setProject(project);
 						roleRepository.save(newProjectRole);
-					} else if (role.getRole() == null) {
+					} else if (userProjectRole != null && role.getRole() == null) {
 						roleRepository.delete(userProjectRole);
-					} else {
+					} else if (userProjectRole != null && role.getRole() != null) {
 						userProjectRole.setRole(role.getRole());
 						roleRepository.save(userProjectRole);
 					}
