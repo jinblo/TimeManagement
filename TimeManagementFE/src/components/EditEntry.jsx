@@ -1,4 +1,4 @@
-import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, FormControl, InputLabel, MenuItem, OutlinedInput, Select, TextField } from "@mui/material";
+import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, FormControl, FormHelperText, InputLabel, MenuItem, OutlinedInput, Select, TextField } from "@mui/material";
 import { DatePicker, TimePicker } from "@mui/x-date-pickers";
 import dayjs from "dayjs";
 import { useState } from "react";
@@ -21,6 +21,8 @@ const EditEntry = ({ token, oldEntry, setAlert, fetchEntries }) => {
   const [entry, setEntry] = useState(emptyEntry)
   // Dialog state
   const [open, setOpen] = useState(false);
+  const [errorMessageTime, setErrorMessageTime] = useState('');
+
 
   // Opening dialog with the details of the entry to be edited
   const handleClickOpen = () => {
@@ -30,12 +32,15 @@ const EditEntry = ({ token, oldEntry, setAlert, fetchEntries }) => {
 
   // Closing the dialog and clearing the form
   const handleClose = () => {
-    setEntry(emptyEntry)
+    setEntry(emptyEntry);
+    setErrorMessageTime('');
     setOpen(false);
   }
 
   // Saving the edited entry.
   const handleSave = () => {
+    if (dayjs(`2024-01-01 ${entry.start_time}`).isBefore(dayjs(`2024-01-01 ${entry.end_time}`))) {
+    
     putEntry(token, entry)
       .then(response => {
         if (response.ok) {
@@ -46,7 +51,10 @@ const EditEntry = ({ token, oldEntry, setAlert, fetchEntries }) => {
         }
       })
     handleClose()
-  };
+  } else {
+    setErrorMessageTime("Lopetusaika ei voi olla ennen aloitusaikaa.");
+  }
+};
 
   return (
     <div>
@@ -90,6 +98,8 @@ const EditEntry = ({ token, oldEntry, setAlert, fetchEntries }) => {
             onChange={value => setEntry({ ...entry, end_time: value.format('HH:mm:ss') })}
             minTime={dayjs(`2024-01-01 ${entry.start_time}`)}
           />
+                    <FormHelperText style={{color: 'red'}}>{errorMessageTime}</FormHelperText>
+
           <TextField
             fullWidth
             margin='dense'

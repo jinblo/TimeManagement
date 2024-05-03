@@ -3,45 +3,62 @@ import { DatePicker, TimePicker } from "@mui/x-date-pickers";
 import dayjs from "dayjs";
 import { useState } from "react";
 import { postEntry } from "../services/EntryService";
+import customParseFormat from 'dayjs/plugin/customParseFormat';
+
+dayjs.extend(customParseFormat);
 
 // Adding a new entry
 
 const AddEntry = ({ token, projects, setAlert, fetchEntries }) => {
+  const now = dayjs();
+  let endOfDay = now.clone().endOf('day');
+  // if the endTime +6 hours is over midnight, the shown default time is 23.59
+  const endTime = now.add(6, 'h').isAfter(endOfDay) ? endOfDay.format('HH:mm:ss') : now.add(6, 'h').format('HH:mm:ss');
+
   const emptyEntry = {
-    entry_date: dayjs().format('YYYY-MM-DD'),
-    start_time: dayjs().format('HH:mm:ss'),
-    end_time: dayjs().add(6, 'h').format('HH:mm:ss'),
+    entry_date: now.format('YYYY-MM-DD'),
+    start_time: now.format('HH:mm:ss'),
+    end_time: endTime,
     comment: ''
-  }
+  };
   const [entry, setEntry] = useState(emptyEntry)
   const [project_id, setProject_id] = useState('')
   const [errorMessage, setErrorMessage] = useState('');
+  const [errorMessageTime, setErrorMessageTime] = useState('');
   // Handling dialog 
   const [open, setOpen] = useState(false);
 
   // Saving new entry
   const handleSave = () => {
     if (project_id) {
+      if (dayjs(`2024-01-01 ${entry.start_time}`).isBefore(dayjs(`2024-01-01 ${entry.end_time}`))) {
+
       postEntry(token, entry, project_id)
         .then(response => {
           if (response.ok) {
             fetchEntries()
             setAlert('success')
           } else {
-            setAlert('error')
+            setAlert('error');
           }
-        })
+        });
       handleClose();
     } else {
-      setErrorMessage("Valitse projekti")
+      setErrorMessageTime("Lopetusaika ei voi olla ennen aloitusaikaa.");
     }
-  };
+  } else {
+    setErrorMessage("Valitse projekti");
+  }
+};
 
   // Clearing the form and closing dialog
   const handleClose = () => {
     setEntry(emptyEntry)
     setProject_id('');
+    setErrorMessage('');
+    setErrorMessageTime('');
     setOpen(false);
+    
   }
 
   return (
@@ -94,7 +111,9 @@ const AddEntry = ({ token, projects, setAlert, fetchEntries }) => {
             value={dayjs(`2024-01-01 ${entry.end_time}`)}
             onChange={value => setEntry({ ...entry, end_time: value.format('HH:mm:ss') })}
             minTime={dayjs(`2024-01-01 ${entry.start_time}`)}
+            
           />
+          <FormHelperText style={{color: 'red'}}>{errorMessageTime}</FormHelperText>
           <TextField
             fullWidth
             autoFocus
