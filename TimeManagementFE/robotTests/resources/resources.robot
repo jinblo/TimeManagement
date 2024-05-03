@@ -53,13 +53,13 @@ Choose Project for Added Entry
     Click Element    xpath=//*[@id="mui-component-select-project"]
 
 Choose the Second User from the List
-    Click Element    xpath=/html/body/div[2]/div[3]/div/div/table/tbody/tr[2]/td[2]/div/div
+    Click Element    xpath=/html/body/div[4]/div[3]/div/div/table/tbody/tr[2]/td[2]/div/div
 
 Choose the Viewer Role from the List
     Click Element    xpath=//li[contains(text(), 'Seuraaja')]
 
 Choose the Option to remove the Second User from the Project
-    Click Element    xpath=/html/body/div[2]/div[3]/div/div/table/tbody/tr[2]/td[3]/span/input
+    Click Element    xpath=/html/body/div[4]/div[3]/div/div/table/tbody/tr[2]/td[3]/span/input
 
 Click Add Entry Button
     Click Button    Lisää uusi kirjaus
@@ -84,7 +84,6 @@ Click Edit Button
 
 Click Edit Info Button
     Click Button    Muokkaa tietoja
-
 
 Click Find Username Button
     Click Button    Hae käyttäjä
@@ -119,16 +118,16 @@ Login With Localhost Test User Credentials
     Input Text    password    ${TESTUSER}[password]
 
 Navigate to Entries Page
-    Click Link    Tuntikirjaukset
+    Click Element    xpath=//*[@id="root"]/div/header/div/div[2]/button[3]
 
 Navigate to Logout Page
-    Click Link    Kirjaudu ulos
+    Click Element    xpath=//*[@id="root"]/div/header/div/div[4]/button[2]
 
 Navigate to Projects Page
-    Click Link    Projektit
+    Click Element    xpath=//*[@id="root"]/div/header/div/div[2]/button[2]
 
 Navigate to User Detail's Page
-    Click Link    Omat tiedot
+    Click Element    xpath=//*[@id="root"]/div/header/div/div[4]/button[1]
 
 Open Browser and Navigate to GitHub Page
     [Documentation]    Using deployed url for loginin

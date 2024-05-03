@@ -14,6 +14,13 @@ Sovelluksen tarkoitus on toimia työaikakirjausjärjestelmänä, esimerkiksi yks
 
 Sovellus vaatii rekisteröitymisen. Rekisteröitynyt käyttäjä voi luoda projekteja ja tehdä projekteille työaikakirjauksia. Hän voi myös lisätä muita käyttäjiä projekteilleen.
 
+## Käyttöliittymä
+
+![Kuva kirjautumisnäkymästä ja etusivusta](images/Kayttoliittyma1.png)
+
+![Kuva projektin muokkaamisesta ja työaikakirjauksista](images/Kayttoliittyma2.png)
+
+
 ## Toteutusteknologiat
 * Spring Boot 3.2.1
 * Java jdk-17.0.2
@@ -76,8 +83,11 @@ Sovellus vaatii rekisteröitymisen. Rekisteröitynyt käyttäjä voi luoda proje
 * [Project](api-docs/project/)
 * [AppUser](api-docs/appuser/)
 * [Login](api-docs/login.md)
+* [Register](api-docs/appuser/register.md)
 
-## Backlogit
+## Projektin backlogit
+
+Sprint backlogille on listattu kehitysideoita, jotka löytyvät myös projektin issues-kohdasta
 
 * [Sprint backlog](https://github.com/orgs/TeamRed-Ohjelmistoprojekti2/projects/3/views/2)
 * [Product backlog](https://github.com/orgs/TeamRed-Ohjelmistoprojekti2/projects/3)
@@ -86,7 +96,12 @@ Sovellus vaatii rekisteröitymisen. Rekisteröitynyt käyttäjä voi luoda proje
 Käyttäjän tulee olla kirjautunut, jotta hän pääsee käyttämään palvelua. Tunnistautumisessa on käytössä JSON Web Token. Rekisteröityminen onnistuu luonnollisesti ilman tunnistautumista. Jokaisen pyynnön yhteydessä tarkistetaan token.
 
 ## Testaus
-End-to-End testaus on toteutettu Robot Frameworkilla. Testit on jaettu niin, että omat testit voidaan toteuttaa lokaalisti sekä julkaistulla versiolla. Testit testaavat REST toiminnallisuuksia. Testien tekeminen vaatii Python ja pip asennukset.
+End-to-End testaus on toteutettu Robot Frameworkilla. Testit on jaettu niin, että omat testit voidaan toteuttaa lokaalisti sekä julkaistulla versiolla. Testit testaavat REST toiminnallisuuksia. Testien tekeminen vaatii Python ja pip asennukset. Uusin release testattu ja testit menneet läpi onnistuneesti.
+
+End-to-end testien lisäksi toteutimme myös manuaalista testaamista tiimin voimin. 
+
+## Tiedossa olevat virheet
+Testauksessa esiin tulleet virheet korjattiin viimeiseen versioon.
 
 ## Työaikakirjausjärjestelmän asennusohjeet
 Asennusta varten tarvitset koneellesi tässä dokumentissa mainitut toteutusteknologiat sekä tekstieditorin, esim. Visual Studio Code tai Eclipse. Voit kloonata TimeManagement järjestelmän komennolla: `git clone https://github.com/TeamRed-Ohjelmistoprojekti2/TimeManagement.git`. Tässä tulee mukana sekä backend (TimeManagementBE) että frontend (TimeManagementFE).
