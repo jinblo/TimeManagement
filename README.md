@@ -101,7 +101,7 @@ End-to-End testaus on toteutettu Robot Frameworkilla. Testit on jaettu niin, ett
 End-to-end testien lisäksi toteutimme myös manuaalista testaamista tiimin voimin. 
 
 ## Tiedossa olevat virheet
-* Kun käyttäjä lisää projektille uutta käyttäjää ja saman session aikana hän haluaakin poistaa käyttäjän, jota ei kuitenkaan ole vielä lisätty projektille, ja painaa tallenna-nappia, niin lisätty käyttäjä lisätään projektin tietoihin roolilla null. Bäkki ei osaa poistaa käyttäjää listasta, jossa sitä ei ole. Kun projektin avaa uudelleen niin käyttäjänimi näkyy listassa, mutta käyttäjän rooli on tyhjänä. Tämä projekti näkyy myös lisätylle käyttäjälle ja hän voi lisätä projektille tuntikirjauksia.
+Testauksessa esiin tulleet virheet korjattiin viimeiseen versioon.
 
 ## Työaikakirjausjärjestelmän asennusohjeet
 Asennusta varten tarvitset koneellesi tässä dokumentissa mainitut toteutusteknologiat sekä tekstieditorin, esim. Visual Studio Code tai Eclipse. Voit kloonata TimeManagement järjestelmän komennolla: `git clone https://github.com/TeamRed-Ohjelmistoprojekti2/TimeManagement.git`. Tässä tulee mukana sekä backend (TimeManagementBE) että frontend (TimeManagementFE).
