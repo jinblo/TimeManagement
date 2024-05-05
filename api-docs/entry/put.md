@@ -21,10 +21,10 @@
 
 ```json
 {
-  "comment": "Muokattu työaikakirjaus",
-  "entry_date": "2024-04-15",
-  "start_time": "10:05:00",
-  "end_time": "12:10:00",
+    "comment": "MUOKATTU TYÖAIKAKIRJAUS",
+    "entry_date": "2022-02-01",
+    "start_time": "08:00:00",
+    "end_time": "13:35:00"
 }
 
 ```
