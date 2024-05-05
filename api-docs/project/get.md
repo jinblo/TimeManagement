@@ -24,54 +24,60 @@
 
 ```json
 [
-    {
-        "project": {
-            "id": 1,
-            "title": "Testproject 1",
-            "roles": [
-                {
-                    "appUser": {
-                        "id": 2,
-                        "username": "new_user2"
-                    },
-                    "role": "USER"
-                },
-                {
-                    "appUser": {
-                        "id": 1,
-                        "username": "new_user1"
-                    },
-                    "role": "OWNER"
-                }
-            ],
-        },
-        "appUser": 1,
-        "role": "OWNER"
-    },
     {
-        "project": {
-            "id": 2,
-            "title": "Testproject 2",
-            "roles": [
-                {
-                    "appUser": {
-                        "id": 1,
-                        "username": "new_user1"
-                    },
-                    "role": "USER"
-                },
-                {
-                    "appUser": {
-                        "id": 3,
-                        "username": "new_user3"
-                    },
-                    "role": "OWNER"
-                }
-            ],
-        },
-        "appUser": 1,
-        "role": "USER"
-    }
+        "project": {
+            "id": 1,
+            "title": "Testproject 1",
+            "roles": [
+                {
+                    "appUser": {
+                        "id": 2,
+                        "username": "new_user2"
+                    },
+                    "role": "USER"
+                },
+                {
+                    "appUser": {
+                        "id": 1,
+                        "username": "new_user1"
+                    },
+                    "role": "OWNER"
+                }
+            ]
+        },
+        "appUser": {
+            "id": 1,
+            "username": "new_user1"
+        },
+        "role": "OWNER"
+    },
+    {
+        "project": {
+            "id": 2,
+            "title": "Testproject 2",
+            "roles": [
+                {
+                    "appUser": {
+                        "id": 2,
+                        "username": "new_user2"
+                    },
+                    "role": "OWNER"
+                },
+                {
+                    "appUser": {
+                        "id": 1,
+                        "username": "new_user1"
+                    },
+                    "role": "USER"
+                }
+            ]
+        },
+        "appUser": {
+            "id": 1,
+            "username": "new_user1"
+        },
+        "role": "USER"
+    }
 ]
 
 ```
