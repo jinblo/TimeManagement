@@ -20,7 +20,7 @@
 
 **request header:** `Authorization: {token}`
 
-**request body:** 
+**request body:**
 
 ```json
 {
@@ -40,7 +40,6 @@
         }
     ]
 }
-
 ```
 
 ## Esimerkkivastaus:
