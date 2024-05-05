@@ -10,12 +10,12 @@
 **request body**: 
 
 ```json
-{
-"first_name": "Uusi",
-"last_name": "Käyttäjä",
-"username": "new_user1",
-"password_hash": "password"
-}
+        {
+            "first_name": "UUSI",
+            "last_name": "KÄYTTÄJÄ",
+            "username": "new_user1",
+            "password_hash": "password"
+        }
 
 ```
 
