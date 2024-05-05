@@ -24,8 +24,8 @@
 
 ```json
 {
-"id": 1,
-"username": "new_user1"
+    "id": 1,
+    "username": "new_user1"
 }
 
 ```
