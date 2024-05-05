@@ -17,7 +17,7 @@
 
 ```json
 {
-"title": "Uusi projekti"
+    "title": "UUSI PROJEKTI"
 }
 
 ```
