@@ -18,10 +18,10 @@
 
 ```json
 {
-"first_name": "Muokattu",
-"last_name": "Käyttäjä",
-"username": "new_user1",
-"password_hash": "salasana"
+    "first_name": "MUOKATTU",
+    "last_name": "KÄYTTÄJÄ",
+    "username": "new_user1",
+    "password_hash": "muokattusalasana"
 }
 
 ```
