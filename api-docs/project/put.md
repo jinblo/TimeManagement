@@ -24,21 +24,21 @@
 
 ```json
 {
-    "title": "Muokattu projekti",
-    "roles": [
-        {
-            "appUser": {
-                "id": 1
-            },
-            "role": "OWNER"
-        },
-        {
-            "appUser": {
-                "id": 2
-            },
-            "role": "USER"
-        }
-    ]
+    "title": "Muokattu projekti",
+    "roles": [
+        {
+            "appUser": {
+                "id": 1
+            },
+            "role": "OWNER"
+        },
+                {
+            "appUser": {
+                "id": 2
+            },
+            "role": "USER"
+        }
+    ]
 }
 ```
 
