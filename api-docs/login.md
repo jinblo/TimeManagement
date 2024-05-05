@@ -10,10 +10,10 @@
 **request body:** 
 
 ```json
-    {
-        "username": "username",
-        "password": "password"
-    }
+{
+    "username": "username",
+    "password": "password"
+}
 
 ```
 
