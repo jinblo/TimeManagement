@@ -92,6 +92,10 @@ Sprint backlogille on listattu kehitysideoita, jotka löytyvät myös projektin 
 * [Sprint backlog](https://github.com/orgs/TeamRed-Ohjelmistoprojekti2/projects/3/views/2)
 * [Product backlog](https://github.com/orgs/TeamRed-Ohjelmistoprojekti2/projects/3)
 
+## Loppuraportti
+
+*[Loppuraportti](Loppuraportti.md)
+
 ## Tunnistautuminen
 Käyttäjän tulee olla kirjautunut, jotta hän pääsee käyttämään palvelua. Tunnistautumisessa on käytössä JSON Web Token. Rekisteröityminen onnistuu luonnollisesti ilman tunnistautumista. Jokaisen pyynnön yhteydessä tarkistetaan token.
 
