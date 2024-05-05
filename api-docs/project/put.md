@@ -1,14 +1,22 @@
-# Muokkaa id:llä haettua projektia
+# Projektin muokkaus
 
-**URL**: `/{host}/projects/:pk:`
+- Vaatii kirjautumisen
+- Sisältää projektin käyttäjien muokkauksen
+    - Uusi käyttäjä lisätään projektiin lisäämällä käyttäjä `roles` listaan
+    - Käyttäjän projektirooli muokataan asettamalla `role` arvo. Sallitut arvot ovat `OWNER`, `USER` ja `VIEWER` sekä `null`
+    - Käyttäjä poistetaan projektista asettamalla `role` arvoksi `null`
+    - Projektissa on oltava aina vähintään yksi käyttäjä, jonka projektirooli on `OWNER`
 
 **Metodi**: `PUT`
 
-**Vaadittu rooli**: `OWNER`
+**Vaadittu projektirooli**: `OWNER`
+
+**URL**: `{host}/projects/{projectId}`
+
 
 ## Esimerkkipyyntö:
 
-**Polku**: `BASE_URL/{host}/projects/{project_id}`
+**request parameter**: `{projectId}`: Muokattavan projektin id
 
 **request header:** `Authorization: {token}`
 
@@ -31,10 +39,10 @@
             "role": "USER"
         }
     ]
+}
+
 ```
 
-**response header:** -
+## Esimerkkivastaus:
 
-**response body:** -
-
-
+**response status:** `200 OK`

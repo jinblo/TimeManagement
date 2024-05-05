@@ -1,34 +1,25 @@
-# Luo uusi käyttäjä
-
-**URL**: `/users`
+# Rekisteröityminen
 
 **Metodi**: `POST`
 
-**Vaadittu rooli**: `OWNER`
+**URL**: `{host}/users`
+
 
 ## Esimerkkipyyntö:
 
-**Polku**: `BASE_URL/users`
+**request body**: 
+
 ```json
-"title": "KÄYTTÄJÄN 1 LISÄYS",
-    "roles": [
-        {
-            "appUser": {
-                "id": 2,
-                "first_name": "Toinen",
-                "last_name": "Käyttäjä",
-                "username": "new_user2"
-            },
-            "role": "OWNER"
-        },
-        {
-            "appUser": {
-                "id": 1,
-                "first_name": "Ensimmäinen",
-                "last_name": "Käyttäjä",
-                "username": "new_user1"
-            },
-            "role": null
-        }
-    ]
+{
+"first_name": "Uusi",
+"last_name": "Käyttäjä",
+"username": "new_user1",
+"password_hash": "password"
 }
+
+```
+
+## Esimerkkivastaus:
+
+**response status:** `201 Created`: Rekisteröityminen onnistui
+                     `409 Conflict`: Käyttäjätunnus on jo varattu

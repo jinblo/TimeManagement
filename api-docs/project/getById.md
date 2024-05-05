@@ -1,20 +1,28 @@
-# Käyttäjän oman projektin haku id:llä
+# Tietyn projektin haku id:lla
 
-**URL**: `{host}/projects/:pk`
+- Vaatii kirjautumisen
+- Käyttäjä näkee projektin vain, jos hänellä on jokin vaadituista projektirooleista
+- Käyttäjä näkee vain omat työaikakirjauksensa, jos hänen projektiroolinsa on Käyttäjä (`USER`)
+- Käyttäjä näkee projektin kaikki työaikakirjaukset, jos hänen projektiroolinsa on Omistaja (`OWNER`) tai Seuraaja (`VIEWER`)
+- Käyttäjä ei näe työaikaikirjauksissa käyttäjätietoja, jos hänen projektiroolinsa on Seuraaja (`VIEWER`)
 
 **Metodi**: `GET`
 
-**Vaadittu rooli**: `OWNER`
+**Vaadittu projektirooli**: `OWNER`, `USER`, `VIEWER`
+
+**URL**: `{host}/projects/{projectId}`
+
 
 ## Esimerkkipyyntö:
 
-**Polku**: `BASE_URL/projects/{project_id}`
+**request parameter**: `{projectId}`: Haettavan projektin id
 
 **request header:** `Authorization: {token}`
 
-**request body:** -
 
-**response header:** -
+## Esimerkkivastaus:
+
+**response status:** `200 OK`
 
 **response body:**
 
@@ -27,8 +35,6 @@
         {
             "appUser": {
                 "id": 2,
-                "first_name": "Toinen",
-                "last_name": "Käyttäjä",
                 "username": "new_user2"
             },
             "role": "USER"
@@ -36,8 +42,6 @@
         {
             "appUser": {
                 "id": 1,
-                "first_name": "Ensimmäinen",
-                "last_name": "Käyttäjä",
                 "username": "new_user1"
             },
             "role": "OWNER"
@@ -50,7 +54,10 @@
             "entry_date": "2022-02-02",
             "start_time": "10:05:00",
             "end_time": "15:15:00",
-            "appUser": 1
+            "appUser": {
+                "id": 1,
+                "username": "new_user1"
+            },
         },
         {
             "id": 2,
@@ -58,8 +65,12 @@
             "entry_date": "2022-02-01",
             "start_time": "08:00:00",
             "end_time": "13:35:00",
-            "appUser": 2
+            "appUser": {
+                "id": 2,
+                "username": "new_user2"
+            }
         }
     ]
 }
+
 ```

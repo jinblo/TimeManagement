@@ -1,16 +1,11 @@
 # Kirjautuminen
 
-**URL**: `{host}/login/`
-
 **Metodi**: `POST`
 
-**Vaadittu rooli**: -
+**URL**: `{host}/login`
 
-## Esimerkkivastaus:
 
-**Polku**: `BASE_URL/{host}/login`
-
-`Authorization: {token}`
+## Esimerkkipyyntö:
 
 **request body:** 
 
@@ -21,8 +16,9 @@
 }
 
 ```
-**request body:** `Authorization: {token}`
+
+## Esimerkkivastaus:
 
 **response status:** `200 OK`
 
-**response body:**
+**response header:** `Authorization: {token}`
