@@ -94,7 +94,7 @@ Sprint backlogille on listattu kehitysideoita, jotka löytyvät myös projektin 
 
 ## Loppuraportti
 
-*[Loppuraportti](Loppuraportti.md)
+* [Loppuraportti](Loppuraportti.md)
 
 ## Tunnistautuminen
 Käyttäjän tulee olla kirjautunut, jotta hän pääsee käyttämään palvelua. Tunnistautumisessa on käytössä JSON Web Token. Rekisteröityminen onnistuu luonnollisesti ilman tunnistautumista. Jokaisen pyynnön yhteydessä tarkistetaan token.
