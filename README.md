@@ -105,7 +105,7 @@ End-to-End testaus on toteutettu Robot Frameworkilla. Testit on jaettu niin, ett
 End-to-end testien lisäksi toteutimme myös manuaalista testaamista tiimin voimin. 
 
 ## Tiedossa olevat virheet
-Testauksessa esiin tulleet virheet korjattiin viimeiseen versioon.
+Yksi olemassa oleva virhe on se, että käyttäjä voi lisätä tuntikirjauksia myös projekteille, joissa hänellä on viewer rooli. Kun lisätään uutta työaikakirjausta, tulisi projektien kohdalla näyttää ainoastaan projektit, joissa käyttäjällä on rooleina joko owner tai user. Nyt listassa näkyy myös projektit, joissa käyttäjän rooli on viewer.
 
 ## Työaikakirjausjärjestelmän asennusohjeet
 Asennusta varten tarvitset koneellesi tässä dokumentissa mainitut toteutusteknologiat sekä tekstieditorin, esim. Visual Studio Code tai Eclipse. Voit kloonata TimeManagement järjestelmän komennolla: `git clone https://github.com/TeamRed-Ohjelmistoprojekti2/TimeManagement.git`. Tässä tulee mukana sekä backend (TimeManagementBE) että frontend (TimeManagementFE).
