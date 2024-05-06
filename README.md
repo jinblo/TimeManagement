@@ -43,8 +43,9 @@ Sovellus vaatii rekisteröitymisen. Rekisteröitynyt käyttäjä voi luoda proje
 * JSON Web Token (api, impl, jackson)
 
 ## Tietokanta
+![työaikaseuranta (2)](https://github.com/TeamRed-Ohjelmistoprojekti2/TimeManagement/assets/91193039/125179d4-665a-47b5-b664-d85c3fcdd569)
 
-![työaikaseuranta (1)](https://github.com/TeamRed-Ohjelmistoprojekti2/TimeManagement/assets/91193039/67d262c1-d0d8-4a77-a8be-281d7093ed57)
+
 
 ### Project / projekti
 
