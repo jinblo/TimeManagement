@@ -1,10 +1,10 @@
-import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, FormControl, InputLabel, MenuItem, OutlinedInput, Select, TextField } from "@mui/material";
+import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, FormControl, FormHelperText, InputLabel, MenuItem, OutlinedInput, Select, TextField } from "@mui/material";
 import { DatePicker, TimePicker } from "@mui/x-date-pickers";
 import dayjs from "dayjs";
 import { useState } from "react";
 import { putEntry } from "../services/EntryService";
 
-// Työaikakirjauksen muokkaaminen. Kirjauksen siirtäminen projektilta toiselle ei ole nyt mahdollista.
+// Editing entry. Moving an entry from one project to another is not currently possible.
 
 const EditEntry = ({ token, oldEntry, setAlert, fetchEntries }) => {
   const emptyEntry = {
@@ -19,23 +19,28 @@ const EditEntry = ({ token, oldEntry, setAlert, fetchEntries }) => {
     }
   }
   const [entry, setEntry] = useState(emptyEntry)
-  // Dialogin tila
+  // Dialog state
   const [open, setOpen] = useState(false);
+  const [errorMessageTime, setErrorMessageTime] = useState('');
 
-  // Dialogin avaus muokattavan kirjauksen tiedoilla
+
+  // Opening dialog with the details of the entry to be edited
   const handleClickOpen = () => {
     setEntry(oldEntry)
     setOpen(true)
   }
 
-  // Dialogin sulkeminen ja lomakkeen tyhjennys
+  // Closing the dialog and clearing the form
   const handleClose = () => {
-    setEntry(emptyEntry)
+    setEntry(emptyEntry);
+    setErrorMessageTime('');
     setOpen(false);
   }
 
-  // Muokatun kirjauksen tallennus
+  // Saving the edited entry.
   const handleSave = () => {
+    if (dayjs(`2024-01-01 ${entry.start_time}`).isBefore(dayjs(`2024-01-01 ${entry.end_time}`))) {
+    
     putEntry(token, entry)
       .then(response => {
         if (response.ok) {
@@ -46,7 +51,10 @@ const EditEntry = ({ token, oldEntry, setAlert, fetchEntries }) => {
         }
       })
     handleClose()
-  };
+  } else {
+    setErrorMessageTime("Lopetusaika ei voi olla ennen aloitusaikaa.");
+  }
+};
 
   return (
     <div>
@@ -58,7 +66,7 @@ const EditEntry = ({ token, oldEntry, setAlert, fetchEntries }) => {
             <FormControl sx={{ width: 550, marginTop: '3px' }}>
               <InputLabel htmlFor="project">Projekti</InputLabel>
               <Select
-                disabled // Projektin muuttaminen ei ole nyt mahdollista
+                disabled // Changing the project is not possible at the moment
                 name="id"
                 value={entry.project.id}
                 onChange={e => handleChange(e)}
@@ -90,6 +98,8 @@ const EditEntry = ({ token, oldEntry, setAlert, fetchEntries }) => {
             onChange={value => setEntry({ ...entry, end_time: value.format('HH:mm:ss') })}
             minTime={dayjs(`2024-01-01 ${entry.start_time}`)}
           />
+                    <FormHelperText style={{color: 'red'}}>{errorMessageTime}</FormHelperText>
+
           <TextField
             fullWidth
             margin='dense'
@@ -101,8 +111,8 @@ const EditEntry = ({ token, oldEntry, setAlert, fetchEntries }) => {
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose}>Peruuta</Button>
-          <Button onClick={handleSave}>Tallenna</Button>
+          <Button variant="contained" color="secondary" onClick={handleClose}>Peruuta</Button>
+          <Button variant="contained" color="primary" onClick={handleSave}>Tallenna</Button>
         </DialogActions>
       </Dialog>
     </div >

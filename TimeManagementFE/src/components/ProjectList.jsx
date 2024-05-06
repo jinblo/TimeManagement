@@ -10,8 +10,8 @@ import { useAuth } from '../services/AuthProvider';
 import { getProjects } from '../services/ProjectService';
 
 
-// Listataan projektin tiedot. Jokaisella projektilla poista ja muokkaa napit
-// Lisää uusi projekti -nappi myös mukana 
+// Listing project details. Each project has delete and edit buttons
+// Also includes a 'Add New Project' button 
 
 const ProjectList = () => {
     const { token } = useAuth()
@@ -21,25 +21,34 @@ const ProjectList = () => {
     const alertMessage = useMemo(() => {
         switch (alert) {
             case 'success': {
-                return <AlertMessage alert={alert} alertMessage="Kirjaus tallennettu onnistuneesti" setAlert={setAlert} />
+                return <AlertMessage alert={alert} alertMessage="Projekti tallennettu onnistuneesti" setAlert={setAlert} />
             }
             case 'info': {
-                return <AlertMessage alert={alert} alertMessage="Kirjaus poistettu onnistuneesti" setAlert={setAlert} />
+                return <AlertMessage alert={alert} alertMessage="Projekti poistettu onnistuneesti" setAlert={setAlert} />
             }
             case 'error': {
-                return <AlertMessage alert={alert} alertMessage="Kirjauksen tallennus epäonnistui" setAlert={setAlert} />
+                return <AlertMessage alert={alert} alertMessage="Projektin tallennus epäonnistui" setAlert={setAlert} />
             }
-
             default: {
                 return <></>
             }
         }
     }, [alert]);
 
-    // Fetching project data from the database
+    // Fetching project data from the database and sorting them
     const fetchProjects = () => {
         getProjects(token)
-            .then(data => setProjects(data))
+        .then(data => {
+            const sortedProjects = data.sort((a, b) => {
+                if (a.role !== b.role) {
+                    const order = { OWNER: 1, USER: 2, VIEWER: 3 };
+                    return order[a.role] - order[b.role];
+                } else {
+                    return a.project.title.localeCompare(b.project.title);
+                }
+            });
+            setProjects(sortedProjects);
+        });
     }
     useEffect(fetchProjects, []);
 
@@ -51,7 +60,25 @@ const ProjectList = () => {
         },
         {
             field: "role",
-            headerName: "Rooli"
+            headerName: "Rooli",
+            cellRenderer: params => {
+                let roleText = "";
+                switch (params.value) {
+                    case "OWNER":
+                        roleText = "Omistaja";
+                        break;
+                    case "USER":
+                        roleText = "Käyttäjä";
+                        break;
+                    case "VIEWER":
+                        roleText = "Seuraaja";
+                        break;
+                    default:
+                        roleText = params.value;
+                        break;
+                }
+                return roleText;
+            }
         },
         {
             field: "project.id",
