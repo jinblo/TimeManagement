@@ -86,7 +86,7 @@ Sovellus vaatii rekisteröitymisen. Rekisteröitynyt käyttäjä voi luoda proje
 * [Project](api-docs/project/)
 * [AppUser](api-docs/appuser/)
 * [Login](api-docs/login.md)
-* [Register](api-docs/appuser/register.md)
+* [Register](api-docs/appuser/post.md)
 
 ## Projektin backlogit
 
