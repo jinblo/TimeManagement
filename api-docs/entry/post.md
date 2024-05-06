@@ -1,26 +1,33 @@
-# Lisää uusi entry
+# Uuden työaikakirjauksen lisäys
 
-**URL**: `{host}/projects/:pk/entries`
+- Vaatii kirjautumisen
+- Käyttäjä voi lisätä työaikakirjauksen vain itselleen
 
 **Metodi**: `POST`
 
-**Vaadittu rooli**: 
+**Vaadittu projektirooli**: `OWNER`, `USER`
+
+**URL**: `{host}/projects/{projectId}/entries`
+
 
 ## Esimerkkipyyntö:
 
-**Polku**: `BASE_URL/{host}/projects/{id}/entries`
+**request parameter**: `{projectId}`: Projekti, johon työaikakirjaus lisätään
+
+**request header:** `Authorization: {token}`
 
 **request body**: 
+
 ```json
-  {
-  "comment": "testi",
-  "entry_date": "2024-04-15",
-  "start_time": "10:05:00",
-  "end_time": "12:10:00",
- }
+{
+    "comment": "UUSI TYÖAIKAKIRJAUS",
+    "entry_date": "2022-02-01",
+    "start_time": "08:00:00",
+    "end_time": "13:35:00"
+}
+
 ```
-**response header**: -
 
-**response body:** -
+## Esimerkkivastaus:
 
-  
+**response status:** `201 Created` 

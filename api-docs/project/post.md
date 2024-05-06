@@ -1,14 +1,15 @@
-# Lisää uusi projekti
+# Uuden projektin lisäys
 
-**URL**: `{host}/projects`
+- Vaatii kirjautumisen
 
 **Metodi**: `POST`
 
-**Vaadittu rooli**: `OWNER`
+**Vaadittu projektirooli**: Lisääjä saa aina roolin `OWNER`
+
+**URL**: `{host}/projects`
+
 
 ## Esimerkkipyyntö:
-
-**Polku**: `BASE_URL/{host}/projects`
 
 **request header:** `Authorization: {token}`
 
@@ -16,13 +17,11 @@
 
 ```json
 {
-"title": "Uusi projekti"
+    "title": "UUSI PROJEKTI"
 }
 
 ```
 
-**response header:** -
+## Esimerkkivastaus:
 
-**response body:** -
-
-
+**response status:** `201 Created`
