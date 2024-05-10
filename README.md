@@ -43,39 +43,42 @@ Sovellus vaatii rekisteröitymisen. Rekisteröitynyt käyttäjä voi luoda proje
 * JSON Web Token (api, impl, jackson)
 
 ## Tietokanta
+![työaikaseuranta (2)](https://github.com/TeamRed-Ohjelmistoprojekti2/TimeManagement/assets/91193039/125179d4-665a-47b5-b664-d85c3fcdd569)
 
-![työaikaseuranta (1)](https://github.com/TeamRed-Ohjelmistoprojekti2/TimeManagement/assets/91193039/67d262c1-d0d8-4a77-a8be-281d7093ed57)
+
 
 ### Project / projekti
 
-| Attribute     | Type                    | Description                     | Validation                | Requirements |
-|:------------- |:------------------------|:--------------------------------|:--------------------------|:-------------|
-| id (PK)       | long /Integer           | Project id                      |                           |              |
-| title         | String / Varchar        | Projektin nimi                  | A-z0-9.,-_!"#%&/()=?*{}[] | length>1     |
-| List Entry    | entries / OneToMany     | Projektiin liittyvät kirjaukset |                           |              |
+| Attribute           | Type                    | Description                     | Validation                | Requirements |
+|:------------------- |:------------------------|:--------------------------------|:--------------------------|:-------------|
+| id (PK)             | long /Integer           | Project id                      |                           |              |
+| title               | String / Varchar        | Projektin nimi                  | A-z0-9.,-_!"#%&/()=?*{}[] | 51>length>1  |
+| Set UserProjectRole | roles / OneToMany       | Projektin roolit                |                           |              |
+| List Entry          | entries / OneToMany     | Projektiin liittyvät kirjaukset |                           |              |
 
 ### Entry / työaikakirjaus
 
-| Attribute       | Type                    | Description                    | Validation                | Requirements |
-|:--------------- |:------------------------|:-------------------------------|:--------------------------|:-------------|
-| enty_id (PK)    | long / Integer          | Entry id                       |                           |              |
-| comment         | String / Varchar        | Kirjauksen kommentti           | A-z0-9.,-_!"#%&/()=?*{}[] |              |
-| entry_date      | LocalDate / Date        | Kirjauksen päivämäärä          | 0-9-                      | 'YYYY-MM-DD' |
-| start_time      | LocalTime / Time        | Aloitusajankohta               | 0-9:                      | 'HH:mm:ss'   |
-| end_time        | LocalTime / Time        | Lopetusajankohta               | 0-9:                      | 'HH:mm:ss'   |
-| project_id (FK) | JoinColumn / ManyToOne  | Viittaus projektiin            |                           |              |
-| appUser_id (FK) | JoinColumn / ManyToOne  | Viittaus käyttäjään            |                           |              |
+| Attribute           | Type                    | Description                     | Validation                | Requirements |
+|:------------------- |:------------------------|:--------------------------------|:--------------------------|:-------------|
+| id (PK)             | long / Integer          | Entry id                        |                           |              |
+| comment             | String / Varchar        | Kirjauksen kommentti            | A-z0-9.,-_!"#%&/()=?*{}[] | length<251   |
+| entry_date          | LocalDate / Date        | Kirjauksen päivämäärä           | 0-9-                      | 'YYYY-MM-DD' |
+| start_time          | LocalTime / Time        | Aloitusajankohta                | 0-9:                      | 'HH:mm:ss'   |
+| end_time            | LocalTime / Time        | Lopetusajankohta                | 0-9:                      | 'HH:mm:ss'   |
+| project_id (FK)     | JoinColumn / ManyToOne  | Viittaus projektiin             |                           |              |
+| appUser_id (FK)     | JoinColumn / ManyToOne  | Viittaus käyttäjään             |                           |              |
 
 ### AppUser / käyttäjä
 
-| Attribute     | Type                    | Description                      | Validation                | Requirements |
-|:------------- |:------------------------|:---------------------------------|:--------------------------|:-------------|
-| id (PK)       | long / Integer          | AppUser id                       |                           |              |
-| first_name    | String / Varchar        | Käyttäjän etunimi                | A-z-                      | length>2     |
-| last_name     | String / Varchar        | Käyttäjän sukunimi               | A-z-                      | length>2     |
-| email         | String / Varchar        | Käyttäjän sähköposti             | A-z._-@                   | length>3     |
-| password_hash | String / Varchar        | Salasana hash muodossa           | A-z0-9.,-_!"#%&/()=?*{}[] | length>7     |
-| List Project  | projects / OneToMany    | Projektiin liittyvät kirjaukset  |                           |              |
+| Attribute           | Type                    | Description                      | Validation                | Requirements |
+|:------------------- |:------------------------|:---------------------------------|:--------------------------|:-------------|
+| id (PK)             | long / Integer          | AppUser id                       |                           |              |
+| first_name          | String / Varchar        | Käyttäjän etunimi                | A-z-                      | 21>length>2  |
+| last_name           | String / Varchar        | Käyttäjän sukunimi               | A-z-                      | 31>length>2  |
+| username            | String / Varchar        | Käyttäjän käyttäjätunnus         | A-z._-@                   | 21>length>3  |
+| password_hash       | String / Varchar        | Salasana hash muodossa           | A-z0-9.,-_!"#%&/()=?*{}[] | 101>length>7 |
+| Set UserProjectRole | roles / OneToMany       | Projektin roolit                 |                           |              |
+| List Entry          | entries / OneToMany     | Projektiin liittyvät kirjaukset  |                           |              |
 
 ## Api-dokumentaatio
 
@@ -83,7 +86,7 @@ Sovellus vaatii rekisteröitymisen. Rekisteröitynyt käyttäjä voi luoda proje
 * [Project](api-docs/project/)
 * [AppUser](api-docs/appuser/)
 * [Login](api-docs/login.md)
-* [Register](api-docs/appuser/register.md)
+* [Register](api-docs/appuser/post.md)
 
 ## Projektin backlogit
 
@@ -105,7 +108,8 @@ End-to-End testaus on toteutettu Robot Frameworkilla. Testit on jaettu niin, ett
 End-to-end testien lisäksi toteutimme myös manuaalista testaamista tiimin voimin. 
 
 ## Tiedossa olevat virheet
-Testauksessa esiin tulleet virheet korjattiin viimeiseen versioon.
+* Yksi olemassa oleva virhe on se, että käyttäjä voi lisätä tuntikirjauksia myös projekteille, joissa hänellä on viewer rooli. Kun lisätään uutta työaikakirjausta, tulisi projektien kohdalla näyttää ainoastaan projektit, joissa käyttäjällä on rooleina joko owner tai user. Nyt listassa näkyy myös projektit, joissa käyttäjän rooli on viewer.
+* GitHub Pages sivulla jos manuaalisesti päivittää sivun niin tietyillä välilehdillä ollessa saa error virheen näkyville. Kyseessä GitHub Pagesin single page applicationista johtuva virhe. Toimii lokaalissa moitteetta.
 
 ## Työaikakirjausjärjestelmän asennusohjeet
 Asennusta varten tarvitset koneellesi tässä dokumentissa mainitut toteutusteknologiat sekä tekstieditorin, esim. Visual Studio Code tai Eclipse. Voit kloonata TimeManagement järjestelmän komennolla: `git clone https://github.com/TeamRed-Ohjelmistoprojekti2/TimeManagement.git`. Tässä tulee mukana sekä backend (TimeManagementBE) että frontend (TimeManagementFE).
