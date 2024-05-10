@@ -29,8 +29,11 @@ public class AppUserRESTController {
 
 	private final AppUserRepository appUserRepository;
 
-	public AppUserRESTController(AppUserRepository appUserRepository) {
+	public AppUserRESTController(AppUserRepository appUserRepository, AppUserDetailsService userDetailsService,
+			JwtService jwtService) {
 		this.appUserRepository = appUserRepository;
+		this.userDetailsService = userDetailsService;
+		this.jwtService = jwtService;
 	}
 
 	@Autowired

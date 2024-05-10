@@ -52,6 +52,14 @@ public class ProjectRESTController {
     @Autowired
     private AppUserDetailsService userDetailsService;
 
+		public ProjectRESTController(ProjectRepository projectRepository, EntryRepository entryRepository,
+				UserProjectRoleRepository roleRepository, AppUserDetailsService userDetailsService) {
+			this.projectRepository = projectRepository;
+			this.entryRepository = entryRepository;
+			this.roleRepository = roleRepository;
+			this.userDetailsService = userDetailsService;
+		}
+
     //Kaikkien tietyn käyttäjän projektien haku
 	@GetMapping
 	@JsonView(Project.ProjectOverview.class)

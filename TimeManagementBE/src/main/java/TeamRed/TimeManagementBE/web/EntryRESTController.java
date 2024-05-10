@@ -40,6 +40,13 @@ public class EntryRESTController {
 	@Autowired
 	private AppUserDetailsService userDetailsService;
 
+	public EntryRESTController(EntryRepository entryRepository, ProjectRepository projectRepository,
+			AppUserDetailsService userDetailsService) {
+		this.entryRepository = entryRepository;
+		this.projectRepository = projectRepository;
+		this.userDetailsService = userDetailsService;
+	}
+
 	// Kaikkien käyttäjän omien työaikakirjausten haku
 	@GetMapping("entries")
 	@JsonView(Project.EntryListView.class)
@@ -64,8 +71,7 @@ public class EntryRESTController {
 		}
 		try {
 			Optional<Project> project = projectRepository.findById(projectId);
-			if (!project.isEmpty() && userDetailsService.getUserRole(projectId) != null) { // pelkkä roolin tsekkauskin
-																							// riittäisi
+			if (!project.isEmpty() && userDetailsService.getUserRole(projectId) != null) {
 				entry.setProject(project.get());
 				entry.setAppUser(userDetailsService.getAuthUser());
 				entryRepository.save(entry);
