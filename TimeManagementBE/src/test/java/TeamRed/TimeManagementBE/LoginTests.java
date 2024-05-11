@@ -56,7 +56,7 @@ public class LoginTests {
 
   @BeforeEach
   public void setUp() throws Exception {
-    LoginRESTController controller = new LoginRESTController();
+    LoginRESTController controller = new LoginRESTController(jwtService, authManager, userRepository);
     mockMvc = MockMvcBuilders.standaloneSetup(controller).build();
   }
 
